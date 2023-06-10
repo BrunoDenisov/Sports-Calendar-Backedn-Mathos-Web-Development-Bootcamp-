@@ -90,11 +90,30 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="CountyRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SportCalendar.ModelCommon\SportCalendar.ModelCommon.csproj">
+      <Project>{AE5C59B3-D883-4299-9A47-F3522E0C8ECD}</Project>
+      <Name>SportCalendar.ModelCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SportCalendar.Model\SportCalendar.Model.csproj">
+      <Project>{8B5E53FA-5511-4839-8EEC-D08897D13F07}</Project>
+      <Name>SportCalendar.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SportCalendar.RepositoryCommon\SportCalendar.RepositoryCommon.csproj">
+      <Project>{59A91637-2771-43E4-A447-7E5961650DEF}</Project>
+      <Name>SportCalendar.RepositoryCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SportCalendar.ServiceCommon\SportCalendar.ServiceCommon.csproj">
+      <Project>{5F8B7ACD-AE8D-4FFE-9380-00F7C1205C2C}</Project>
+      <Name>SportCalendar.ServiceCommon</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Extensions.Logging.Abstractions.6.0.0\build\Microsoft.Extensions.Logging.Abstractions.targets" Condition="Exists('..\packages\Microsoft.Extensions.Logging.Abstractions.6.0.0\build\Microsoft.Extensions.Logging.Abstractions.targets')" />
