@@ -1,5 +1,9 @@
 ﻿using Autofac;
 using Autofac.Integration.WebApi;
+using SportCalendar.Repository;
+using SportCalendar.RepositoryCommon;
+using SportCalendar.Service;
+using SportCalendar.ServiceCommon;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,6 +21,10 @@ namespace SportCalendar.WebApi.App_Start
 
             ContainerBuilder builder = new ContainerBuilder();
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+
+            //registering interfaces for table User
+            builder.RegisterType<UserRepository>().As<IUserRepository>();
+            builder.RegisterType<UserService>().As<IUserService>();
 
             // register interfaces
 
