@@ -46,6 +46,10 @@
     <Compile Include="UserService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SportCalendar.Common\SportCalendar.Common.csproj">
+      <Project>{165f62fc-402b-45ad-834a-1e191f04dee3}</Project>
+      <Name>SportCalendar.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SportCalendar.Model\SportCalendar.Model.csproj">
       <Project>{8b5e53fa-5511-4839-8eec-d08897d13f07}</Project>
       <Name>SportCalendar.Model</Name>
