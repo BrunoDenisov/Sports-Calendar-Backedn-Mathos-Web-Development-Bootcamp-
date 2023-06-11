@@ -49,8 +49,44 @@ namespace SportCalendar.Repository
             return usersList;
         }
 
-        public async Task<List<User>> GetByUsernameAsync(string username)
+        public async Task<User> GetByUsernameAsync(string username)
         {
+            bool isUser = await CheckEntryByUsernameAsync(username);
+
+            if (isUser)
+            {
+                NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+
+                using (connection)
+                {
+                    connection.Open();
+                    NpgsqlCommand command = new NpgsqlCommand();
+                    command.Connection = connection;
+
+                    command.CommandText = "SELECT * FROM public.\"User\" WHERE \"Username\" = @username";
+                    command.Parameters.AddWithValue("@username", username);
+
+                    NpgsqlDataReader reader = command.ExecuteReader();
+                    User user = new User();
+                    while (await reader.ReadAsync())
+                    {
+                        user.Id = (Guid)reader["Id"];
+                        user.FirstName = (string)reader["FirstName"];
+                        user.LastName = (string)reader["LastName"];
+                        user.Password = (string)reader["Password"];
+                        user.Email = (string)reader["Email"];
+                        user.RoleId = (Guid)reader["RoleId"];
+                        user.IsActive = (bool)reader["IsActive"];
+                        user.UpdatedByUserId = (Guid)reader["UpdatedByUserId"];
+                        user.DateCreated = (DateTime)reader["DateCreated"];
+                        user.DateUpdated = (DateTime)reader["DateUpdated"];
+                        user.Username = (string)reader["Username"];
+
+                                             
+                    };
+                    return user;
+                }
+            }
             return null;
         }
         public async Task<List<User>> InsertUserAsync(Guid id, User newUser)
@@ -59,8 +95,19 @@ namespace SportCalendar.Repository
         }
         public async Task<List<User>> UpdateUserAsync(string username, User updateUser)
         {
+            NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+
+            using (connection)
+            {
+                connection.Open();
+
+                NpgsqlCommand command = new NpgsqlCommand();
+                command.Connection = connection;
+            }
             return null;
+
         }
+
         public async Task<List<User>> DeleteUserAsync(string username)
         {
             return null;
@@ -68,7 +115,27 @@ namespace SportCalendar.Repository
 
         public async Task<bool> CheckEntryByUsernameAsync(string username)
         {
-            return false;
+            NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+
+            try
+            {
+                using (connection)
+                {
+                    connection.Open();
+
+                    NpgsqlCommand command = new NpgsqlCommand();
+                    command.Connection = connection;
+
+                    command.CommandText = "SELECT * FROM public.\"User\" WHERE \"Username\" = @username";
+                    command.Parameters.AddWithValue("@username", username);
+
+                    NpgsqlDataReader reader = command.ExecuteReader();
+
+                    return reader.HasRows;
+                }
+            }
+            catch
+            { return false; }                       
         }
     }
 }
