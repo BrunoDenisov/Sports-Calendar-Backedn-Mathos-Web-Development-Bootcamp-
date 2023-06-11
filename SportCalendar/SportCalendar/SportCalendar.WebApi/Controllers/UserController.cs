@@ -27,9 +27,24 @@ namespace SportCalendar.WebApi.Controllers
         }
 
         // GET: api/User/5
-        public string Get(int id)
+        public async Task<HttpResponseMessage> Get(string username)
         {
-            return "value";
+            try
+            {
+                User result = await UserService.GetByUsernameAsync(username);
+
+                if (result != null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, result);
+                };
+
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+            }
+            catch
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest);     
+            }
+
         }
 
         // POST: api/User

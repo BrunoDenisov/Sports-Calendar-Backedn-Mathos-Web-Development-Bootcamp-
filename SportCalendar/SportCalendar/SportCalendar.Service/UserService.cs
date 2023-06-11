@@ -25,8 +25,14 @@ namespace SportCalendar.Service
             }
             return null;
         }
-        public async Task<List<User>> GetByUsernameAsync(string username)
+        public async Task<User> GetByUsernameAsync(string username)
         {
+            User result = await UserRepository.GetByUsernameAsync(username);
+
+            if(result != null)
+            {
+                return result;
+            };
             return null;
         }
         public async Task<List<User>> InsertUserAsync(User newUser)

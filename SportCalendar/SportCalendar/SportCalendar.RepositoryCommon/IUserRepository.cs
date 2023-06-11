@@ -11,7 +11,7 @@ namespace SportCalendar.RepositoryCommon
     public interface IUserRepository
     {
         Task<List<User>> GetAllAsync();
-        Task<List<User>> GetByUsernameAsync(string username);
+        Task<User> GetByUsernameAsync(string username);
         Task<List<User>> InsertUserAsync(Guid id, User newUser);
         Task<List<User>> UpdateUserAsync(string username, User updateUser);
         Task<List<User>> DeleteUserAsync(string username);
