@@ -1,4 +1,5 @@
-﻿using SportCalendar.Model;
+﻿using SportCalendar.Common;
+using SportCalendar.Model;
 using SportCalendar.RepositoryCommon;
 using SportCalendar.ServiceCommon;
 using System;
@@ -35,16 +36,54 @@ namespace SportCalendar.Service
             };
             return null;
         }
-        public async Task<List<User>> InsertUserAsync(User newUser)
+        public async Task<User> InsertUserAsync(User newUser)
         {
+            bool isUser = await UserRepository.CheckEntryByUsernameAsync(newUser.Username);
+
+            if (!isUser)
+            {
+                Guid newGuid = Guid.NewGuid();
+
+                string hashPassword = PasswordHasher.HashPassword(newUser.Password);
+                newUser.Password = hashPassword;
+
+                User result = await UserRepository.InsertUserAsync(newGuid, newUser);
+
+                if (result != null)
+                {
+                    return result;
+                }
+            }
             return null;
         }
-        public async Task<List<User>> UpdateUserAsync(string username, User updateUser)
+        public async Task<User> UpdateUserAsync(string username, User updateUser)
         {
+            bool isUser = await UserRepository.CheckEntryByUsernameAsync(username);
+
+            if(isUser)
+            { if(updateUser.Password != null)
+                {
+                    string hashPassword = PasswordHasher.HashPassword(updateUser.Password);
+                    updateUser.Password = hashPassword;
+                }
+               
+                User result = await UserRepository.UpdateUserAsync(username, updateUser);
+                if (result != null)
+                {
+                    return result;
+                }
+            }
             return null;
         }
-        public async Task<List<User>> DeleteUserAsync(string username)
+        public async Task<User> DeleteUserAsync(string username)
         {
+            bool isUser = await UserRepository.CheckEntryByUsernameAsync(username);
+
+            if(!isUser)
+            {
+                User result = await UserRepository.DeleteUserAsync(username);
+                return result;
+            }
             return null;
         }
     }
