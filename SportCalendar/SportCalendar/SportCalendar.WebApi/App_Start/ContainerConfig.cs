@@ -27,6 +27,10 @@ namespace SportCalendar.WebApi.App_Start
             builder.RegisterType<UserRepository>().As<IUserRepository>();
             builder.RegisterType<UserService>().As<IUserService>();
 
+            //County interface
+            builder.RegisterType<CountyService>().As<ICountyService>();
+            builder.RegisterType<CountyRepository>().As<ICountyRepository>();
+
             // register interfaces
 
             Autofac.IContainer container = builder.Build();

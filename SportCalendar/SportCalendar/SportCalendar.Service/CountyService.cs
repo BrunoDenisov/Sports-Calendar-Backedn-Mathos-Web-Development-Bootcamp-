@@ -12,9 +12,72 @@ namespace SportCalendar.Service
 {
     public class CountyService : ICountyService
     {
-       
+        private ICountyRepository CountyRepository;
 
-        
+        public CountyService(ICountyRepository repository)
+        {
+            CountyRepository = repository;
+        }
 
+        public async Task<List<County>> GetAll()
+        {
+            try
+            {
+                var result = await CountyRepository.GetAll();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        public async Task<List<County>> GetById(Guid id)
+        {
+            try
+            {
+                var result = await CountyRepository.GetById(id);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        public async Task<County> Post(County county)
+        {
+            try
+            {
+                var result = await CountyRepository.Post(county);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        public async Task<County> Put(Guid id, County county)
+        {
+            try
+            {
+                var result = await CountyRepository.Put(id, county);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        public async Task<bool> Delete(Guid id)
+        {
+            try
+            {
+                var result = await CountyRepository.Delete(id);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }
