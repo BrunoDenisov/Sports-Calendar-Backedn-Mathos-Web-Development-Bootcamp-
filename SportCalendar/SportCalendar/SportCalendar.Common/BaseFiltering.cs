@@ -16,10 +16,20 @@ namespace SportCalendar.Common
             FromTime = fromTime;
             ToTime = toTime;
         }
-        public string SearchQuery { get; private set; }
-        public DateTime? FromDate { get; private set; }
-        public DateTime? ToDate { get; private set; }
-        public DateTime? FromTime { get; private set; }
-        public DateTime? ToTime { get; private set; }
+
+        public string SearchQuery { get; set; }
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
+        public DateTime? FromTime { get; set; }
+        public DateTime? ToTime { get; set; }
+
+    }
+    public class SportFilter : BaseFiltering
+    {
+        public SportFilter(string searchQuery, string type, DateTime? fromDate, DateTime? toDate, DateTime? fromTime, DateTime? toTime) : base(searchQuery, fromDate, toDate, fromTime, toTime)
+        {
+            this.Type = type;
+        }
+        public string Type { get; set; }
     }
 }

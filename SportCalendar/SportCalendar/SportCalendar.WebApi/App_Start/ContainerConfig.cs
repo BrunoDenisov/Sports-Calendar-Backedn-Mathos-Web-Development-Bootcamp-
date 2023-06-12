@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using System.Web;
 using System.Web.Http;
 
 namespace SportCalendar.WebApi.App_Start
@@ -20,7 +19,9 @@ namespace SportCalendar.WebApi.App_Start
         {
 
             ContainerBuilder builder = new ContainerBuilder();
-            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+            builder.RegisterType<SportRepository>().As<ISportRepository>();
+            builder.RegisterType<SportService>().As<ISportService>();
+            builder.RegisterApiControllers(Assembly.GetExecutingAssembly()).Where(t => t.Name.EndsWith("Controller"));
 
             //registering interfaces for table User
             builder.RegisterType<UserRepository>().As<IUserRepository>();
