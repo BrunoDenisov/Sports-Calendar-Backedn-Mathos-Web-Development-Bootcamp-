@@ -43,11 +43,12 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="IUserRepository.cs" />
+    <Compile Include="ICountyRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SportCalendar.Model\SportCalendar.Model.csproj">
-      <Project>{8b5e53fa-5511-4839-8eec-d08897d13f07}</Project>
+      <Project>{8B5E53FA-5511-4839-8EEC-D08897D13F07}</Project>
       <Name>SportCalendar.Model</Name>
     </ProjectReference>
   </ItemGroup>
