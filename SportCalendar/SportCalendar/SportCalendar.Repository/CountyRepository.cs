@@ -1,4 +1,5 @@
 ﻿using Npgsql;
+using SportCalendar.Common;
 using SportCalendar.Model;
 using SportCalendar.ModelCommon;
 using SportCalendar.RepositoryCommon;
@@ -19,13 +20,15 @@ namespace SportCalendar.Repository
         //Enviroment varijabla 
         private static string connectionString = Environment.GetEnvironmentVariable("ConnectionString");
         //GET works
-        public async Task<List<County>> GetAll()
+        public async Task<List<County>> GetAll( )
         {
             List<County> counties = new List<County>();
             using (NpgsqlConnection connection = new NpgsqlConnection(connectionString))
             {
                 await connection.OpenAsync();
+
                 var query = "SELECT * FROM \"County\"";
+             
                 using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
                 {
                     using (NpgsqlDataReader reader = await command.ExecuteReaderAsync())

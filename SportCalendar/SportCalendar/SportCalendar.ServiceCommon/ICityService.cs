@@ -10,5 +10,8 @@ namespace SportCalendar.ServiceCommon
     public interface ICityService
     {
         Task<List<City>> GetAll();
+        Task<List<City>> GetById(Guid id);
+        Task<City> Post(City city);
+        Task<City> Put(Guid id, City updatedCity);
     }
 }
