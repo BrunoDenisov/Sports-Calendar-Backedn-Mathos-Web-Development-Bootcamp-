@@ -3,6 +3,7 @@ using SportCalendar.ServiceCommon;
 using SportCalendar.WebApi.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -20,19 +21,32 @@ namespace SportCalendar.WebApi.Controllers
         }
         protected IUserService UserService { get; set; }
         // GET: api/User
-        public async Task<HttpResponseMessage>  Get()
-        {
-            List<User> usersList = await UserService.GetAllAsync();
-
-            return Request.CreateResponse(HttpStatusCode.OK, usersList);
-        }
-
-        // GET: api/User/5
-        public async Task<HttpResponseMessage> Get(string username)
+        public async Task<HttpResponseMessage> GetAllAsync(int pageNumber = 1, int pageSize = 10, string orderBy = "Id", string sortOrder = "ASC",
+                                                            string searchQuery = null, DateTime? fromDate = null, DateTime? toDate = null, 
+                                                            DateTime? fromTime = null, DateTime? toTime = null)
         {
             try
             {
-                User result = await UserService.GetByUsernameAsync(username);
+                List<User> usersList = await UserService.GetAllAsync();
+                if(usersList != null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, usersList);
+                }
+                return Request.CreateResponse(HttpStatusCode.NotFound, "User table is empty!");
+            }
+            catch
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Ooops, something went wrong!");
+            }
+            
+        }
+
+        // GET: api/User/5
+        public async Task<HttpResponseMessage> GetByUserIdAsync(Guid id)
+        {
+            try
+            {
+                User result = await UserService.GetByUserIdAsync(id);
 
                 if (result != null)
                 {
@@ -45,9 +59,6 @@ namespace SportCalendar.WebApi.Controllers
                         Email = result.Email,
                         RoleId = result.RoleId,
                         IsActive = result.IsActive,
-                        UpdatedByUserId = result.UpdatedByUserId,
-                        DateCreated = result.DateCreated,
-                        DateUpdated = result.DateUpdated,
                         Username = result.Username,
                     };
                     return Request.CreateResponse(HttpStatusCode.OK, restUser);
@@ -81,11 +92,11 @@ namespace SportCalendar.WebApi.Controllers
         }
 
         // PUT: api/User/5
-        public async Task<HttpResponseMessage> PutAsync(string username, [FromBody] User updateUser)
+        public async Task<HttpResponseMessage> PutAsync(Guid id, [FromBody] User updateUser)
         {
             try
             {              
-                User updatedUser = await UserService.UpdateUserAsync(username, updateUser);
+                User updatedUser = await UserService.UpdateUserAsync(id, updateUser);
 
                 if(updatedUser != null)
                 {
@@ -100,11 +111,11 @@ namespace SportCalendar.WebApi.Controllers
         }
 
         // DELETE: api/User/5
-        public async Task<HttpResponseMessage> DeleteAsync(string username)
+        public async Task<HttpResponseMessage> DeleteAsync(Guid id)
         {
             try 
             {
-                User result = await UserService.DeleteUserAsync(username);
+                User result = await UserService.DeleteUserAsync(id);
                 if(result != null)
                 {
                     return Request.CreateResponse(HttpStatusCode.OK, result);
