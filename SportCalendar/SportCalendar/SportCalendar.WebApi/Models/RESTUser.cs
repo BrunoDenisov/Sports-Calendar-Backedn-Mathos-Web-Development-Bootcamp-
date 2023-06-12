@@ -1,13 +1,11 @@
-﻿using SportCalendar.ModelCommon;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
-namespace SportCalendar.Model
+namespace SportCalendar.WebApi.Models
 {
-    public class User : IUser
+    public class RESTUser
     {
         public Guid Id { get; set; }
         public string FirstName { get; set; }
