@@ -19,5 +19,6 @@ namespace SportCalendar.Model
         public Guid UpdatedByUserId { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime DateUpdated { get; set; }
+        public string Username { get; set; }
     }
 }

@@ -45,5 +45,11 @@
     <Compile Include="Role.cs" />
     <Compile Include="User.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SportCalendar.ModelCommon\SportCalendar.ModelCommon.csproj">
+      <Project>{ae5c59b3-d883-4299-9a47-f3522e0c8ecd}</Project>
+      <Name>SportCalendar.ModelCommon</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
