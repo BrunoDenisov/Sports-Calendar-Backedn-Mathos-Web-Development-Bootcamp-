@@ -76,6 +76,14 @@
     <Compile Include="SportService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SportCalendar.Common\SportCalendar.Common.csproj">
+      <Project>{165F62FC-402B-45AD-834A-1E191F04DEE3}</Project>
+      <Name>SportCalendar.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SportCalendar.Model\SportCalendar.Model.csproj">
+      <Project>{8B5E53FA-5511-4839-8EEC-D08897D13F07}</Project>
+      <Name>SportCalendar.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SportCalendar.RepositoryCommon\SportCalendar.RepositoryCommon.csproj">
       <Project>{59A91637-2771-43E4-A447-7E5961650DEF}</Project>
       <Name>SportCalendar.RepositoryCommon</Name>

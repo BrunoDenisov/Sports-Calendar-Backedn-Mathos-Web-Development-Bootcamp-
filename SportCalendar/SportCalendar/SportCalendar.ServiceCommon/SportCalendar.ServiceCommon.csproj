@@ -44,12 +44,17 @@
     <Compile Include="Class1.cs" />
     <Compile Include="ICountyService.cs" />
     <Compile Include="ISportService.cs" />
+    <Compile Include="IUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SportCalendar.ModelCommon\SportCalendar.ModelCommon.csproj">
       <Project>{AE5C59B3-D883-4299-9A47-F3522E0C8ECD}</Project>
       <Name>SportCalendar.ModelCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SportCalendar.Common\SportCalendar.Common.csproj">
+      <Project>{165F62FC-402B-45AD-834A-1E191F04DEE3}</Project>
+      <Name>SportCalendar.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\SportCalendar.Model\SportCalendar.Model.csproj">
       <Project>{8B5E53FA-5511-4839-8EEC-D08897D13F07}</Project>

@@ -18,7 +18,7 @@ namespace SportCalendar.WebApi.App_Start
         public static void ConfigureContainer()
         {
 
-            var builder = new ContainerBuilder();
+            ContainerBuilder builder = new ContainerBuilder();
             builder.RegisterType<SportRepository>().As<ISportRepository>();
             builder.RegisterType<SportService>().As<ISportService>();
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly()).Where(t => t.Name.EndsWith("Controller"));
@@ -29,7 +29,7 @@ namespace SportCalendar.WebApi.App_Start
 
             // register interfaces
 
-            IContainer container = builder.Build();
+            Autofac.IContainer container = builder.Build();
 
             GlobalConfiguration.Configuration.DependencyResolver = new AutofacWebApiDependencyResolver(container);
         }

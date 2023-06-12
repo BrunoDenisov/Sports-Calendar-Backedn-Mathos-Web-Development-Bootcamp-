@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SportCalendar.Common;
+using SportCalendar.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +10,10 @@ namespace SportCalendar.ServiceCommon
 {
     public interface ISportService
     {
-        bool Get();
+        Task<PagedList<Sport>> GetSportsAsync(Sorting sorting, Paging paging, SportFilter filtering);
+        Task<Sport> GetSportAsync(Guid id);
+        Task<bool> DeleteSportAsync(Guid id);
+        Task<bool> PostSportAsync(Sport sport);
+        Task<bool> UpdateSportAsync(Guid id, Sport sport);
     }
 }

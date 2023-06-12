@@ -12,11 +12,12 @@ namespace SportCalendar.Model
         public Guid? Id { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
-        public bool IsActive { get; set; }
-        public Guid CreatedByUserId { get; set; }
-        public Guid UpdatedByUserId { get; set; }
-        public DateTime DateCreated { get; set; }
-        public DateTime DateUpdated { get; set; }
+        public bool? IsActive { get; set; }
+        public Guid? CreatedByUserId { get; set; }
+        public Guid? UpdatedByUserId { get; set; }
+        public DateTime? DateCreated { get; set; }
+        public DateTime? DateUpdated { get; set; }
 
     }
+
 }

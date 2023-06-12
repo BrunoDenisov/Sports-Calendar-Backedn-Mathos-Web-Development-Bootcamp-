@@ -65,6 +65,9 @@
       <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
     </Reference>
     <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.9.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.9\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Numerics" />
     <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
@@ -99,6 +102,9 @@
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.9.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.9\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -122,6 +128,10 @@
     <ProjectReference Include="..\SportCalendar.ModelCommon\SportCalendar.ModelCommon.csproj">
       <Project>{AE5C59B3-D883-4299-9A47-F3522E0C8ECD}</Project>
       <Name>SportCalendar.ModelCommon</Name>
+      </ProjectReference>
+    <ProjectReference Include="..\SportCalendar.Common\SportCalendar.Common.csproj">
+      <Project>{165F62FC-402B-45AD-834A-1E191F04DEE3}</Project>
+      <Name>SportCalendar.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\SportCalendar.Model\SportCalendar.Model.csproj">
       <Project>{8B5E53FA-5511-4839-8EEC-D08897D13F07}</Project>
