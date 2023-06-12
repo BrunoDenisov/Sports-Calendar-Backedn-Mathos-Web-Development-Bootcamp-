@@ -10,9 +10,9 @@ namespace SportCalendar.ServiceCommon
     public interface IUserService
     {
         Task<List<User>> GetAllAsync();
-        Task<User> GetByUsernameAsync(string username);
+        Task<User> GetByUserIdAsync(Guid id);
         Task<User> InsertUserAsync(User newUser);
-        Task<User> UpdateUserAsync(string username, User updateUser);
-        Task<User> DeleteUserAsync(string username);
+        Task<User> UpdateUserAsync(Guid id, User updateUser);
+        Task<User> DeleteUserAsync(Guid id);
     }
 }
