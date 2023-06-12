@@ -73,6 +73,9 @@
       <Project>{8B5E53FA-5511-4839-8EEC-D08897D13F07}</Project>
       <Name>SportCalendar.Model</Name>
     </ProjectReference>
+    <Compile Include="SportService.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\SportCalendar.RepositoryCommon\SportCalendar.RepositoryCommon.csproj">
       <Project>{59A91637-2771-43E4-A447-7E5961650DEF}</Project>
       <Name>SportCalendar.RepositoryCommon</Name>

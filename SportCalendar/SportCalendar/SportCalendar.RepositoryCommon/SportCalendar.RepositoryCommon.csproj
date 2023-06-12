@@ -44,6 +44,7 @@
     <Compile Include="Class1.cs" />
     <Compile Include="IUserRepository.cs" />
     <Compile Include="ICountyRepository.cs" />
+    <Compile Include="ISportRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
