@@ -47,7 +47,23 @@
     <Compile Include="IUser.cs" />
     <Compile Include="ICounty.cs" />
     <Compile Include="ISport.cs" />
+    <Compile Include="obj\Debug\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\SportCalendar.ModelCommon.dll" />
+    <Content Include="bin\Debug\SportCalendar.ModelCommon.pdb" />
+    <Content Include="obj\Debug\SportCalendar.ModelCommon.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Debug\SportCalendar.ModelCommon.dll" />
+    <Content Include="obj\Debug\SportCalendar.ModelCommon.pdb" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <None Include="obj\Debug\SportCalendar.ModelCommon.csproj.AssemblyReference.cache" />
+    <None Include="obj\Debug\SportCalendar.ModelCommon.csproj.CoreCompileInputs.cache" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="obj\Debug\TempPE\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -43,8 +43,10 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="CountyService.cs" />
+    <Compile Include="obj\Debug\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReviewService.cs" />
+    <Compile Include="SponsorService.cs" />
     <Compile Include="UserService.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -59,6 +61,10 @@
     <ProjectReference Include="..\SportCalendar.RepositoryCommon\SportCalendar.RepositoryCommon.csproj">
       <Project>{59a91637-2771-43e4-a447-7e5961650def}</Project>
       <Name>SportCalendar.RepositoryCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SportCalendar.Repository\SportCalendar.Repository.csproj">
+      <Project>{fc0656e4-2463-4f01-9d32-c0659fb79b38}</Project>
+      <Name>SportCalendar.Repository</Name>
     </ProjectReference>
     <ProjectReference Include="..\SportCalendar.ServiceCommon\SportCalendar.ServiceCommon.csproj">
       <Project>{5f8b7acd-ae8d-4ffe-9380-00f7c1205c2c}</Project>
@@ -93,6 +99,32 @@
       <Project>{5F8B7ACD-AE8D-4FFE-9380-00F7C1205C2C}</Project>
       <Name>SportCalendar.ServiceCommon</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\SportCalendar.Common.dll" />
+    <Content Include="bin\Debug\SportCalendar.Common.pdb" />
+    <Content Include="bin\Debug\SportCalendar.Model.dll" />
+    <Content Include="bin\Debug\SportCalendar.Model.pdb" />
+    <Content Include="bin\Debug\SportCalendar.ModelCommon.dll" />
+    <Content Include="bin\Debug\SportCalendar.ModelCommon.pdb" />
+    <Content Include="bin\Debug\SportCalendar.RepositoryCommon.dll" />
+    <Content Include="bin\Debug\SportCalendar.RepositoryCommon.pdb" />
+    <Content Include="bin\Debug\SportCalendar.Service.dll" />
+    <Content Include="bin\Debug\SportCalendar.Service.pdb" />
+    <Content Include="bin\Debug\SportCalendar.ServiceCommon.dll" />
+    <Content Include="bin\Debug\SportCalendar.ServiceCommon.pdb" />
+    <Content Include="obj\Debug\SportCalendar.Service.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Debug\SportCalendar.Service.dll" />
+    <Content Include="obj\Debug\SportCalendar.Service.pdb" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <None Include="obj\Debug\SportCalendar.Service.csproj.AssemblyReference.cache" />
+    <None Include="obj\Debug\SportCalendar.Service.csproj.CopyComplete" />
+    <None Include="obj\Debug\SportCalendar.Service.csproj.CoreCompileInputs.cache" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="obj\Debug\TempPE\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

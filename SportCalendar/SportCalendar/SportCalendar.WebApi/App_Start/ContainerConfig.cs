@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using System.Web.Compilation;
 using System.Web.Http;
 
 namespace SportCalendar.WebApi.App_Start
@@ -32,6 +33,10 @@ namespace SportCalendar.WebApi.App_Start
             //County interface
             builder.RegisterType<CountyService>().As<ICountyService>();
             builder.RegisterType<CountyRepository>().As<ICountyRepository>();
+
+            //Sponsor interface
+            builder.RegisterType<SponsorService>().As<ISponsorService>();
+            builder.RegisterType<SponsorRepository>().As<ISponsorRepository>();
 
             // register interfaces
 

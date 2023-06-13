@@ -44,6 +44,7 @@
     <Compile Include="Class1.cs" />
     <Compile Include="ICountyService.cs" />
     <Compile Include="IReviewService.cs" />
+    <Compile Include="ISponsorService.cs" />
     <Compile Include="ISportService.cs" />
     <Compile Include="IUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -61,6 +62,16 @@
       <Project>{8B5E53FA-5511-4839-8EEC-D08897D13F07}</Project>
       <Name>SportCalendar.Model</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\SportCalendar.Common.dll" />
+    <Content Include="bin\Debug\SportCalendar.Common.pdb" />
+    <Content Include="bin\Debug\SportCalendar.Model.dll" />
+    <Content Include="bin\Debug\SportCalendar.Model.pdb" />
+    <Content Include="bin\Debug\SportCalendar.ModelCommon.dll" />
+    <Content Include="bin\Debug\SportCalendar.ModelCommon.pdb" />
+    <Content Include="bin\Debug\SportCalendar.ServiceCommon.dll" />
+    <Content Include="bin\Debug\SportCalendar.ServiceCommon.pdb" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
