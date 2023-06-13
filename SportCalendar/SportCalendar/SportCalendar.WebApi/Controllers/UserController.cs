@@ -3,13 +3,10 @@ using SportCalendar.ServiceCommon;
 using SportCalendar.WebApi.Models;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.UI;
 
 namespace SportCalendar.WebApi.Controllers
 {
@@ -44,6 +41,7 @@ namespace SportCalendar.WebApi.Controllers
         }
 
         // GET: api/User/5
+        [Authorize(Roles = "Super_admin")]
         public async Task<HttpResponseMessage> GetByUserIdAsync(Guid id)
         {
             try
@@ -76,6 +74,7 @@ namespace SportCalendar.WebApi.Controllers
         }
 
         // POST: api/User
+        [Authorize(Roles = "Super_admin")]
         public async Task<HttpResponseMessage> PostAsync([FromBody] User newUser)
         {
             try
@@ -94,6 +93,7 @@ namespace SportCalendar.WebApi.Controllers
         }
 
         // PUT: api/User/5
+        [Authorize(Roles = "Super_admin")]
         public async Task<HttpResponseMessage> PutAsync(Guid id, [FromBody] User updateUser)
         {
             try
@@ -113,6 +113,7 @@ namespace SportCalendar.WebApi.Controllers
         }
 
         // DELETE: api/User/5
+        [Authorize(Roles = "Super_admin")]
         public async Task<HttpResponseMessage> DeleteAsync(Guid id)
         {
             try 
