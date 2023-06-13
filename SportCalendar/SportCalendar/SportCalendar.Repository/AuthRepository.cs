@@ -40,10 +40,11 @@ namespace SportCalendar.Repository
                     AuthUser user = new AuthUser()
                     {
                         // Map the properties from the data reader
+                        Id = reader.GetGuid(reader.GetOrdinal("Id")),
                         Username = reader.GetString(reader.GetOrdinal("Username")),
                         Password = reader.GetString(reader.GetOrdinal("Password")),
                         Email = reader.GetString(reader.GetOrdinal("Email")),
-                        Role = reader.GetString(reader.GetOrdinal("Access"))
+                        Access = reader.GetString(reader.GetOrdinal("Access"))
                        
                     };
 
