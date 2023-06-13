@@ -42,9 +42,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="County.cs" />
+    <Compile Include="obj\Debug\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Review.cs" />
     <Compile Include="Role.cs" />
+    <Compile Include="Sponsor.cs" />
     <Compile Include="User.cs" />
     <Compile Include="Sport.cs" />
   </ItemGroup>
@@ -53,6 +55,24 @@
       <Project>{AE5C59B3-D883-4299-9A47-F3522E0C8ECD}</Project>
       <Name>SportCalendar.ModelCommon</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\SportCalendar.Model.dll" />
+    <Content Include="bin\Debug\SportCalendar.Model.pdb" />
+    <Content Include="bin\Debug\SportCalendar.ModelCommon.dll" />
+    <Content Include="bin\Debug\SportCalendar.ModelCommon.pdb" />
+    <Content Include="obj\Debug\SportCalendar.Model.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Debug\SportCalendar.Model.dll" />
+    <Content Include="obj\Debug\SportCalendar.Model.pdb" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <None Include="obj\Debug\SportCalendar.Model.csproj.AssemblyReference.cache" />
+    <None Include="obj\Debug\SportCalendar.Model.csproj.CopyComplete" />
+    <None Include="obj\Debug\SportCalendar.Model.csproj.CoreCompileInputs.cache" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="obj\Debug\TempPE\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
