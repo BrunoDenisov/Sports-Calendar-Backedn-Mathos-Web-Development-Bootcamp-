@@ -93,6 +93,7 @@ namespace SportCalendar.WebApi.Controllers
                     SponsorRest sponsorRest = new SponsorRest();
                     sponsorRest.Id = sponsor.Id;
                     sponsorRest.Name = sponsor.Name;
+                    sponsorRest.Website = sponsor.Website;
                     sponsorRest.IsActive = sponsor.IsActive;
                     sponsorRest.UpdatedByUserId = sponsor.UpdatedByUserId;
                     sponsorRest.CreatedByUserId = sponsor.CreatedByUserId;
