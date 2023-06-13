@@ -4,9 +4,9 @@ using SportCalendar.RepositoryCommon;
 using SportCalendar.ServiceCommon;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace SportCalendar.Service
 {
@@ -49,11 +49,20 @@ namespace SportCalendar.Service
             {
                 Guid newGuid = Guid.NewGuid();
 
+
+                ClaimsIdentity identity = HttpContext.Current.User.Identity as ClaimsIdentity;
+                string userId = identity.FindFirst("Id")?.Value;
+                string hashPassword = PasswordHasher.HashPassword(newUser.Password);
+
+                newUser.Id = newGuid;
+                newUser.Password = hashPassword;
+                newUser.RoleId = Guid.Parse("f81e3cdf-5c78-49b9-a72a-7c12a7e5b814");
+                newUser.IsActive = true;
                 newUser.UpdatedByUserId = Guid.Parse("0d3fa5c2-684c-4d88-82fd-cea2197c6e86");
                 newUser.DateCreated = DateTime.Now;
                 newUser.DateUpdated = DateTime.Now;
-                string hashPassword = PasswordHasher.HashPassword(newUser.Password);
-                newUser.Id = newGuid;
+                
+                
                 newUser.Password = hashPassword;
 
                 User result = await UserRepository.InsertUserAsync(newUser);
@@ -71,7 +80,10 @@ namespace SportCalendar.Service
 
             if (isUser)
             {
-                updateUser.UpdatedByUserId = Guid.Parse("0d3fa5c2-684c-4d88-82fd-cea2197c6e86");                
+                ClaimsIdentity identity = HttpContext.Current.User.Identity as ClaimsIdentity;
+                string userId = identity.FindFirst("Id")?.Value;
+
+                updateUser.UpdatedByUserId = Guid.Parse(userId);                
                 updateUser.DateUpdated = DateTime.Now;
                 if (updateUser.Password != null)
                 {

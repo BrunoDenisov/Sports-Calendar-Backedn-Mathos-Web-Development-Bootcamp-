@@ -33,6 +33,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -64,6 +65,7 @@
     </ProjectReference>
     <ProjectReference Include="..\SportCalendar.Repository\SportCalendar.Repository.csproj">
       <Project>{fc0656e4-2463-4f01-9d32-c0659fb79b38}</Project>
+      <Project>{FC0656E4-2463-4F01-9D32-C0659FB79B38}</Project>
       <Name>SportCalendar.Repository</Name>
     </ProjectReference>
     <ProjectReference Include="..\SportCalendar.ServiceCommon\SportCalendar.ServiceCommon.csproj">
@@ -122,6 +124,10 @@
     <None Include="obj\Debug\SportCalendar.Service.csproj.AssemblyReference.cache" />
     <None Include="obj\Debug\SportCalendar.Service.csproj.CopyComplete" />
     <None Include="obj\Debug\SportCalendar.Service.csproj.CoreCompileInputs.cache" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="obj\Debug\TempPE\" />
