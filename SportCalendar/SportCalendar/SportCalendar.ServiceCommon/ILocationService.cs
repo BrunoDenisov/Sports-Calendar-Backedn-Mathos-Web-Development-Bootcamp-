@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SportCalendar.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,6 @@ namespace SportCalendar.ServiceCommon
 {
     public interface ILocationService
     {
+        Task<List<Location>> GetAllREST();
     }
 }

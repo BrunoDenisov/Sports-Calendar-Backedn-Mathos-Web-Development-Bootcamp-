@@ -1,4 +1,5 @@
-﻿using SportCalendar.ModelCommon;
+﻿using SportCalendar.Model;
+using SportCalendar.ModelCommon;
 using SportCalendar.RepositoryCommon;
 using SportCalendar.ServiceCommon;
 using System;
@@ -16,6 +17,19 @@ namespace SportCalendar.Service
         public LocationService(ILocationRepository repository)
         {
             LocationRepository = repository;
+        }
+
+        public async Task<List<Location>> GetAllREST()
+        {
+            try
+            {
+                var result = await LocationRepository.GetAllREST();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
     }

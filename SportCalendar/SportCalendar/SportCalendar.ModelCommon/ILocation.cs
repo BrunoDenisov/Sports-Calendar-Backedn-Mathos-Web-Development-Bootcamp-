@@ -15,7 +15,9 @@ namespace SportCalendar.ModelCommon
          Guid CreatedByUserId { get; set; }
          DateTime DateCreated { get; set; }
          DateTime DateUpdated { get; set; }
+        string CountyName { get; set; }
          Guid CountyId { get; set; }
+        string CityName { get; set; }
          Guid CityId { get; set; }
     }
 }
