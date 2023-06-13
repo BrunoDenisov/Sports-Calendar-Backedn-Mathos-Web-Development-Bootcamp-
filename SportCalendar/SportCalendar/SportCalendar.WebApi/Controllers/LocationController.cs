@@ -21,7 +21,7 @@ namespace SportCalendar.WebApi.Controllers
             LocationService = service;
 
         }
-
+        //Rest Works
         public async Task<HttpResponseMessage> GetAllREST()
         {
             try
