@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 ﻿using SportCalendar.Common;
 using SportCalendar.Model;
-=======
-﻿using SportCalendar.Model;
->>>>>>> 5c40f24 (done CRU with out the D for City table, going to add delete and implement pagination)
 using SportCalendar.ModelCommon;
 using SportCalendar.RepositoryCommon;
 using SportCalendar.ServiceCommon;
