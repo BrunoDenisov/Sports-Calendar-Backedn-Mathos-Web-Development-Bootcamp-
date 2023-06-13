@@ -8,7 +8,6 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Linq;
-using System.Web;
 using System.Web.Http;
 
 namespace SportCalendar.WebApi.Controllers
