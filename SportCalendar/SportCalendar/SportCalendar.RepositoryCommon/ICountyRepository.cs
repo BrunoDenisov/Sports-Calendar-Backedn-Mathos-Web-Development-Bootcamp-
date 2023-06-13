@@ -10,7 +10,7 @@ namespace SportCalendar.RepositoryCommon
 {
     public interface ICountyRepository
     {
-        Task<List<County>> GetAll();
+        Task<List<County>> GetAll(Paging paging);
         Task<List<County>> GetById(Guid id);
         Task<County> Post(County county);
         Task<County> Put(Guid id, County county);

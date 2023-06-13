@@ -21,11 +21,11 @@ namespace SportCalendar.Service
             CountyRepository = repository;
         }
 
-        public async Task<List<County>> GetAll()
+        public async Task<List<County>> GetAll(Paging paging)
         {
             try
             {
-                var result = await CountyRepository.GetAll();
+                var result = await CountyRepository.GetAll(paging);
                 return result;
             }
             catch (Exception ex)

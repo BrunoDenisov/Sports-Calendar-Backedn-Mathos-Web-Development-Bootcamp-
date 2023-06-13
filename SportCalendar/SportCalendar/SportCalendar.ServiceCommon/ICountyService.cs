@@ -1,4 +1,5 @@
-﻿using SportCalendar.Model;
+﻿using SportCalendar.Common;
+using SportCalendar.Model;
 using SportCalendar.ModelCommon;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace SportCalendar.ServiceCommon
 {
     public interface ICountyService
     {
-        Task<List<County>> GetAll();
+        Task<List<County>> GetAll(Paging paging);
         Task<List<County>> GetById(Guid id);
         Task<County> Post(County county);
 
