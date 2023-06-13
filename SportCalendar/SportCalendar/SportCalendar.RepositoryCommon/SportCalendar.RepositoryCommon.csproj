@@ -94,6 +94,7 @@
     <Compile Include="ISponsorRepository.cs" />
     <Compile Include="ICityRepository.cs" />
     <Compile Include="ILocationRepository.cs" />
+    <Compile Include="ICityRepository.cs" />
     <Compile Include="IUserRepository.cs" />
     <Compile Include="ICountyRepository.cs" />
     <Compile Include="ISportRepository.cs" />
