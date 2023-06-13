@@ -21,6 +21,8 @@ namespace SportCalendar.WebApi.Controllers
         }
         protected IUserService UserService { get; set; }
         // GET: api/User
+
+        [Authorize(Roles = "Super_admin")]
         public async Task<HttpResponseMessage> GetAllAsync(int pageNumber = 1, int pageSize = 10, string orderBy = "Id", string sortOrder = "ASC",
                                                             string searchQuery = null, DateTime? fromDate = null, DateTime? toDate = null, 
                                                             DateTime? fromTime = null, DateTime? toTime = null)

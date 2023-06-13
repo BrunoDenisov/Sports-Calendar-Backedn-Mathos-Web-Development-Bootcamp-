@@ -64,6 +64,7 @@
     </ProjectReference>
     <ProjectReference Include="..\SportCalendar.Repository\SportCalendar.Repository.csproj">
       <Project>{fc0656e4-2463-4f01-9d32-c0659fb79b38}</Project>
+      <Project>{FC0656E4-2463-4F01-9D32-C0659FB79B38}</Project>
       <Name>SportCalendar.Repository</Name>
     </ProjectReference>
     <ProjectReference Include="..\SportCalendar.ServiceCommon\SportCalendar.ServiceCommon.csproj">
@@ -125,6 +126,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="obj\Debug\TempPE\" />
+    <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
