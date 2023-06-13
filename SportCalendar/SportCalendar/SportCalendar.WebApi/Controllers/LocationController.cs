@@ -22,6 +22,7 @@ namespace SportCalendar.WebApi.Controllers
 
         }
         //Rest Works
+
         public async Task<HttpResponseMessage> GetAllREST()
         {
             try
