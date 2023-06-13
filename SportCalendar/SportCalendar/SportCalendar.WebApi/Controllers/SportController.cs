@@ -1,6 +1,7 @@
 ﻿using SportCalendar.Common;
 using SportCalendar.Model;
 using SportCalendar.ServiceCommon;
+using SportCalendar.WebApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,7 @@ namespace SportCalendar.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<HttpResponseMessage> Get(string orderBy = "Name", string sortOrder = "DESC", int pageSize = 3, int pageNumber = 1, string searchQuery = null, string type = null,DateTime? fromDate=null,DateTime? toDate = null,DateTime? fromTime=null,DateTime? toTime = null)
+        public async Task<HttpResponseMessage> Get(string orderBy = "Name", string sortOrder = "DESC", int pageSize = 10, int pageNumber = 1, string searchQuery = null, string type = null,DateTime? fromDate=null,DateTime? toDate = null,DateTime? fromTime=null,DateTime? toTime = null)
         {
             try
             {
@@ -38,8 +39,8 @@ namespace SportCalendar.WebApi.Controllers
                 PagedList<Sport> pagedList = await _sportService.GetSportsAsync(sorting, paging, sportFilter);
                 if (pagedList.Any())
                 {
-                    //List<SportRest> sportsRest = MapSportsToRest(pagedList);
-                    return Request.CreateResponse(HttpStatusCode.OK, pagedList);
+                    List<SportRest> sportsRest = MapSportsToRest(pagedList);
+                    return Request.CreateResponse(HttpStatusCode.OK, sportsRest);
                 }
                 return Request.CreateResponse(HttpStatusCode.NotFound);
             }
@@ -58,7 +59,7 @@ namespace SportCalendar.WebApi.Controllers
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Requested sport not found!");
                 }
-                return Request.CreateResponse(HttpStatusCode.OK, sport);
+                return Request.CreateResponse(HttpStatusCode.OK, MapToRest(sport));
             }catch (Exception ex)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
@@ -113,6 +114,28 @@ namespace SportCalendar.WebApi.Controllers
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
+        }
+
+        private SportRest MapToRest(Sport sport)
+        {
+            SportRest sportRest = new SportRest();
+
+            sportRest.Id = sport.Id;
+            sportRest.Name = sport.Name;
+            sportRest.Type = sport.Type;
+
+            return sportRest;
+        }
+
+        private List<SportRest> MapSportsToRest(PagedList<Sport> sports)
+        {
+            List<SportRest> sportsRest = new List<SportRest>();
+
+            foreach (Sport sport in sports)
+            {
+                sportsRest.Add(MapToRest(sport));
+            }
+            return sportsRest;
         }
     }
 }

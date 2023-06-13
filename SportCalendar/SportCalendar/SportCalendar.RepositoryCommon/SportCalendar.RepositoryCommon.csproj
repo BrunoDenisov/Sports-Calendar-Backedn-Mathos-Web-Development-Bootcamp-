@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="IReviewRepository.cs" />
     <Compile Include="IUserRepository.cs" />
     <Compile Include="ICountyRepository.cs" />
     <Compile Include="ISportRepository.cs" />

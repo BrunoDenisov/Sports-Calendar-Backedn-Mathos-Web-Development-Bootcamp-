@@ -120,6 +120,7 @@
     <Compile Include="Class1.cs" />
     <Compile Include="CountyRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReviewRepository.cs" />
     <Compile Include="UserRepository.cs" />
     <Compile Include="SportRepository.cs" />
   </ItemGroup>

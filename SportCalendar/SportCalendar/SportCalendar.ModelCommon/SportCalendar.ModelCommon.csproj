@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IReview.cs" />
     <Compile Include="ISponsor.cs" />
     <Compile Include="IRole.cs" />
     <Compile Include="IUser.cs" />

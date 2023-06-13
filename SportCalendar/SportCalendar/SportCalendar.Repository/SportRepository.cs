@@ -41,18 +41,10 @@ namespace SportCalendar.Repository
                         queryBuilder.Append("\"" + sorting.OrderBy + "\" ");
                         command.Parameters.AddWithValue("@OrderBy", sorting.OrderBy);
                     }
-                    //else
-                    //{
-                    //    queryBuilder.Append("ORDER BY \"Name\" ");
-                    //}
                     if (sorting.SortOrder != null)
                     {
                         queryBuilder.Append(sorting.SortOrder + " ");
                     }
-                    //else
-                    //{
-                    //    queryBuilder.Append("ASC ");
-                    //}
                     queryBuilder.Append(" OFFSET @Offset LIMIT @Limit");
 
                     command.Parameters.AddWithValue("@Offset", paging.PageSize * (paging.PageNumber - 1));
@@ -105,36 +97,6 @@ namespace SportCalendar.Repository
             }
             return queryBuilder;
         }
-
-        public bool Get()
-        {
-            List<Sport> sports = new List<Sport>();
-            try
-            {
-                using (NpgsqlConnection connection = new NpgsqlConnection(connectionString))
-                {
-                    NpgsqlCommand command = new NpgsqlCommand("SELECT * FROM \"Sport\"");
-                    command.Connection = connection;
-                    connection.Open();
-                    NpgsqlDataReader reader = command.ExecuteReader();
-                    if (!reader.HasRows)
-                    {
-                        return false;
-                    }
-                    while (reader.Read())
-                    {
-                        sports.Add(MapSport(reader));
-                    }
-                    return true;
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return false;
-            }
-        }
-
         
         public async Task<Sport> GetSportAsync(Guid id)
         {

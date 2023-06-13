@@ -32,4 +32,9 @@ namespace SportCalendar.Common
         }
         public string Type { get; set; }
     }
+    public class ReviewFilter
+    {
+        public Guid? UserId { get; set; }
+        public Guid? EventId { get; set; }
+    }
 }
