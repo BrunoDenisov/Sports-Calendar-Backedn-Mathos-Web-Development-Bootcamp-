@@ -67,7 +67,18 @@ namespace SportCalendar.Service
                 return null;
             }
         }
-
+        public async Task<bool> Delete(Guid id)
+        {
+            try
+            {
+                var result = await CityRepository.Delete(id);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
 
     }
 }

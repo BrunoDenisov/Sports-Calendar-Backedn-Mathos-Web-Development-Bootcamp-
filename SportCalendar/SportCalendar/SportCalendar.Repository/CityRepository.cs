@@ -124,5 +124,20 @@ namespace SportCalendar.Repository
 
             return updatedCity;
         }
+        public async Task<bool> Delete(Guid id)
+        {
+            using (NpgsqlConnection connection = new NpgsqlConnection(connectionString))
+            {
+                await connection.OpenAsync();
+                var query = "UPDATE \"City\" SET \"IsActive\" = false WHERE \"Id\" = @Id";
+                using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Id", id);
+
+                    int rowsAffected = await command.ExecuteNonQueryAsync();
+                    return rowsAffected > 0;
+                }
+            }
+        }
     }
 }

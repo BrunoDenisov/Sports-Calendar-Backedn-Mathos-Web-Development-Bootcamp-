@@ -53,12 +53,21 @@ namespace SportCalendar.WebApi.Controllers
 
         public async Task<HttpResponseMessage> Put(Guid id, City updatedCity)
         {
-            var createdCounty = await CityService.Put(id, updatedCity);
-            if (createdCounty == null)
+            var CityCreated = await CityService.Put(id, updatedCity);
+            if (CityCreated == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "We could not insert you'r new City, check body!");
             }
-            return Request.CreateResponse(HttpStatusCode.OK, createdCounty);
+            return Request.CreateResponse(HttpStatusCode.OK, CityCreated);
+        }
+        public async Task<HttpResponseMessage>Delete(Guid id)
+        {
+            var cityDelete = await CityService.Delete(id);
+            if (cityDelete == false)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, "We could not Delete you'r City");
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, "we Deleted you'r City");
         }
     }
 }
