@@ -74,7 +74,7 @@ namespace SportCalendar.Repository
                     await reader.CloseAsync();
 
                     totalPlacements = Convert.ToInt32(await cmd.ExecuteNonQueryAsync());
-                    PagedList<Placement> pagedList = new PagedList<Placement>(placments, totalPlacements, paging.PageNumber, paging.PageSize);
+                    PagedList<Placement> pagedList = new PagedList<Placement>();
                     return pagedList;
 
                 }

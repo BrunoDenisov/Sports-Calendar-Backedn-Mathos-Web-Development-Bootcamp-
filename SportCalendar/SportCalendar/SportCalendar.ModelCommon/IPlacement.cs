@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SportCalendar.ModelCommon
 {
-    public class IPlacement
+    public interface IPlacement
     {
         Guid? Id { get; set; }
         string Name { get; set; }

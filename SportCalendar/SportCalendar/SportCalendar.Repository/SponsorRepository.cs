@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Npgsql;
 using SportCalendar.Common;
 using SportCalendar.Model;
+using SportCalendar.ModelCommon;
 using SportCalendar.RepositoryCommon;
 
 namespace SportCalendar.Repository
@@ -51,10 +52,10 @@ namespace SportCalendar.Repository
                     return null;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                Console.WriteLine(ex.Message);
+                return null;
             }
         }
 
@@ -85,10 +86,10 @@ namespace SportCalendar.Repository
                     return false;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                Console.WriteLine(ex.Message);
+                return false;
             }
         }
 
@@ -112,10 +113,10 @@ namespace SportCalendar.Repository
                     return false;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                Console.WriteLine(ex.Message);
+                return false;
             }
         }
 
@@ -135,44 +136,30 @@ namespace SportCalendar.Repository
 
                     cmd.Connection = connection;
                     await connection.OpenAsync();
-                    
+
                     if (String.IsNullOrEmpty(sponsor.Name))
                     {
                         cmd.Parameters.AddWithValue("@name", sponsor.Name = getSponsor.Name);
                     }
                     queryBuilder.Append($"\"Name\" = @name, ");
-                    cmd.Parameters.AddWithValue("name", sponsor.Name );
+                    cmd.Parameters.AddWithValue("@name", sponsor.Name);
                     if (String.IsNullOrEmpty(sponsor.Website))
                     {
-                        cmd.Parameters.AddWithValue("@website", sponsor.Website = getSponsor.Website);
+                        cmd.Parameters.AddWithValue("@finishOrder", getSponsor.Website);
                     }
-                    queryBuilder.Append($"\"Website\" = @website, ");
-                    cmd.Parameters.AddWithValue("@website", sponsor.Website);
-                    if(sponsor.IsActive == true)
+                    queryBuilder.Append($"\"Website\" = @Website, ");
+                    cmd.Parameters.AddWithValue("@Website", sponsor.Website);
+                    if (sponsor.IsActive == true || false)
                     {
-                        cmd.Parameters.AddWithValue("@isactive", sponsor.IsActive = getSponsor.IsActive);
+                        cmd.Parameters.AddWithValue("@isactive", sponsor.IsActive);
+                        queryBuilder.Append($"\"IsActive\" = @isactive, ");
                     }
-                    queryBuilder.Append($"\"IsActive\" =@isactive, ");
-                    cmd.Parameters.AddWithValue("@isactive", sponsor.IsActive);
-                    if(sponsor.UpdatedByUserId == null)
-                    {
-                        cmd.Parameters.AddWithValue("@updated", sponsor.UpdatedByUserId = getSponsor.UpdatedByUserId);
-                    }
-                    queryBuilder.Append($"\"UpdatedByUserId\" =@updated, ");
-                    cmd.Parameters.AddWithValue("@updated", sponsor.UpdatedByUserId);
-                    if(sponsor.DateUpdated == null)
-                    {
-                        cmd.Parameters.AddWithValue("@dateup", sponsor.DateUpdated = getSponsor.DateUpdated);
-                    }
-                    queryBuilder.Append($"\"DateUpdated\" =@dateup ");
-                    cmd.Parameters.AddWithValue("@dateup", sponsor.DateUpdated);
 
-
-                    if (queryBuilder.ToString().EndsWith(","))
+                    if (queryBuilder.ToString().EndsWith(", "))
                     {
                         if(queryBuilder.Length > 0)
                         {
-                            queryBuilder.Remove(queryBuilder.Length - 1, 1);
+                            queryBuilder.Remove(queryBuilder.Length - 2, 1);
                         }
                     }
 
@@ -188,10 +175,10 @@ namespace SportCalendar.Repository
                     return false;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                Console.WriteLine(ex.Message);
+                return false;
             }
         }
 
@@ -228,10 +215,10 @@ namespace SportCalendar.Repository
                     return null;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                Console.WriteLine(ex.Message);
+                return null;
             }
         }
     }
