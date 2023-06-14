@@ -37,7 +37,7 @@ namespace SportCalendar.WebApi.Controllers
 
                 if (usersList != null)
                 {
-                    PagedList<RESTUser> restUsersList = await RestUserMappingAsync(usersList);
+                    PagedList<RESTUser> restUsersList = await PagedRestUsersAsync(usersList);
 
                     return Request.CreateResponse(HttpStatusCode.OK, restUsersList);
                 }
@@ -60,7 +60,7 @@ namespace SportCalendar.WebApi.Controllers
 
                 if (result != null)
                 {
-                    RESTUser restUser = await UserMappingAsync(result);
+                    RESTUser restUser = await RestUserAsync(result);
 
                     return Request.CreateResponse(HttpStatusCode.OK, restUser);
                 };
@@ -134,7 +134,7 @@ namespace SportCalendar.WebApi.Controllers
         }
 
         // method for mapping from User to RESTUser
-        private static async Task<RESTUser> RestUserMappingAsync(User result)
+        private static async Task<RESTUser> RestUserAsync(User result)
         {
             RESTUser restUser = new RESTUser()
             {
@@ -152,7 +152,7 @@ namespace SportCalendar.WebApi.Controllers
         }
 
         //method for mapping PagedList of User to PagedList of RESTUser
-        private static async Task<PagedList<RESTUser>> PagedRestUserMappingAsync(PagedList<User> result)
+        private static async Task<PagedList<RESTUser>> PagedRestUsersAsync(PagedList<User> result)
         {
             List<RESTUser> restUser = new List<RESTUser>();
 
