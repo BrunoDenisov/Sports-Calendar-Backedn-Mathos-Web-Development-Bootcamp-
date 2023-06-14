@@ -51,7 +51,6 @@ namespace SportCalendar.Repository
             }
             return locations;
         }
-        
      }
 }
 
