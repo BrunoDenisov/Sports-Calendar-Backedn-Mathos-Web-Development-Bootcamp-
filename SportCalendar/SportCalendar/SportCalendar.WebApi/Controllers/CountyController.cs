@@ -58,17 +58,17 @@ namespace SportCalendar.WebApi.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "We could not update you'r County, check body!");
             }
-            return Request.CreateResponse(HttpStatusCode.OK, createdCounty);
+            return Request.CreateResponse(HttpStatusCode.OK,"We Updated you'r County with the ID:"+createdCounty.Id);
         }
 
         public async Task<HttpResponseMessage> Delete(Guid id)
         {
-            var createdCounty = await CountyService.Delete(id);
-            if (createdCounty == false)
+            var cuntyDeleted = await CountyService.Delete(id);
+            if (cuntyDeleted == false)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "We could not Delete you'r County");
             }
-            return Request.CreateResponse(HttpStatusCode.OK, createdCounty);
+            return Request.CreateResponse(HttpStatusCode.OK,"we Deleted you'r county with the ID:" );
         }
 
     }
