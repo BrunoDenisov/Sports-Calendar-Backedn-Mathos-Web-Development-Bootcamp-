@@ -22,14 +22,15 @@ namespace SportCalendar.WebApi.Controllers
 
         [Authorize(Roles = "Super_admin")]
         public async Task<HttpResponseMessage> GetAllAsync(int pageNumber = 1, int pageSize = 10, string orderBy = "Id", string sortOrder = "ASC",
-                                                            string searchQuery = null, DateTime? fromDate = null, DateTime? toDate = null, 
-                                                            DateTime? fromTime = null, DateTime? toTime = null)
+                                                            string searchQuery = null, DateTime? fromDateCreate = null, DateTime? toDateCreate = null,
+                                                            DateTime? fromTime = null, DateTime? toTime = null,
+                                                            DateTime? fromDateUpdate = null, DateTime? toDateUpdate = null)
         {
             try
             {
                 Paging paging = new Paging() { PageNumber = pageNumber, PageSize = pageSize };
                 Sorting sorting = new Sorting() { OrderBy = orderBy, SortOrder = sortOrder };
-                BaseFiltering filtering = new BaseFiltering(searchQuery, fromDate, toDate, fromTime, toTime);
+                UserFiltering filtering = new UserFiltering(searchQuery, fromDateCreate, toDateCreate, fromTime, toTime, fromDateUpdate, toDateUpdate);
 
                 List<User> usersList = await UserService.GetAllAsync(paging, sorting, filtering);
 

@@ -14,7 +14,7 @@ namespace SportCalendar.Repository
     public class UserRepository : IUserRepository
     {
         private static string connectionString = Environment.GetEnvironmentVariable("ConnectionString");
-        public async Task<List<User>> GetAllAsync(Paging paging, Sorting sorting, BaseFiltering filtering)
+        public async Task<List<User>> GetAllAsync(Paging paging, Sorting sorting, UserFiltering filtering)
         {
             NpgsqlConnection connection = new NpgsqlConnection(connectionString);
             List<User> usersList = new List<User>();
@@ -31,7 +31,7 @@ namespace SportCalendar.Repository
 
                 StringBuilder filterQuery = new StringBuilder("WHERE 1 = 1 ");
 
-                //adding filtering options to baseQuery                
+                //adding filtering options to filterQuery                
                 if (filtering != null)
                 {
                     // filter by search query
@@ -41,7 +41,29 @@ namespace SportCalendar.Repository
                         command.Parameters.AddWithValue("@search", "%" + filtering.SearchQuery + "%");
 
                     };
-                    // filter by from - to date user created
+                    // filtering based on date updated
+                    if (filtering.FromDateUpdate != null && filtering.ToDateUpdate != null)
+                    {
+                        filterQuery.Append("AND \"User\".\"DateCreated\" BETWEEN @fromDate AND @toDate ");
+                        command.Parameters.AddWithValue("@fromDate", filtering.FromDate);
+                        command.Parameters.AddWithValue("@toDate", filtering.ToDate);
+                    }
+                    else
+                    {
+                        if (filtering.FromDateUpdate != null)
+                        {
+                            filterQuery.Append("AND \"User\".\"DateUpdated\" >= @fromDate ");
+                            command.Parameters.AddWithValue("@fromDate", filtering.FromDate);
+                        };
+                        if (filtering.ToDateUpdate != default)
+                        {
+                            filterQuery.Append("AND \"User\".\"DateCreated\" <= @toDate ");
+                            command.Parameters.AddWithValue("@toDate", filtering.ToDate);
+                        };
+                    };
+
+                    // filtering based on date created
+
                     if (filtering.FromDate != null && filtering.ToDate != null)
                     {
                         filterQuery.Append("AND \"User\".\"DateCreated\" BETWEEN @fromDate AND @toDate ");
