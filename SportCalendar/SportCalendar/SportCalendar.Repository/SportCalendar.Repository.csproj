@@ -138,6 +138,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuthRepository.cs" />
     <Compile Include="CityRepository.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="CountyRepository.cs" />
