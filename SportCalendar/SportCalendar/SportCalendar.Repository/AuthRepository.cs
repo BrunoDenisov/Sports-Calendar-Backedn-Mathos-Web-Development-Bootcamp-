@@ -2,6 +2,7 @@
 using SportCalendar.Common;
 using SportCalendar.Model;
 using System;
+using System.Threading.Tasks;
 
 namespace SportCalendar.Repository
 {
@@ -10,7 +11,7 @@ namespace SportCalendar.Repository
         private static string connectionString = Environment.GetEnvironmentVariable("ConnectionString");
 
         //This method is used to check and validate the user credentials
-        public static AuthUser ValidateUser(string username, string password)
+        public static async Task<AuthUser> ValidateUserAsync(string username, string password)
         {
             NpgsqlConnection connection = new NpgsqlConnection(connectionString);
 

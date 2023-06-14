@@ -21,7 +21,7 @@ namespace SportCalendar.WebApi
 
             if (isValidUsername && isValidPassword)
             {
-                AuthUser user = AuthRepository.ValidateUser(context.UserName, context.Password);
+                AuthUser user = await AuthRepository.ValidateUserAsync(context.UserName, context.Password);
 
                 if (user == null)
                 {
