@@ -23,10 +23,11 @@ namespace SportCalendar.Repository
             {
                 await connection.OpenAsync();
 
-                var query = "SELECT l.\"Id\", l.\"Venue\", l.\"IsActive\", co.\"Name\" AS CountyName, ci.\"Name\" AS CityName " +
-                        "FROM public.\"Location\" l " +
-                        "JOIN public.\"County\" co ON l.\"CountyId\" = co.\"Id\" " +
-                        "JOIN public.\"City\" ci ON l.\"CityId\" = ci.\"Id\"";
+                string query = "SELECT l.\"Id\", l.\"Venue\", l.\"IsActive\", co.\"Name\" AS CountyName, ci.\"Name\" AS CityName " +
+                               "FROM public.\"Location\" l " +
+                               "JOIN public.\"County\" co ON l.\"CountyId\" = co.\"Id\" " +
+                               "JOIN public.\"City\" ci ON l.\"CityId\" = ci.\"Id\"";
+
                 using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
                 {
                    
