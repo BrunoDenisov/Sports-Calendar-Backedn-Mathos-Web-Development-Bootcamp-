@@ -14,10 +14,12 @@ namespace SportCalendar.Repository
     public class UserRepository : IUserRepository
     {
         private static string connectionString = Environment.GetEnvironmentVariable("ConnectionString");
-        public async Task<List<User>> GetAllAsync(Paging paging, Sorting sorting, UserFiltering filtering)
+        public async Task<PagedList<User>> GetAllAsync(Paging paging, Sorting sorting, UserFiltering filtering)
         {
             NpgsqlConnection connection = new NpgsqlConnection(connectionString);
-            List<User> usersList = new List<User>();
+
+            PagedList<User> usersList = new PagedList<User>();
+
             using (connection)
             {
                 connection.Open();
@@ -127,7 +129,7 @@ namespace SportCalendar.Repository
 
                 while (await reader.ReadAsync())
                 {
-                    usersList.Add(
+                    usersList.Data.Add(
                         new User()
                         {
                             Id = (Guid)reader["Id"],
@@ -144,6 +146,11 @@ namespace SportCalendar.Repository
 
                         });
                 }
+
+                usersList.CurrentPage = paging.PageNumber;
+                usersList.PageSize = paging.PageSize;
+                usersList.TotalCount = entryCount;
+                usersList.TotalPages = (int)Math.Ceiling(entryCount / (double)paging.PageSize);
             }
             return usersList;
         }

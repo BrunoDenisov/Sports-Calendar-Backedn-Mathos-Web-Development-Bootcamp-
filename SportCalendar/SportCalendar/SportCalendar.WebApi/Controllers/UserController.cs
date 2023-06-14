@@ -9,11 +9,12 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 
+
 namespace SportCalendar.WebApi.Controllers
 {
     public class UserController : ApiController
     {
-        public UserController(IUserService userService) 
+        public UserController(IUserService userService)
         {
             UserService = userService;
         }
@@ -32,11 +33,13 @@ namespace SportCalendar.WebApi.Controllers
                 Sorting sorting = new Sorting() { OrderBy = orderBy, SortOrder = sortOrder };
                 UserFiltering filtering = new UserFiltering(searchQuery, fromDateCreate, toDateCreate, fromTime, toTime, fromDateUpdate, toDateUpdate);
 
-                List<User> usersList = await UserService.GetAllAsync(paging, sorting, filtering);
+                PagedList<User> usersList = await UserService.GetAllAsync(paging, sorting, filtering);
 
-                if(usersList != null)
+                if (usersList != null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, usersList);
+                    PagedList<RESTUser> restUsersList = await RestUserMappingAsync(usersList);
+
+                    return Request.CreateResponse(HttpStatusCode.OK, restUsersList);
                 }
                 return Request.CreateResponse(HttpStatusCode.NotFound, "User table is empty!");
             }
@@ -44,7 +47,7 @@ namespace SportCalendar.WebApi.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Ooops, something went wrong!");
             }
-            
+
         }
 
         // GET: api/User/5
@@ -57,17 +60,8 @@ namespace SportCalendar.WebApi.Controllers
 
                 if (result != null)
                 {
-                    RESTUser restUser = new RESTUser()
-                    {
-                        Id = result.Id,
-                        FirstName = result.FirstName,
-                        LastName = result.LastName,
-                        Password = result.Password,
-                        Email = result.Email,
-                        RoleId = result.RoleId,
-                        IsActive = result.IsActive,
-                        Username = result.Username,
-                    };
+                    RESTUser restUser = await UserMappingAsync(result);
+
                     return Request.CreateResponse(HttpStatusCode.OK, restUser);
                 };
 
@@ -75,7 +69,7 @@ namespace SportCalendar.WebApi.Controllers
             }
             catch
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "Ooops, something went wrong!!");     
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Ooops, something went wrong!!");
             }
 
         }
@@ -87,7 +81,7 @@ namespace SportCalendar.WebApi.Controllers
             try
             {
                 User addedUser = await UserService.InsertUserAsync(newUser);
-                if(addedUser != null)
+                if (addedUser != null)
                 {
                     return Request.CreateResponse(HttpStatusCode.OK, addedUser);
                 }
@@ -104,10 +98,10 @@ namespace SportCalendar.WebApi.Controllers
         public async Task<HttpResponseMessage> PutAsync(Guid id, [FromBody] User updateUser)
         {
             try
-            {              
+            {
                 User updatedUser = await UserService.UpdateUserAsync(id, updateUser);
 
-                if(updatedUser != null)
+                if (updatedUser != null)
                 {
                     return Request.CreateResponse(HttpStatusCode.OK, updatedUser);
                 }
@@ -123,10 +117,10 @@ namespace SportCalendar.WebApi.Controllers
         [Authorize(Roles = "Super_admin")]
         public async Task<HttpResponseMessage> DeleteAsync(Guid id)
         {
-            try 
+            try
             {
                 User result = await UserService.DeleteUserAsync(id);
-                if(result != null)
+                if (result != null)
                 {
                     return Request.CreateResponse(HttpStatusCode.OK, result);
                 }
@@ -136,6 +130,59 @@ namespace SportCalendar.WebApi.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Ooops, something went wrong!!");
             }
+
+        }
+
+        // method for mapping from User to RESTUser
+        private static async Task<RESTUser> RestUserMappingAsync(User result)
+        {
+            RESTUser restUser = new RESTUser()
+            {
+                Id = result.Id,
+                FirstName = result.FirstName,
+                LastName = result.LastName,
+                Password = result.Password,
+                Email = result.Email,
+                RoleId = result.RoleId,
+                IsActive = result.IsActive,
+                Username = result.Username,
+            };
+
+            return restUser;
+        }
+
+        //method for mapping PagedList of User to PagedList of RESTUser
+        private static async Task<PagedList<RESTUser>> PagedRestUserMappingAsync(PagedList<User> result)
+        {
+            List<RESTUser> restUser = new List<RESTUser>();
+
+            for (int count = 0; count < result.Data.Count; count++)
+            {
+                restUser.Add(
+
+                    new RESTUser()
+                    {
+                        Id = result.Data[count].Id,
+                        FirstName = result.Data[count].FirstName,
+                        LastName = result.Data[count].LastName,
+                        Password = result.Data[count].Password,
+                        Email = result.Data[count].Email,
+                        RoleId = result.Data[count].RoleId,
+                        IsActive = result.Data[count].IsActive,
+                        Username = result.Data[count].Username
+                    }
+                    );
+            }
+
+                PagedList<RESTUser> pagedRest = new PagedList<RESTUser>();
+
+                pagedRest.CurrentPage = result.CurrentPage;
+                pagedRest.PageSize = result.PageSize;
+                pagedRest.TotalCount = result.TotalCount;
+                pagedRest.TotalPages = (int)Math.Ceiling(result.TotalCount / (double)result.PageSize);
+                pagedRest.Data = restUser;
+
+            return pagedRest;
             
         }
     }
