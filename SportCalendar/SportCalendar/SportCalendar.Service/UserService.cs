@@ -17,9 +17,9 @@ namespace SportCalendar.Service
             UserRepository = userRepository;
         }
         protected IUserRepository UserRepository { get; set; }
-        public async Task<List<User>> GetAllAsync()
+        public async Task<List<User>> GetAllAsync(Paging paging, Sorting sorting, BaseFiltering filtering)
         {
-            List<User> usersList = await UserRepository.GetAllAsync();
+            List<User> usersList = await UserRepository.GetAllAsync(paging, sorting, filtering);
             if (usersList != null)
             {
                 return usersList;

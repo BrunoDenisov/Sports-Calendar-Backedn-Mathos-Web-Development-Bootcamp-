@@ -1,8 +1,11 @@
 ﻿using Npgsql;
+using SportCalendar.Common;
 using SportCalendar.Model;
 using SportCalendar.RepositoryCommon;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,7 +14,7 @@ namespace SportCalendar.Repository
     public class UserRepository : IUserRepository
     {
         private static string connectionString = Environment.GetEnvironmentVariable("ConnectionString");
-        public async Task<List<User>> GetAllAsync()
+        public async Task<List<User>> GetAllAsync(Paging paging, Sorting sorting, BaseFiltering filtering)
         {
             NpgsqlConnection connection = new NpgsqlConnection(connectionString);
             List<User> usersList = new List<User>();
@@ -20,8 +23,81 @@ namespace SportCalendar.Repository
                 connection.Open();
                 NpgsqlCommand command = new NpgsqlCommand();
                 command.Connection = connection;
-                command.CommandText = "SELECT * FROM public.\"User\";";
+
+                StringBuilder baseQuery = new StringBuilder("SELECT \"User\".*, \"Role\".\"Access\" FROM public.\"User\" ");
+                baseQuery.Append("JOIN public.\"Role\" ON \"User\".\"RoleId\" = \"Role\".\"Id\" WHERE 1 = 1 ");
+                
+                //adding filtering options to baseQuery                
+                if (filtering != null)
+                {
+                    // filter by search query
+                    if (filtering.SearchQuery != null)
+                    {
+                        baseQuery.Append($"AND (\"Username\" ILIKE @search OR \"Email\" ILIKE @search OR \"LastName\" ILIKE @search OR \"FirstName\" ILIKE @search) ");
+                        command.Parameters.AddWithValue("@search", "%" + filtering.SearchQuery + "%");
+                    };
+                    // filter by from - to date user created
+                    if (filtering.FromDate != null && filtering.ToDate != null)
+                    {
+                        baseQuery.Append("AND \"DateCreated\" BETWEEN @fromDate AND @toDate ");
+                        command.Parameters.AddWithValue("@fromDate", filtering.FromDate);
+                        command.Parameters.AddWithValue("@toDate", filtering.ToDate);
+                    }
+                    else
+                    {
+                        if (filtering.FromDate != null)
+                        {
+                            baseQuery.Append("AND \"DateCreated\" > @fromDate ");
+                            command.Parameters.AddWithValue("@fromDate", filtering.FromDate);
+                        };
+                        if (filtering.ToDate != default)
+                        {
+                            baseQuery.Append("AND \"DateCreated\" < @toDate ");
+                            command.Parameters.AddWithValue("@toDate", filtering.ToDate);
+                        };
+                    };
+                }
+
+                // getting the number of entries for submitting via PagedList
+                string countQuery = baseQuery.ToString();
+                /*string queryRemove = countQuery.Remove(7, 76);
+                string count = queryRemove.Insert(7, "COUNT(\"Patient\".\"Id\") ");*/
+                string count = ""; //Helper.CountQuery(countQuery, "User", "Id");
+
+
+                command.CommandText = count;
+                int entryCount = Convert.ToInt32(await command.ExecuteScalarAsync());
+
+                //adding sorting options to baseQuery 
+                if (sorting.OrderBy != null)
+                {
+                    baseQuery.Append($"ORDER BY \"{sorting.OrderBy}\" ");                    
+                };
+                if (sorting.SortOrder != "ASC")
+                {
+                    baseQuery.Append("DESC ");
+                };
+
+                // adding paging options to baseQuery
+                if (paging.PageNumber != 1)
+                {
+                    baseQuery.Append($"OFFSET @offset ");
+                    command.Parameters.AddWithValue("@offset", (paging.PageNumber - 1) * paging.PageSize);
+                };
+                if (paging.PageSize != 10)
+                {
+                    baseQuery.Append($"FETCH NEXT @next ROWS ONLY;");
+                    command.Parameters.AddWithValue("@next", paging.PageSize);
+                }
+                else
+                {
+                    baseQuery.Append("FETCH NEXT @default ROWS ONLY;");
+                    command.Parameters.AddWithValue("@default", paging.PageSize);
+                };
+
+                command.CommandText = baseQuery.ToString();
                 NpgsqlDataReader reader = await command.ExecuteReaderAsync();
+
 
                 while (await reader.ReadAsync())
                 {
