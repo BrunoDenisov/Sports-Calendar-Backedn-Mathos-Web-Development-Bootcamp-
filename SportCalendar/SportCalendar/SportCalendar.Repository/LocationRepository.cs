@@ -51,6 +51,10 @@ namespace SportCalendar.Repository
             }
             return locations;
         }
+         public async Task<List<Location>> GetById()
+        {
+            return await GetAllREST();
+        }
      }
 }
 
