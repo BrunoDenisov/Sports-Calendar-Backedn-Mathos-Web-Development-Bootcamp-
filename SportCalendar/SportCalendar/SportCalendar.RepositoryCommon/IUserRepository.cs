@@ -15,7 +15,7 @@ namespace SportCalendar.RepositoryCommon
         Task<User> GetByUserIdAsync(Guid id);
         Task<User> InsertUserAsync(User newUser);
         Task<User> UpdateUserAsync(Guid id, User updateUser);
-        Task<User> DeleteUserAsync(Guid id);
+        Task<User> DeleteUserAsync(Guid id, User deleteUser);
 
         Task<bool> CheckEntryByUserIdAsync(Guid id);
     }
