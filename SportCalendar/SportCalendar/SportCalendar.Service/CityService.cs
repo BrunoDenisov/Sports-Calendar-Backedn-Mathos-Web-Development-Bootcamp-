@@ -1,4 +1,3 @@
-﻿using SportCalendar.Common;
 using SportCalendar.Model;
 using SportCalendar.ModelCommon;
 using SportCalendar.RepositoryCommon;
