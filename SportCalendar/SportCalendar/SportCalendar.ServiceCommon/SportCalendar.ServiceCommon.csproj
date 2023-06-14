@@ -47,6 +47,7 @@
     <Compile Include="ICountyService.cs" />
     <Compile Include="IEventService.cs" />
     <Compile Include="IReviewService.cs" />
+    <Compile Include="IRoleService.cs" />
     <Compile Include="ISponsorService.cs" />
     <Compile Include="ILocationService.cs" />
     <Compile Include="ISportService.cs" />

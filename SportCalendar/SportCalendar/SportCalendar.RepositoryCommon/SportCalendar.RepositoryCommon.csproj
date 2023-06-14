@@ -93,6 +93,7 @@
     <Compile Include="IPlacementRepository.cs" />
     <Compile Include="IEventRepository.cs" />
     <Compile Include="IReviewRepository.cs" />
+    <Compile Include="IRoleRepository.cs" />
     <Compile Include="ISponsorRepository.cs" />
     <Compile Include="ICityRepository.cs" />
     <Compile Include="ICityRepository.cs" />
