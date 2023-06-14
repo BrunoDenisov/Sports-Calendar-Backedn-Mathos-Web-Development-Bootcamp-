@@ -44,6 +44,7 @@
     <Compile Include="IReview.cs" />
     <Compile Include="IAuthUser.cs" />
     <Compile Include="ICity.cs" />
+    <Compile Include="ILocation.cs" />
     <Compile Include="ISponsor.cs" />
     <Compile Include="IRole.cs" />
     <Compile Include="IUser.cs" />

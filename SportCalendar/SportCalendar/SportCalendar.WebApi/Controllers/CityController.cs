@@ -9,6 +9,8 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using SportCalendar.Common;
+using System.Drawing.Printing;
 
 namespace SportCalendar.WebApi.Controllers
 {
@@ -21,9 +23,13 @@ namespace SportCalendar.WebApi.Controllers
             
         }
 
-        public async Task<HttpResponseMessage> GetAll()
+        public async Task<HttpResponseMessage> GetAll(int pageNumber = 2, int pageSize = 10)
         {
-            List<City> result = await CityService.GetAll();
+            Paging paging = new Paging();
+            paging.PageNumber = pageNumber;
+            paging.PageSize = pageSize;
+
+            List<City> result = await CityService.GetAll(paging);
             if (result == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "We could not find you'r Cities");

@@ -41,6 +41,10 @@ namespace SportCalendar.WebApi.App_Start
             builder.RegisterType<CityService>().As<ICityService>();
             builder.RegisterType<CityRepository>().As<ICityRepository>();
 
+            //Location registration interface
+            builder.RegisterType<LocationService>().As<ILocationService>();
+            builder.RegisterType<LocationRepository>().As<ILocationRepository>();
+
             // register interfaces
 
             Autofac.IContainer container = builder.Build();

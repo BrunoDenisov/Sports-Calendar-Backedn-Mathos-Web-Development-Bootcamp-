@@ -46,6 +46,7 @@
     <Compile Include="ICountyService.cs" />
     <Compile Include="IReviewService.cs" />
     <Compile Include="ISponsorService.cs" />
+    <Compile Include="ILocationService.cs" />
     <Compile Include="ISportService.cs" />
     <Compile Include="IUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

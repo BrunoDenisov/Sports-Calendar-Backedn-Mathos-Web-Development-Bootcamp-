@@ -1,4 +1,5 @@
-﻿using SportCalendar.Model;
+﻿using SportCalendar.Common;
+using SportCalendar.Model;
 using SportCalendar.ModelCommon;
 using SportCalendar.RepositoryCommon;
 using SportCalendar.ServiceCommon;
@@ -18,11 +19,11 @@ namespace SportCalendar.Service
         {
             CityRepository = repository;
         }
-        public async Task<List<City>> GetAll()
+        public async Task<List<City>> GetAll(Paging paging)
         {
             try
             {
-                var result = await CityRepository.GetAll();
+                var result = await CityRepository.GetAll(paging);
                 return result;
             }
             catch (Exception ex)
