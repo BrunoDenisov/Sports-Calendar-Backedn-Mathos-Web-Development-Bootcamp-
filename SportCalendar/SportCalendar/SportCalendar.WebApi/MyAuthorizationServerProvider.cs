@@ -1,4 +1,5 @@
 ﻿using Microsoft.Owin.Security.OAuth;
+using SportCalendar.Common;
 using SportCalendar.Model;
 using SportCalendar.Repository;
 using System.Security.Claims;
@@ -15,21 +16,29 @@ namespace SportCalendar.WebApi
         }
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
+            bool isValidUsername = CredentialsValidation.ValidateUsername(context.UserName);
+            bool isValidPassword = CredentialsValidation.ValidatePassword(context.Password);
 
-            AuthRepository authRepository = new AuthRepository();
-            AuthUser user = AuthRepository.ValidateUser(context.UserName, context.Password);
-            
-            if (user == null)
+            if (isValidUsername && isValidPassword)
             {
-                context.SetError("invalid_grant", "Provided username and password is incorrect");
+                AuthUser user = await AuthRepository.ValidateUserAsync(context.UserName, context.Password);
+
+                if (user == null)
+                {
+                    context.SetError("invalid_grant", "Provided username and password is incorrect");
+                    return;
+                }
+                var identity = new ClaimsIdentity(context.Options.AuthenticationType);
+                identity.AddClaim(new Claim("Id", user.Id.ToString()));
+                identity.AddClaim(new Claim(ClaimTypes.Name, user.Username));
+                identity.AddClaim(new Claim(ClaimTypes.Role, user.Access));
+                identity.AddClaim(new Claim("Email", user.Email));
+                context.Validated(identity);
                 return;
             }
-            var identity = new ClaimsIdentity(context.Options.AuthenticationType);
-            identity.AddClaim(new Claim("Id", user.Id.ToString()));
-            identity.AddClaim(new Claim(ClaimTypes.Name, user.Username));
-            identity.AddClaim(new Claim(ClaimTypes.Role, user.Access));
-            identity.AddClaim(new Claim("Email", user.Email));
-            context.Validated(identity);
+            context.SetError("Invalid Username or Password");
+            return;
+            
 
         }
     }

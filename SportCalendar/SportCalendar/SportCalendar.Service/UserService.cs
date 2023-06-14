@@ -60,10 +60,7 @@ namespace SportCalendar.Service
                 newUser.IsActive = true;
                 newUser.UpdatedByUserId = Guid.Parse("0d3fa5c2-684c-4d88-82fd-cea2197c6e86");
                 newUser.DateCreated = DateTime.Now;
-                newUser.DateUpdated = DateTime.Now;
-                
-                
-                newUser.Password = hashPassword;
+                newUser.DateUpdated = DateTime.Now;                                             
 
                 User result = await UserRepository.InsertUserAsync(newUser);
 
