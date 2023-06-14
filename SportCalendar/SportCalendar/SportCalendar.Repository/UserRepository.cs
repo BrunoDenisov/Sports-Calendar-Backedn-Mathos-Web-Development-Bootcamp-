@@ -66,11 +66,29 @@ namespace SportCalendar.Repository
 
                     if (filtering.FromDate != null && filtering.ToDate != null)
                     {
-<<<<<<< HEAD
                         filterQuery.Append("AND \"User\".\"DateCreated\" BETWEEN @fromDate AND @toDate ");
-=======
-                        filterQuery.Append("AND \"DateCreated\" BETWEEN @fromDate AND @toDate ");
->>>>>>> 7e4cedd (started work on filtering,)
+                        command.Parameters.AddWithValue("@fromDate", filtering.FromDate);
+                        command.Parameters.AddWithValue("@toDate", filtering.ToDate);
+                    }
+                    else
+                    {
+                        if (filtering.FromDateUpdate != null)
+                        {
+                            filterQuery.Append("AND \"User\".\"DateUpdated\" >= @fromDate ");
+                            command.Parameters.AddWithValue("@fromDate", filtering.FromDate);
+                        };
+                        if (filtering.ToDateUpdate != default)
+                        {
+                            filterQuery.Append("AND \"User\".\"DateCreated\" <= @toDate ");
+                            command.Parameters.AddWithValue("@toDate", filtering.ToDate);
+                        };
+                    };
+
+                    // filtering based on date created
+
+                    if (filtering.FromDate != null && filtering.ToDate != null)
+                    {
+                        filterQuery.Append("AND \"User\".\"DateCreated\" BETWEEN @fromDate AND @toDate ");
                         command.Parameters.AddWithValue("@fromDate", filtering.FromDate);
                         command.Parameters.AddWithValue("@toDate", filtering.ToDate);
                     }
@@ -78,20 +96,12 @@ namespace SportCalendar.Repository
                     {
                         if (filtering.FromDate != null)
                         {
-<<<<<<< HEAD
                             filterQuery.Append("AND \"User\".\"DateCreated\" >= @fromDate ");
-=======
-                            filterQuery.Append("AND \"DateCreated\" > @fromDate ");
->>>>>>> 7e4cedd (started work on filtering,)
                             command.Parameters.AddWithValue("@fromDate", filtering.FromDate);
                         };
                         if (filtering.ToDate != default)
                         {
-<<<<<<< HEAD
                             filterQuery.Append("AND \"User\".\"DateCreated\" <= @toDate ");
-=======
-                            filterQuery.Append("AND \"DateCreated\" < @toDate ");
->>>>>>> 7e4cedd (started work on filtering,)
                             command.Parameters.AddWithValue("@toDate", filtering.ToDate);
                         };
                     };
@@ -103,17 +113,10 @@ namespace SportCalendar.Repository
                 command.CommandText = count;
                 int entryCount = Convert.ToInt32(await command.ExecuteScalarAsync());
 
-<<<<<<< HEAD
                 //adding filtering options for selectQuery
                 selectQuery.Append(filterQuery);
 
                 //adding sorting options to selectQuery 
-=======
-                //adding filtering options for baseQuery
-                selectQuery.Append(filterQuery);
-
-                //adding sorting options to baseQuery 
->>>>>>> 7e4cedd (started work on filtering,)
                 if (sorting.OrderBy != null)
                 {
                     selectQuery.Append($"ORDER BY \"{sorting.OrderBy}\" ");
