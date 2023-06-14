@@ -8,6 +8,7 @@ using System.Web.Http.Metadata.Providers;
 using Npgsql;
 using SportCalendar.Common;
 using SportCalendar.Model;
+using SportCalendar.ModelCommon;
 using SportCalendar.RepositoryCommon;
 
 namespace SportCalendar.Repository
@@ -74,7 +75,7 @@ namespace SportCalendar.Repository
                     await reader.CloseAsync();
 
                     totalPlacements = Convert.ToInt32(await cmd.ExecuteNonQueryAsync());
-                    PagedList<Placement> pagedList = new PagedList<Placement>();
+                    PagedList<Placement> pagedList = new PagedList<Placement>(placments, totalPlacements, paging.PageNumber, paging.PageSize);
                     return pagedList;
 
                 }
