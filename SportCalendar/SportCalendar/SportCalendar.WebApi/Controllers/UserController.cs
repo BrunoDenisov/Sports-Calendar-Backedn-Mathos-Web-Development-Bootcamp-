@@ -36,7 +36,9 @@ namespace SportCalendar.WebApi.Controllers
 
                 if(usersList != null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, usersList);
+                    PagedList<RESTUser> restUsersList = await PagedRestUsersAsync(usersList);
+
+                    return Request.CreateResponse(HttpStatusCode.OK, restUsersList);
                 }
                 return Request.CreateResponse(HttpStatusCode.NotFound, "User table is empty!");
             }
@@ -57,17 +59,8 @@ namespace SportCalendar.WebApi.Controllers
 
                 if (result != null)
                 {
-                    RESTUser restUser = new RESTUser()
-                    {
-                        Id = result.Id,
-                        FirstName = result.FirstName,
-                        LastName = result.LastName,
-                        Password = result.Password,
-                        Email = result.Email,
-                        RoleId = result.RoleId,
-                        IsActive = result.IsActive,
-                        Username = result.Username,
-                    };
+                    RESTUser restUser = await RestUserAsync(result);
+
                     return Request.CreateResponse(HttpStatusCode.OK, restUser);
                 };
 

@@ -249,6 +249,7 @@
     <Compile Include="Controllers\PlacementController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Controllers\ReviewController.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\SponsorController.cs" />
     <Compile Include="Controllers\LocationController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -259,6 +260,7 @@
     </Compile>
     <Compile Include="Models\RESTLocation.cs" />
     <Compile Include="Models\PlacementRest.cs" />
+    <Compile Include="Models\RESTRole.cs" />
     <Compile Include="Models\RESTUser.cs" />
     <Compile Include="Models\ReviewRest.cs" />
     <Compile Include="Models\SponsorRest.cs" />
