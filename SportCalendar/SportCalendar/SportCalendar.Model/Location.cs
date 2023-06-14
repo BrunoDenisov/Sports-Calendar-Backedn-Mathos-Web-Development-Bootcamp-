@@ -1,4 +1,4 @@
-﻿using SportCalendar.ModelCommon;
+using SportCalendar.ModelCommon;
 using System;
 using System.Collections.Generic;
 using System.Linq;

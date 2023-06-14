@@ -1,4 +1,4 @@
-﻿using Npgsql;
+using Npgsql;
 using SportCalendar.Common;
 using SportCalendar.Model;
 using SportCalendar.RepositoryCommon;
