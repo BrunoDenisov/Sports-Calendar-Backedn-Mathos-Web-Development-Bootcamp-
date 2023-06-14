@@ -1,6 +1,5 @@
 ﻿using SportCalendar.Common;
 using SportCalendar.Model;
-using SportCalendar.ModelCommon;
 using System;
 using System.Collections.Generic;
 using System.Linq;

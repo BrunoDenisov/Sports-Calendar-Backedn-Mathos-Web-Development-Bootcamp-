@@ -52,12 +52,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SportCalendar.ModelCommon\SportCalendar.ModelCommon.csproj">
-      <Project>{AE5C59B3-D883-4299-9A47-F3522E0C8ECD}</Project>
-      <Name>SportCalendar.ModelCommon</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SportCalendar.Common\SportCalendar.Common.csproj">
-      <Project>{165F62FC-402B-45AD-834A-1E191F04DEE3}</Project>
+      <Project>{165f62fc-402b-45ad-834a-1e191f04dee3}</Project>
       <Name>SportCalendar.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\SportCalendar.Model\SportCalendar.Model.csproj">
