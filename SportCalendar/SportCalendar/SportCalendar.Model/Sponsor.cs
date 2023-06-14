@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SportCalendar.ModelCommon;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SportCalendar.Model
 {
-    public class Sponsor
+    public class Sponsor : ISponsor
     {
         public Guid Id { get; set; }
 

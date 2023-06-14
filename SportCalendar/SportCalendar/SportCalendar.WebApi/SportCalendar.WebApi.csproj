@@ -226,6 +226,7 @@
     <Compile Include="Controllers\CityController.cs" />
     <Compile Include="Controllers\CountyController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PlacementController.cs" />
     <Compile Include="Controllers\ReviewController.cs" />
     <Compile Include="Controllers\SponsorController.cs" />
     <Compile Include="Controllers\LocationController.cs" />
@@ -236,6 +237,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\RESTLocation.cs" />
+    <Compile Include="Models\PlacementRest.cs" />
     <Compile Include="Models\RESTUser.cs" />
     <Compile Include="Models\ReviewRest.cs" />
     <Compile Include="Models\SponsorRest.cs" />

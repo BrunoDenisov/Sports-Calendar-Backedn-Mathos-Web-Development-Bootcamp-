@@ -102,6 +102,7 @@
   <ItemGroup>
     <Compile Include="CityService.cs" />
     <Compile Include="Class1.cs" />
+    <Compile Include="PlacementService.cs" />
     <Compile Include="CountyService.cs" />
     <Compile Include="obj\Debug\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs" />
     <Compile Include="LocationService.cs" />

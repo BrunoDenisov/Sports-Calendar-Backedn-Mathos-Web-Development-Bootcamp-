@@ -140,6 +140,7 @@
   <ItemGroup>
     <Compile Include="CityRepository.cs" />
     <Compile Include="Class1.cs" />
+    <Compile Include="PlacementRepository.cs" />
     <Compile Include="CountyRepository.cs" />
     <Compile Include="LocationRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

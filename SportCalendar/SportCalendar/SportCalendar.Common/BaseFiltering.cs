@@ -37,4 +37,9 @@ namespace SportCalendar.Common
         public Guid? UserId { get; set; }
         public Guid? EventId { get; set; }
     }
+
+    public class PlacementFilter
+    {
+        public Guid? EventId { get; set; }
+    }
 }

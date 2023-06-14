@@ -8,7 +8,7 @@ namespace SportCalendar.ModelCommon
 {
     public interface ISponsor
     {
-        Guid ID { get; set; }
+        Guid Id { get; set; }
 
         string Name { get; set; }
 
