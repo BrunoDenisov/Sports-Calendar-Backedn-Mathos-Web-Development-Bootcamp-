@@ -9,21 +9,27 @@ using SportCalendar.Common;
 using SportCalendar.Model;
 using System.Runtime.InteropServices;
 using Microsoft.Win32;
+using SportCalendar.RepositoryCommon;
 
 namespace SportCalendar.Service
 {
     public class SponsorService : ISponsorService
     {
+        private ISponsorRepository sponsorRepository;
+
+        public SponsorService(ISponsorRepository repository)
+        {
+            sponsorRepository = repository;
+        }
+
         public async Task<List<Sponsor>> SponsorGet()
         {
-            SponsorRepository sponsorRepository = new SponsorRepository();
             List<Sponsor> sponsors = await sponsorRepository.SponsorGet();
             return sponsors;
         }
 
         public async Task<bool> SponsorPost(Sponsor sponsor)
         {
-            SponsorRepository sponsorRepository = new SponsorRepository();
             sponsor.Id = Guid.NewGuid();
             sponsor.IsActive = true;
             sponsor.UpdatedByUserId = Guid.Parse("0d3fa5c2-684c-4d88-82fd-cea2197c6e86");
@@ -40,13 +46,11 @@ namespace SportCalendar.Service
 
         public async Task<bool> SponsorDelte(Guid id)
         {
-            SponsorRepository sponsorRepository = new SponsorRepository();
             return (await sponsorRepository.SponsorDelte(id));
         }
 
         public async Task<bool> SponsorPut(Guid id, Sponsor sponsor)
         {
-            SponsorRepository sponsorRepository = new SponsorRepository();
             sponsor.IsActive = true;
             sponsor.UpdatedByUserId = Guid.Parse("0d3fa5c2-684c-4d88-82fd-cea2197c6e86");
             sponsor.DateUpdated= DateTime.Now;

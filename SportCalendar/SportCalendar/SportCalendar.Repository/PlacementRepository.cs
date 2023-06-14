@@ -8,6 +8,7 @@ using System.Web.Http.Metadata.Providers;
 using Npgsql;
 using SportCalendar.Common;
 using SportCalendar.Model;
+using SportCalendar.ModelCommon;
 using SportCalendar.RepositoryCommon;
 
 namespace SportCalendar.Repository
