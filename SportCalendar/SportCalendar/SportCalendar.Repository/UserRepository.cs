@@ -93,10 +93,10 @@ namespace SportCalendar.Repository
                 command.CommandText = count;
                 int entryCount = Convert.ToInt32(await command.ExecuteScalarAsync());
 
-                //adding filtering options for baseQuery
+                //adding filtering options for selectQuery
                 selectQuery.Append(filterQuery);
 
-                //adding sorting options to baseQuery 
+                //adding sorting options to selectQuery 
                 if (sorting.OrderBy != null)
                 {
                     selectQuery.Append($"ORDER BY \"{sorting.OrderBy}\" ");
@@ -106,7 +106,7 @@ namespace SportCalendar.Repository
                     selectQuery.Append("DESC ");
                 };
 
-                // adding paging options to baseQuery
+                // adding paging options to selectQuery
                 if (paging.PageNumber != 1)
                 {
                     selectQuery.Append($"OFFSET @offset ");
