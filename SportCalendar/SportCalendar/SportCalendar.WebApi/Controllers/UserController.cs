@@ -1,4 +1,5 @@
-﻿using SportCalendar.Model;
+﻿using SportCalendar.Common;
+using SportCalendar.Model;
 using SportCalendar.ServiceCommon;
 using SportCalendar.WebApi.Models;
 using System;
@@ -26,7 +27,12 @@ namespace SportCalendar.WebApi.Controllers
         {
             try
             {
-                List<User> usersList = await UserService.GetAllAsync();
+                Paging paging = new Paging() { PageNumber = pageNumber, PageSize = pageSize };
+                Sorting sorting = new Sorting() { OrderBy = orderBy, SortOrder = sortOrder };
+                BaseFiltering filtering = new BaseFiltering(searchQuery, fromDate, toDate, fromTime, toTime);
+
+                List<User> usersList = await UserService.GetAllAsync(paging, sorting, filtering);
+
                 if(usersList != null)
                 {
                     return Request.CreateResponse(HttpStatusCode.OK, usersList);

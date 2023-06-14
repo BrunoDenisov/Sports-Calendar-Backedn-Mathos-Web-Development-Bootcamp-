@@ -500,6 +500,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SportCalendar.Common\SportCalendar.Common.csproj">
+      <Project>{165F62FC-402B-45AD-834A-1E191F04DEE3}</Project>
+      <Name>SportCalendar.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SportCalendar.Model\SportCalendar.Model.csproj">
       <Project>{8b5e53fa-5511-4839-8eec-d08897d13f07}</Project>
       <Name>SportCalendar.Model</Name>
