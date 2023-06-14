@@ -25,9 +25,9 @@ namespace SportCalendar.Repository
                 command.Connection = connection;
 
                 StringBuilder selectQuery = new StringBuilder("SELECT \"User\".*, \"Role\".\"Access\" FROM public.\"User\" ");
-                selectQuery.Append("JOIN public.\"Role\" ON \"User\".\"RoleId\" = \"Role\".\"Id\" WHERE 1 = 1 ");
+                selectQuery.Append("JOIN public.\"Role\" ON \"User\".\"RoleId\" = \"Role\".\"Id\" ");
 
-                StringBuilder countQuery = new StringBuilder("SELECT COUNT(\"Id\" FROM public.\"User\" )");
+                StringBuilder countQuery = new StringBuilder("SELECT COUNT(\"Id\") FROM public.\"User\" ");
 
                 StringBuilder filterQuery = new StringBuilder("WHERE 1 = 1 ");
 
@@ -44,7 +44,7 @@ namespace SportCalendar.Repository
                     // filter by from - to date user created
                     if (filtering.FromDate != null && filtering.ToDate != null)
                     {
-                        filterQuery.Append("AND \"DateCreated\" BETWEEN @fromDate AND @toDate ");
+                        filterQuery.Append("AND \"User\".\"DateCreated\" BETWEEN @fromDate AND @toDate ");
                         command.Parameters.AddWithValue("@fromDate", filtering.FromDate);
                         command.Parameters.AddWithValue("@toDate", filtering.ToDate);
                     }
@@ -52,12 +52,12 @@ namespace SportCalendar.Repository
                     {
                         if (filtering.FromDate != null)
                         {
-                            filterQuery.Append("AND \"DateCreated\" > @fromDate ");
+                            filterQuery.Append("AND \"User\".\"DateCreated\" >= @fromDate ");
                             command.Parameters.AddWithValue("@fromDate", filtering.FromDate);
                         };
                         if (filtering.ToDate != default)
                         {
-                            filterQuery.Append("AND \"DateCreated\" < @toDate ");
+                            filterQuery.Append("AND \"User\".\"DateCreated\" <= @toDate ");
                             command.Parameters.AddWithValue("@toDate", filtering.ToDate);
                         };
                     };
@@ -210,8 +210,6 @@ namespace SportCalendar.Repository
 
                 StringBuilder updateQuery = new StringBuilder("UPDATE public.\"User\" SET ");
 
-                // ovdje treba implementirati GetCurrentlyLoggedInUserId, ali tek nakon što se riješi autorizacija
-                //dodati za prvi append
                 updateQuery.Append("\"UpdatedByUserId\" = @updatedbyuserid");
                 command.Parameters.AddWithValue("@updatedbyuserid", updateUser.UpdatedByUserId);
 
