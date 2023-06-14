@@ -11,7 +11,7 @@ namespace SportCalendar.RepositoryCommon
 {
     public interface IUserRepository
     {
-        Task<List<User>> GetAllAsync(Paging paging, Sorting sorting, BaseFiltering filtering);
+        Task<List<User>> GetAllAsync(Paging paging, Sorting sorting, UserFiltering filtering);
         Task<User> GetByUserIdAsync(Guid id);
         Task<User> InsertUserAsync(User newUser);
         Task<User> UpdateUserAsync(Guid id, User updateUser);
