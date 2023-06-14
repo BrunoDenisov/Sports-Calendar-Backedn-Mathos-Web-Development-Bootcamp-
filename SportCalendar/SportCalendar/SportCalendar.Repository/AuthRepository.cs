@@ -1,12 +1,7 @@
 ﻿using Npgsql;
-using NpgsqlTypes;
 using SportCalendar.Common;
 using SportCalendar.Model;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SportCalendar.Repository
 {
@@ -36,7 +31,7 @@ namespace SportCalendar.Repository
 
                 if (reader.Read())
                 {
-                    // Create a UserMaster object from the data reader
+                    // Create a AuthUser object from the data reader
                     AuthUser user = new AuthUser()
                     {
                         // Map the properties from the data reader

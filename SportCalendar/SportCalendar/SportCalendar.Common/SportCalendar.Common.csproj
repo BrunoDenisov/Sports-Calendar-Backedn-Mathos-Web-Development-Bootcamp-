@@ -43,8 +43,8 @@
   <ItemGroup>
     <Compile Include="BaseFiltering.cs" />
     <Compile Include="Class1.cs" />
+    <Compile Include="CredentialsValidation.cs" />
     <Compile Include="PagedList.cs" />
-    <Compile Include="Sorting.cs" />
     <Compile Include="Paging.cs" />
     <Compile Include="PasswordHasher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
