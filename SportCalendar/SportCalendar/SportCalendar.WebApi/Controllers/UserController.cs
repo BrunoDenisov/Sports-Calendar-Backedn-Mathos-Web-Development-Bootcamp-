@@ -129,6 +129,59 @@ namespace SportCalendar.WebApi.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Ooops, something went wrong!!");
             }
+
+        }
+
+        // method for mapping from User to RESTUser
+        private static async Task<RESTUser> RestUserAsync(User result)
+        {
+            RESTUser restUser = new RESTUser()
+            {
+                Id = result.Id,
+                FirstName = result.FirstName,
+                LastName = result.LastName,
+                Password = result.Password,
+                Email = result.Email,
+                RoleId = result.RoleId,
+                IsActive = result.IsActive,
+                Username = result.Username,
+            };
+
+            return restUser;
+        }
+
+        //method for mapping PagedList of User to PagedList of RESTUser
+        private static async Task<PagedList<RESTUser>> PagedRestUsersAsync(PagedList<User> result)
+        {
+            List<RESTUser> restUser = new List<RESTUser>();
+
+            for (int count = 0; count < result.Data.Count; count++)
+            {
+                restUser.Add(
+
+                    new RESTUser()
+                    {
+                        Id = result.Data[count].Id,
+                        FirstName = result.Data[count].FirstName,
+                        LastName = result.Data[count].LastName,
+                        Password = result.Data[count].Password,
+                        Email = result.Data[count].Email,
+                        RoleId = result.Data[count].RoleId,
+                        IsActive = result.Data[count].IsActive,
+                        Username = result.Data[count].Username
+                    }
+                    );
+            }
+
+                PagedList<RESTUser> pagedRest = new PagedList<RESTUser>();
+
+                pagedRest.CurrentPage = result.CurrentPage;
+                pagedRest.PageSize = result.PageSize;
+                pagedRest.TotalCount = result.TotalCount;
+                pagedRest.TotalPages = (int)Math.Ceiling(result.TotalCount / (double)result.PageSize);
+                pagedRest.Data = restUser;
+
+            return pagedRest;
             
         }
     }
