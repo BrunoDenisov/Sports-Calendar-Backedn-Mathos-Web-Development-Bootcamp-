@@ -4,6 +4,7 @@ using SportCalendar.RepositoryCommon;
 using SportCalendar.ServiceCommon;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -19,6 +20,13 @@ namespace SportCalendar.Service
         protected IUserRepository UserRepository { get; set; }
         public async Task<List<User>> GetAllAsync(Paging paging, Sorting sorting, BaseFiltering filtering)
         {
+            string[] orderBy = { "FirstName", "LastName", "DateCreated", "DateUpdated", "Username", "UpdatedByUserId" };
+
+            if (sorting.OrderBy != null && !orderBy.Contains(sorting.OrderBy))
+            {
+                throw new Exception();
+            }
+
             List<User> usersList = await UserRepository.GetAllAsync(paging, sorting, filtering);
             if (usersList != null)
             {
