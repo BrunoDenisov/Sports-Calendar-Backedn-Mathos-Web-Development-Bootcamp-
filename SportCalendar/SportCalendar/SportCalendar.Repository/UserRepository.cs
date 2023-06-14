@@ -24,22 +24,27 @@ namespace SportCalendar.Repository
                 NpgsqlCommand command = new NpgsqlCommand();
                 command.Connection = connection;
 
-                StringBuilder baseQuery = new StringBuilder("SELECT \"User\".*, \"Role\".\"Access\" FROM public.\"User\" ");
-                baseQuery.Append("JOIN public.\"Role\" ON \"User\".\"RoleId\" = \"Role\".\"Id\" WHERE 1 = 1 ");
-                
+                StringBuilder selectQuery = new StringBuilder("SELECT \"User\".*, \"Role\".\"Access\" FROM public.\"User\" ");
+                selectQuery.Append("JOIN public.\"Role\" ON \"User\".\"RoleId\" = \"Role\".\"Id\" WHERE 1 = 1 ");
+
+                StringBuilder countQuery = new StringBuilder("SELECT COUNT(\"Id\" FROM public.\"User\" )");
+
+                StringBuilder filterQuery = new StringBuilder("WHERE 1 = 1 ");
+
                 //adding filtering options to baseQuery                
                 if (filtering != null)
                 {
                     // filter by search query
                     if (filtering.SearchQuery != null)
                     {
-                        baseQuery.Append($"AND (\"Username\" ILIKE @search OR \"Email\" ILIKE @search OR \"LastName\" ILIKE @search OR \"FirstName\" ILIKE @search) ");
+                        filterQuery.Append($"AND (\"Username\" ILIKE @search OR \"Email\" ILIKE @search OR \"LastName\" ILIKE @search OR \"FirstName\" ILIKE @search) ");
                         command.Parameters.AddWithValue("@search", "%" + filtering.SearchQuery + "%");
+
                     };
                     // filter by from - to date user created
                     if (filtering.FromDate != null && filtering.ToDate != null)
                     {
-                        baseQuery.Append("AND \"DateCreated\" BETWEEN @fromDate AND @toDate ");
+                        filterQuery.Append("AND \"DateCreated\" BETWEEN @fromDate AND @toDate ");
                         command.Parameters.AddWithValue("@fromDate", filtering.FromDate);
                         command.Parameters.AddWithValue("@toDate", filtering.ToDate);
                     }
@@ -47,55 +52,54 @@ namespace SportCalendar.Repository
                     {
                         if (filtering.FromDate != null)
                         {
-                            baseQuery.Append("AND \"DateCreated\" > @fromDate ");
+                            filterQuery.Append("AND \"DateCreated\" > @fromDate ");
                             command.Parameters.AddWithValue("@fromDate", filtering.FromDate);
                         };
                         if (filtering.ToDate != default)
                         {
-                            baseQuery.Append("AND \"DateCreated\" < @toDate ");
+                            filterQuery.Append("AND \"DateCreated\" < @toDate ");
                             command.Parameters.AddWithValue("@toDate", filtering.ToDate);
                         };
                     };
                 }
 
                 // getting the number of entries for submitting via PagedList
-                string countQuery = baseQuery.ToString();
-                /*string queryRemove = countQuery.Remove(7, 76);
-                string count = queryRemove.Insert(7, "COUNT(\"Patient\".\"Id\") ");*/
-                string count = ""; //Helper.CountQuery(countQuery, "User", "Id");
-
-
+                countQuery.Append(filterQuery);
+                string count = countQuery.ToString();
                 command.CommandText = count;
                 int entryCount = Convert.ToInt32(await command.ExecuteScalarAsync());
+
+                //adding filtering options for baseQuery
+                selectQuery.Append(filterQuery);
 
                 //adding sorting options to baseQuery 
                 if (sorting.OrderBy != null)
                 {
-                    baseQuery.Append($"ORDER BY \"{sorting.OrderBy}\" ");                    
+                    selectQuery.Append($"ORDER BY \"{sorting.OrderBy}\" ");
                 };
                 if (sorting.SortOrder != "ASC")
                 {
-                    baseQuery.Append("DESC ");
+                    selectQuery.Append("DESC ");
                 };
 
                 // adding paging options to baseQuery
                 if (paging.PageNumber != 1)
                 {
-                    baseQuery.Append($"OFFSET @offset ");
+                    selectQuery.Append($"OFFSET @offset ");
                     command.Parameters.AddWithValue("@offset", (paging.PageNumber - 1) * paging.PageSize);
                 };
                 if (paging.PageSize != 10)
                 {
-                    baseQuery.Append($"FETCH NEXT @next ROWS ONLY;");
+                    selectQuery.Append($"FETCH NEXT @next ROWS ONLY;");
                     command.Parameters.AddWithValue("@next", paging.PageSize);
                 }
                 else
                 {
-                    baseQuery.Append("FETCH NEXT @default ROWS ONLY;");
+                    selectQuery.Append("FETCH NEXT @default ROWS ONLY;");
                     command.Parameters.AddWithValue("@default", paging.PageSize);
                 };
 
-                command.CommandText = baseQuery.ToString();
+                command.CommandText = selectQuery.ToString();
                 NpgsqlDataReader reader = await command.ExecuteReaderAsync();
 
 
@@ -170,7 +174,7 @@ namespace SportCalendar.Repository
                 insertQuery.Append("(@id, @firstname, @lastname, @password, @email, @roleid, @isactive, @updatedbyuserid, @datecreated, @dateupdated, @username)");
                 command.CommandText = insertQuery.ToString();
 
-                command.Parameters.AddWithValue("id", newUser.Id);  
+                command.Parameters.AddWithValue("id", newUser.Id);
                 command.Parameters.AddWithValue("@firstname", newUser.FirstName);
                 command.Parameters.AddWithValue("@lastname", newUser.LastName);
                 command.Parameters.AddWithValue("@password", newUser.Password);
@@ -240,16 +244,16 @@ namespace SportCalendar.Repository
                 {
                     updateQuery.Append(", \"IsActive\" = @isactive");
                     command.Parameters.AddWithValue("@isactive", updateUser.IsActive);
-                }              
+                }
 
                 if (updateUser.Username != null && updateUser.Username != user.Username)
                 {
                     updateQuery.Append(", \"Username\" = @username");
                     command.Parameters.AddWithValue("@username", updateUser.Username);
-                }                
+                }
 
                 updateQuery.Append(", \"DateUpdated\" = @dateupdated ");
-                command.Parameters.AddWithValue("@dateupdated", DateTime.Now);
+                command.Parameters.AddWithValue("@dateupdated", DateTime.UtcNow);
 
                 updateQuery.Append("WHERE \"Id\" = @id");
                 command.Parameters.AddWithValue("@id", id);
@@ -269,30 +273,31 @@ namespace SportCalendar.Repository
             return null;
         }
 
-        public async Task<User> DeleteUserAsync(Guid id)
+        public async Task<User> DeleteUserAsync(Guid id, User deleteUser)
         {
-            User user = await GetByUserIdAsync(id);
 
-            if (user != null)
+            NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+
+            using (connection)
             {
-                NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+                connection.Open();
 
-                using (connection)
+                NpgsqlCommand command = new NpgsqlCommand();
+                command.Connection = connection;
+
+                command.CommandText = "UPDATE public.\"User\" SET \"IsActive\" = 'false', \"UpdatedByUserId\" = @updatedby, \"DateUpdated\" = @dateupdated WHERE \"Id\" = @id";
+                command.Parameters.AddWithValue("@id", id);
+                command.Parameters.AddWithValue("@updatedby", deleteUser.UpdatedByUserId);
+                command.Parameters.AddWithValue("@dateupdated", deleteUser.DateUpdated);
+
+                int rowsAffected = await command.ExecuteNonQueryAsync();
+                if (rowsAffected > 0)
                 {
-                    connection.Open();
-                    NpgsqlCommand command = new NpgsqlCommand();
-                    command.Connection = connection;
-                    command.CommandText = "UPDATE public.\"User\" SET \"IsActive\" = 'false' WHERE \"Id\" = @id";
-                    command.Parameters.AddWithValue("@id", id);
-
-                    int rowsAffected = await command.ExecuteNonQueryAsync();
-                    if (rowsAffected > 0)
-                    {
-                        User deletedUser = await GetByUserIdAsync(id);
-                        return deletedUser;
-                    }
+                    User deletedUser = await GetByUserIdAsync(id);
+                    return deletedUser;
                 }
             }
+
             return null;
         }
         public async Task<bool> CheckEntryByUserIdAsync(Guid id)
