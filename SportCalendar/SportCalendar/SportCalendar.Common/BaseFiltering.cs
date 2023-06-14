@@ -41,5 +41,16 @@ namespace SportCalendar.Common
     public class PlacementFilter
     {
         public Guid? EventId { get; set; }
+    public class UserFiltering : BaseFiltering
+    {
+        public UserFiltering(string searchQuery, DateTime? fromDate, DateTime? toDate, DateTime? fromTime, DateTime? toTime, DateTime? fromDateUpdate, DateTime? toDateUpdate) : base(searchQuery, fromDate, toDate, fromTime, toTime)
+        {
+
+            FromDateUpdate = fromDateUpdate;
+            ToDateUpdate = toDateUpdate;
+        }
+
+        public DateTime? FromDateUpdate { get; set; }
+        public DateTime? ToDateUpdate { get; set; }
     }
 }
