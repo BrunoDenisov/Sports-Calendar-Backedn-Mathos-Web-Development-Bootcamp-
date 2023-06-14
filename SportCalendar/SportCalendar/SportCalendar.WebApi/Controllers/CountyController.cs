@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using SportCalendar.Model;
+using SportCalendar.Common;
+using System.Drawing.Printing;
 
 namespace SportCalendar.WebApi.Controllers
 {
@@ -21,15 +23,20 @@ namespace SportCalendar.WebApi.Controllers
         }
         [HttpGet]
         [Route("")]
-        public async Task<HttpResponseMessage> GetAll()
+        public async Task<HttpResponseMessage> GetAll(int pageNumber = 2, int pageSize = 10)
         {
-            List<County> result = await CountyService.GetAll();
+            Paging paging = new Paging();
+            paging.PageNumber = pageNumber;
+            paging.PageSize = pageSize;
+
+            List<County> result = await CountyService.GetAll(paging);
             if (result == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "We could not find County");
             }
             return Request.CreateResponse(HttpStatusCode.OK, result);
         }
+
 
         public async Task<HttpResponseMessage> GetById(Guid id)
         {
@@ -58,17 +65,17 @@ namespace SportCalendar.WebApi.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "We could not update you'r County, check body!");
             }
-            return Request.CreateResponse(HttpStatusCode.OK, createdCounty);
+            return Request.CreateResponse(HttpStatusCode.OK,"We Updated you'r County with the ID:"+createdCounty.Id);
         }
 
         public async Task<HttpResponseMessage> Delete(Guid id)
         {
-            var createdCounty = await CountyService.Delete(id);
-            if (createdCounty == false)
+            var cuntyDeleted = await CountyService.Delete(id);
+            if (cuntyDeleted == false)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "We could not Delete you'r County");
             }
-            return Request.CreateResponse(HttpStatusCode.OK, createdCounty);
+            return Request.CreateResponse(HttpStatusCode.OK,"we Deleted you'r county with the ID:" );
         }
 
     }

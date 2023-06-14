@@ -1,4 +1,5 @@
 ﻿using Npgsql;
+using SportCalendar.Common;
 using SportCalendar.Model;
 using SportCalendar.ModelCommon;
 using SportCalendar.RepositoryCommon;
@@ -19,15 +20,21 @@ namespace SportCalendar.Repository
         //Enviroment varijabla 
         private static string connectionString = Environment.GetEnvironmentVariable("ConnectionString");
         //GET works
-        public async Task<List<County>> GetAll()
+        public async Task<List<County>> GetAll(Paging paging)
         {
             List<County> counties = new List<County>();
             using (NpgsqlConnection connection = new NpgsqlConnection(connectionString))
             {
                 await connection.OpenAsync();
-                var query = "SELECT * FROM \"County\"";
+
+                var query = "SELECT * FROM \"County\" ORDER BY \"Id\" OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
+
                 using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
                 {
+                    int offset = (paging.PageNumber - 1) * paging.PageSize;
+                    Console.WriteLine("OFFSET: " + offset);
+                    command.Parameters.AddWithValue("Offset", offset);
+                    command.Parameters.AddWithValue("PageSize", paging.PageSize);
                     using (NpgsqlDataReader reader = await command.ExecuteReaderAsync())
                     {
                         while (reader.Read())

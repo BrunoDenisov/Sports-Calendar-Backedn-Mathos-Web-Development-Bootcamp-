@@ -1,6 +1,5 @@
 ﻿using SportCalendar.Common;
 using SportCalendar.Model;
-using SportCalendar.ModelCommon;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +8,12 @@ using System.Threading.Tasks;
 
 namespace SportCalendar.ServiceCommon
 {
-    public interface ICountyService
+    public interface ICityService
     {
-        Task<List<County>> GetAll(Paging paging);
-        Task<List<County>> GetById(Guid id);
-        Task<County> Post(County county);
-
-        Task<County> Put(Guid id, County county);
+        Task<List<City>> GetAll(Paging paging);
+        Task<List<City>> GetById(Guid id);
+        Task<City> Post(City city);
+        Task<City> Put(Guid id, City updatedCity);
         Task<bool> Delete(Guid id);
-
     }
 }

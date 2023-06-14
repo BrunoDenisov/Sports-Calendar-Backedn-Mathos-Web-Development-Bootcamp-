@@ -1,4 +1,4 @@
-﻿using SportCalendar.Common;
+using SportCalendar.Common;
 using SportCalendar.Model;
 using SportCalendar.ModelCommon;
 using SportCalendar.RepositoryCommon;
@@ -6,26 +6,37 @@ using SportCalendar.ServiceCommon;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SportCalendar.Service
 {
-    public class CountyService : ICountyService
+    public class CityService : ICityService
     {
-        private ICountyRepository CountyRepository;
+        private ICityRepository CityRepository;
 
-        public CountyService(ICountyRepository repository)
+        public CityService(ICityRepository repository)
         {
-            CountyRepository = repository;
+            CityRepository = repository;
+        }
+        public async Task<List<City>> GetAll(Paging paging)
+        {
+            try
+            {
+                var result = await CityRepository.GetAll(paging);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
-        public async Task<List<County>> GetAll(Paging paging)
+        public async Task<List<City>> GetById(Guid id)
         {
             try
             {
-                var result = await CountyRepository.GetAll(paging);
+                var result = await CityRepository.GetById(id);
                 return result;
             }
             catch (Exception ex)
@@ -33,11 +44,11 @@ namespace SportCalendar.Service
                 return null;
             }
         }
-        public async Task<List<County>> GetById(Guid id)
+        public async Task<City> Post(City city)
         {
             try
             {
-                var result = await CountyRepository.GetById(id);
+                var result = await CityRepository.Post(city);
                 return result;
             }
             catch (Exception ex)
@@ -45,23 +56,11 @@ namespace SportCalendar.Service
                 return null;
             }
         }
-        public async Task<County> Post(County county)
+        public async Task<City> Put(Guid id, City updatedCity)
         {
             try
             {
-                var result = await CountyRepository.Post(county);
-                return result;
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }
-        public async Task<County> Put(Guid id, County county)
-        {
-            try
-            {
-                var result = await CountyRepository.Put(id, county);
+                var result = await CityRepository.Put(id, updatedCity);
                 return result;
             }
             catch (Exception ex)
@@ -73,7 +72,7 @@ namespace SportCalendar.Service
         {
             try
             {
-                var result = await CountyRepository.Delete(id);
+                var result = await CityRepository.Delete(id);
                 return result;
             }
             catch (Exception ex)
@@ -81,5 +80,7 @@ namespace SportCalendar.Service
                 return false;
             }
         }
+
+
     }
 }

@@ -37,6 +37,13 @@ namespace SportCalendar.WebApi.App_Start
             //Sponsor interface
             builder.RegisterType<SponsorService>().As<ISponsorService>();
             builder.RegisterType<SponsorRepository>().As<ISponsorRepository>();
+            //City registration interface
+            builder.RegisterType<CityService>().As<ICityService>();
+            builder.RegisterType<CityRepository>().As<ICityRepository>();
+
+            //Location registration interface
+            builder.RegisterType<LocationService>().As<ILocationService>();
+            builder.RegisterType<LocationRepository>().As<ILocationRepository>();
 
             // register interfaces
 
