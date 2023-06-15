@@ -7,20 +7,20 @@ namespace SportCalendar.WebApi.Models
 {
     public class SponsorRest
     {
-        public Guid Id { get; set; }
+        public SponsorRest(Guid? id, string name, string website)
+        {
+            Id = id;
+            Name = name;
+            Website = website;
+        }
+        public SponsorRest()
+        {
+
+        }
+        public Guid? Id { get; set; }
 
         public string Name { get; set; }
 
         public string Website { get; set; }
-
-        public bool IsActive { get; set; }
-
-        public Guid CreatedByUserId { get; set; }
-
-        public Guid UpdatedByUserId { get; set; }
-
-        public DateTime DateCreated { get; set; }
-
-        public DateTime DateUpdated { get; set; }
     }
 }

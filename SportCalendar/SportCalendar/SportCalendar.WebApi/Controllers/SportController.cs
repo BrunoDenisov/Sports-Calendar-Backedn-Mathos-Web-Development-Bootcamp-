@@ -37,10 +37,17 @@ namespace SportCalendar.WebApi.Controllers
                 SportFilter sportFilter = new SportFilter(searchQuery,type,fromDate,toDate,fromTime,toTime);
 
                 PagedList<Sport> pagedList = await _sportService.GetSportsAsync(sorting, paging, sportFilter);
-                if (pagedList.Any())
+                if (pagedList.Data.Any())
                 {
                     List<SportRest> sportsRest = MapSportsToRest(pagedList);
-                    return Request.CreateResponse(HttpStatusCode.OK, sportsRest);
+                    PagedList<SportRest> pagedListRest = new PagedList<SportRest>();
+                    pagedListRest.Data= sportsRest;
+                    pagedListRest.TotalCount = pagedList.TotalCount;
+                    pagedListRest.TotalPages = pagedList.TotalPages;
+                    pagedListRest.PageSize = pagedList.PageSize;
+                    pagedListRest.CurrentPage = pagedList.CurrentPage;
+
+                    return Request.CreateResponse(HttpStatusCode.OK, pagedList);
                 }
                 return Request.CreateResponse(HttpStatusCode.NotFound);
             }
@@ -131,7 +138,7 @@ namespace SportCalendar.WebApi.Controllers
         {
             List<SportRest> sportsRest = new List<SportRest>();
 
-            foreach (Sport sport in sports)
+            foreach (Sport sport in sports.Data)
             {
                 sportsRest.Add(MapToRest(sport));
             }

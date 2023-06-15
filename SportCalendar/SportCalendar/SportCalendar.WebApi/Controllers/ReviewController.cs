@@ -39,10 +39,17 @@ namespace SportCalendar.WebApi.Controllers
                 filter.UserId = userId;
 
                 PagedList<Review> pagedList = await _reviewService.GetReviewsAsync(sorting, paging, filter);
-                if (pagedList.Any())
+                if (pagedList.Data.Any())
                 {
                     List<ReviewRest> reviewsRest = MapReviewsToRest(pagedList);
-                    return Request.CreateResponse(HttpStatusCode.OK, reviewsRest);
+                    PagedList<ReviewRest> pagedListRest = new PagedList<ReviewRest>();
+                    pagedListRest.Data= reviewsRest;
+                    pagedListRest.TotalCount = pagedList.TotalCount;
+                    pagedListRest.TotalPages = pagedList.TotalPages;
+                    pagedListRest.PageSize = pagedList.PageSize;
+                    pagedListRest.CurrentPage = pagedList.CurrentPage;
+
+                    return Request.CreateResponse(HttpStatusCode.OK, pagedList);
                 }
                 return Request.CreateResponse(HttpStatusCode.NotFound);
             }
@@ -140,7 +147,7 @@ namespace SportCalendar.WebApi.Controllers
         {
             List<ReviewRest> reviewsRest = new List<ReviewRest>();
 
-            foreach (Review review in reviews)
+            foreach (Review review in reviews.Data)
             {
                 reviewsRest.Add(MapToRest(review));
             }

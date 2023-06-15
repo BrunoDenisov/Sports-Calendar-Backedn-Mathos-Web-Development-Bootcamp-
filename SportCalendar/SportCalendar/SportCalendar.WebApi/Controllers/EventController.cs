@@ -1,6 +1,8 @@
 ﻿using SportCalendar.Common;
 using SportCalendar.Model;
+using SportCalendar.ModelCommon;
 using SportCalendar.ServiceCommon;
+using SportCalendar.WebApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,9 +38,16 @@ namespace SportCalendar.WebApi.Controllers
                 EventFilter filter = new EventFilter(venue,sport,city,county,rating,searchQuery,fromDate,toDate,fromTime,toTime);
 
                 PagedList<EventView> pagedList = await _eventService.GetEventsAsync(sorting, paging, filter);
-                if (pagedList.Any())
+                if (pagedList.Data.Any())
                 {
-                    //List<EventView> eventsRest = MapEventsToRest(pagedList);
+                    List<EventRest> eventsRest = MapEventsToRest(pagedList);
+                    PagedList<EventRest> pagedListRest = new PagedList<EventRest>();
+                    pagedListRest.Data = eventsRest;
+                    pagedListRest.TotalCount = pagedList.TotalCount;
+                    pagedListRest.TotalPages = pagedList.TotalPages;
+                    pagedListRest.PageSize = pagedList.PageSize;
+                    pagedListRest.CurrentPage = pagedList.CurrentPage;
+
                     return Request.CreateResponse(HttpStatusCode.OK, pagedList);
                 }
                 return Request.CreateResponse(HttpStatusCode.NotFound);
@@ -58,7 +67,7 @@ namespace SportCalendar.WebApi.Controllers
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Requested event not found!");
                 }
-                return Request.CreateResponse(HttpStatusCode.OK, eventView);
+                return Request.CreateResponse(HttpStatusCode.OK, MapToRest(eventView));
             }
             catch (Exception ex)
             {
@@ -116,6 +125,32 @@ namespace SportCalendar.WebApi.Controllers
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
+        }
+
+        private EventRest MapToRest(EventView eventView)
+        {
+            EventRest eventRest = new EventRest(eventView.Id, eventView.Name, eventView.Description, eventView.StartDate, eventView.EndDate, eventView.LocationId, eventView.SportId, eventView.VenueName, eventView.CityName, eventView.CountyName, eventView.SportName, eventView.SportType, eventView.Attendance, eventView.Rating);
+            List <SponsorRest> sponsors = new List<SponsorRest>();
+            List<PlacementRest> placements = new List<PlacementRest>();
+            foreach(IPlacement placement in eventView.Placements)
+            {
+                placements.Add(new PlacementRest(placement.Id, placement.Name, placement.FinishOrder, placement.EventId));
+            }
+            foreach(ISponsor sponsor in eventView.Sponsors)
+            {
+                sponsors.Add(new SponsorRest(sponsor.Id, sponsor.Name, sponsor.Website));
+            }
+            return eventRest;
+        }
+        private List<EventRest> MapEventsToRest(PagedList<EventView> events)
+        {
+            List<EventRest> eventsRest = new List<EventRest>();
+
+            foreach(EventView eventView in events.Data)
+            {
+                eventsRest.Add(MapToRest(eventView));
+            }
+            return eventsRest;
         }
     }
 }
