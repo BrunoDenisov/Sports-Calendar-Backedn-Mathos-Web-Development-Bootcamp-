@@ -131,6 +131,7 @@ namespace SportCalendar.WebApi.Controllers
             reviewRest.Attended = review.Attended;
             reviewRest.EventName = review.EventName;
             reviewRest.EventId = review.EventId;
+            reviewRest.UserName = review.UserName;
 
             return reviewRest;
         }

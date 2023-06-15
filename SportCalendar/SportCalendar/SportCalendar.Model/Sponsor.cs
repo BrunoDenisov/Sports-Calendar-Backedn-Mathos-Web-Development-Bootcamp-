@@ -9,20 +9,20 @@ namespace SportCalendar.Model
 {
     public class Sponsor : ISponsor
     {
-        public Guid Id { get; set; }
+        public Guid? Id { get; set; }
 
         public string Name { get; set; }
 
         public string Website { get; set; }
 
-        public bool IsActive { get; set; }
+        public bool? IsActive { get; set; }
 
-        public Guid CreatedByUserId { get; set; }
+        public Guid? CreatedByUserId { get; set; }
 
-        public Guid UpdatedByUserId { get; set; }
+        public Guid? UpdatedByUserId { get; set; }
 
-        public DateTime DateCreated { get; set; }
+        public DateTime? DateCreated { get; set; }
 
-        public DateTime DateUpdated { get; set; }
+        public DateTime? DateUpdated { get; set; }
     }
 }

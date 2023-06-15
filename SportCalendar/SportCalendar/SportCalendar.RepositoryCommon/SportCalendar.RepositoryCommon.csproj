@@ -91,6 +91,7 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="IPlacementRepository.cs" />
+    <Compile Include="IEventRepository.cs" />
     <Compile Include="IReviewRepository.cs" />
     <Compile Include="ISponsorRepository.cs" />
     <Compile Include="ICityRepository.cs" />

@@ -24,6 +24,8 @@ namespace SportCalendar.WebApi.App_Start
             builder.RegisterType<SportService>().As<ISportService>();
             builder.RegisterType<ReviewRepository>().As<IReviewRepository>();
             builder.RegisterType<ReviewService>().As<IReviewService>();
+            builder.RegisterType<EventRepository>().As<IEventRepository>();
+            builder.RegisterType<EventService>().As<IEventService>();
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly()).Where(t => t.Name.EndsWith("Controller"));
 
             //registering interfaces for table User

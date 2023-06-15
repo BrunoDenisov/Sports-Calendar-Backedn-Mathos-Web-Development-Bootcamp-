@@ -27,8 +27,9 @@ namespace SportCalendar.Repository
                     NpgsqlCommand command = new NpgsqlCommand();
                     command.Connection = connection;
 
-                    queryBuilder.Append("SELECT r.*, e.\"Name\" AS \"EventName\" ");
+                    queryBuilder.Append("SELECT r.*, u.\"Username\" AS \"CreatedByUsername\", e.\"Name\" AS \"EventName\" ");
                     queryBuilder.Append("FROM \"Review\" r ");
+                    queryBuilder.Append("JOIN \"User\" u ON r.\"CreatedByUserId\" = u.\"Id\" ");
                     queryBuilder.Append("JOIN \"Event\" e ON r.\"EventId\" = e.\"Id\" ");
                     queryBuilder.Append("Where r.\"IsActive\" = true ");
 
@@ -281,9 +282,10 @@ namespace SportCalendar.Repository
                 {
                     StringBuilder queryBuilder = new StringBuilder();
 
-                    queryBuilder.Append("SELECT r.*, e.\"Name\" AS \"EventName\" ");
+                    queryBuilder.Append("SELECT r.*, u.\"Username\" AS \"CreatedByUsername\", e.\"Name\" AS \"EventName\" ");
                     queryBuilder.Append("FROM \"Review\" r ");
                     queryBuilder.Append("JOIN \"Event\" e ON r.\"EventId\" = e.\"Id\" ");
+                    queryBuilder.Append("JOIN \"User\" u ON r.\"CreatedByUserId\" = u.\"Id\" ");
                     queryBuilder.Append("WHERE r.\"Id\" = @Id");
 
                     NpgsqlCommand command = new NpgsqlCommand(queryBuilder.ToString());
@@ -316,6 +318,7 @@ namespace SportCalendar.Repository
             review.Rating = (int)reader["Rating"];
             review.Attended = (bool)reader["Attended"];
             review.EventName = (string)reader["EventName"];
+            review.UserName = (string)reader["CreatedByUsername"];
             review.EventId = (Guid)reader["EventId"];
             review.IsActive = (bool?)reader["IsActive"];
             review.CreatedByUserId = (Guid?)reader["CreatedByUserId"];
