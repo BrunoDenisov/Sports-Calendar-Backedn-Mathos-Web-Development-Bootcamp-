@@ -39,7 +39,7 @@ namespace SportCalendar.WebApi.Controllers
                 filter.EventId = eventId;
 
                 PagedList<Placement> pagedList = await placementService.PlacementGetFilteredAsync(paging, sorting, filter);
-                if (pagedList.Any())
+                if (pagedList.Data.Any())
                 {
                     List<PlacementRest> placementRests = MapPlacemensToRest(pagedList);
                     return Request.CreateResponse(HttpStatusCode.OK, placementRests);
@@ -123,7 +123,7 @@ namespace SportCalendar.WebApi.Controllers
         {
             List<PlacementRest> placementsRest = new List<PlacementRest>();
 
-            foreach (Placement placement in placements)
+            foreach (Placement placement in placements.Data)
             {
                 placementsRest.Add(MapToRest(placement));
             }
