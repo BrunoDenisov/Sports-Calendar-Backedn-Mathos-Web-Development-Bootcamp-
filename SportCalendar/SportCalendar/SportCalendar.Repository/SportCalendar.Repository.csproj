@@ -143,6 +143,7 @@
     <Compile Include="PlacementRepository.cs" />
     <Compile Include="CountyRepository.cs" />
     <Compile Include="LocationRepository.cs" />
+    <Compile Include="EventRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReviewRepository.cs" />
     <Compile Include="SponsorRepository.cs" />

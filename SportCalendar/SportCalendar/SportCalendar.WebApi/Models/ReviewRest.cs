@@ -12,6 +12,7 @@ namespace SportCalendar.WebApi.Models
         public int? Rating { get; set; }
         public bool? Attended { get; set; }
         public string EventName { get; set; }
+        public string UserName { get; set; }
         public Guid EventId { get; set; }
     }
 }

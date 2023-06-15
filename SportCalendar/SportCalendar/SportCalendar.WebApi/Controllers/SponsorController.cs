@@ -72,12 +72,7 @@ namespace SportCalendar.WebApi.Controllers
             SponsorRest sponsorRest = new SponsorRest()
             {
                 Id = sponsor.Id,
-                Name = sponsor.Name,
-                IsActive = sponsor.IsActive,
-                UpdatedByUserId = sponsor.UpdatedByUserId,
-                CreatedByUserId = sponsor.CreatedByUserId,
-                DateCreated = sponsor.DateCreated,
-                DateUpdated = sponsor.DateUpdated,
+                Name = sponsor.Name
             };
             return sponsorRest;
 
@@ -94,11 +89,6 @@ namespace SportCalendar.WebApi.Controllers
                     sponsorRest.Id = sponsor.Id;
                     sponsorRest.Name = sponsor.Name;
                     sponsorRest.Website = sponsor.Website;
-                    sponsorRest.IsActive = sponsor.IsActive;
-                    sponsorRest.UpdatedByUserId = sponsor.UpdatedByUserId;
-                    sponsorRest.CreatedByUserId = sponsor.CreatedByUserId;
-                    sponsorRest.DateCreated = sponsor.DateCreated;
-                    sponsorRest.DateUpdated = sponsor.DateUpdated;
                     sponsorList.Add(sponsorRest);
                 }
             }

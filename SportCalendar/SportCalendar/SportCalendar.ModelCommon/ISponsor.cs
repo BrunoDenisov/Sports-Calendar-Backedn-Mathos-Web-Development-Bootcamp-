@@ -8,20 +8,20 @@ namespace SportCalendar.ModelCommon
 {
     public interface ISponsor
     {
-        Guid Id { get; set; }
+        Guid? Id { get; set; }
 
         string Name { get; set; }
 
         string Website { get; set; }
 
-        bool IsActive { get; set; }
+        bool? IsActive { get; set; }
 
-        Guid UpdatedByUserId { get; set; }
+        Guid? UpdatedByUserId { get; set; }
 
-        Guid CreatedByUserId { get; set; }
+        Guid? CreatedByUserId { get; set; }
 
-        DateTime DateCreated { get; set; }
+        DateTime? DateCreated { get; set; }
 
-        DateTime DateUpdated { get; set; }
+        DateTime? DateUpdated { get; set; }
     }
 }
