@@ -23,6 +23,7 @@ namespace SportCalendar.WebApi.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles ="Super_admin")]
         public async Task<HttpResponseMessage> SponsorGet()
         {
             List<Sponsor> sponsors = new List<Sponsor>();
@@ -35,6 +36,7 @@ namespace SportCalendar.WebApi.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles ="Super_admin")]
         public async Task<HttpResponseMessage> SponsorPost([FromBody]Sponsor sponsor)
         {
             var resaut = await sponsorService.SponsorPost(sponsor);
@@ -46,6 +48,7 @@ namespace SportCalendar.WebApi.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "Super_admin")]
         public async Task<HttpResponseMessage> SponsorDelte(Guid id)
         {
             var resault = await sponsorService.SponsorDelte(id);
@@ -57,6 +60,7 @@ namespace SportCalendar.WebApi.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Super_admin")]
         public async Task<HttpResponseMessage> SponsorPut(Guid id, [FromBody] Sponsor sponsor)
         {
             var resault = await sponsorService.SponsorPut(id, sponsor);
