@@ -56,4 +56,20 @@ namespace SportCalendar.Common
         public DateTime? FromDateUpdate { get; set; }
         public DateTime? ToDateUpdate { get; set; }
     }
+    public class EventFilter : BaseFiltering
+    {
+        public EventFilter(string venue, string sport, string city, string county, decimal? rating, string searchQuery, DateTime? fromDate, DateTime? toDate, DateTime? fromTime, DateTime? toTime) : base(searchQuery, fromDate, toDate, fromTime, toTime)
+        {
+            Venue = venue;
+            Sport = sport;
+            City = city;
+            County = county;
+            Rating = rating;
+        }
+        public string Venue { get; set; }
+        public string Sport { get; set; }
+        public string City { get; set; }
+        public string County { get; set; }
+        public decimal? Rating { get; set; }
+    }
 }

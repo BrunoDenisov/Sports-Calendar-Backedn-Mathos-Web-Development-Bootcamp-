@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IEvent.cs" />
+    <Compile Include="IEventView.cs" />
     <Compile Include="IPlacement.cs" />
     <Compile Include="IReview.cs" />
     <Compile Include="IAuthUser.cs" />
