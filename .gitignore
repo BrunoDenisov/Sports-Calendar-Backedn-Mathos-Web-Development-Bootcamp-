@@ -142,3 +142,5 @@ $RECYCLE.BIN/
 **/*.log.*
 *.log
 SportCalendar/SportCalendar/SportCalendar.Model/Event.cs
+SportCalendar/SportCalendar/SportCalendar.WebApi/Models/PlacementRest.cs.orig
+SportCalendar/SportCalendar/SportCalendar.WebApi/Models/SponsorRest.cs.orig

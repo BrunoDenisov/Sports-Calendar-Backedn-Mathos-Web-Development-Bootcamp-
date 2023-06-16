@@ -94,8 +94,12 @@ namespace SportCalendar.Repository
                     commandTotal.Connection = connection;
                     totalEvents = Convert.ToInt32(await commandTotal.ExecuteScalarAsync());
 
-                    PagedList<EventView> paginatedList = new PagedList<EventView>(events, totalEvents, paging.PageNumber, paging.PageSize);
-                    //paginatedList.Data = events;
+                    PagedList<EventView> paginatedList = new PagedList<EventView>();
+                    paginatedList.TotalCount = totalEvents;
+                    paginatedList.Data = events;
+                    paginatedList.TotalPages = (totalEvents / paging.PageSize);
+                    paginatedList.PageSize = paging.PageSize;
+                    paginatedList.CurrentPage = paging.PageNumber;
                     return paginatedList;
 
                 }
