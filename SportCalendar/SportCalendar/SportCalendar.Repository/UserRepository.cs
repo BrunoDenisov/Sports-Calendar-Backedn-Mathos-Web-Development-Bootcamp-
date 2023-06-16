@@ -8,13 +8,14 @@ using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Http.Results;
 
 namespace SportCalendar.Repository
 {
     public class UserRepository : IUserRepository
     {
         private static string connectionString = Environment.GetEnvironmentVariable("ConnectionString");
-        public async Task<List<User>> GetAllAsync(Paging paging, Sorting sorting, UserFiltering filtering)
+        public async Task<PagedList<User>> GetAllAsync(Paging paging, Sorting sorting, UserFiltering filtering)
         {
             NpgsqlConnection connection = new NpgsqlConnection(connectionString);
             List<User> usersList = new List<User>();
@@ -166,8 +167,17 @@ namespace SportCalendar.Repository
 
                         });
                 }
+                PagedList<User> pagedUsers = new PagedList<User>()
+                {
+                    CurrentPage = paging.PageNumber,
+                    PageSize = paging.PageSize,
+                    TotalPages = (int)Math.Ceiling(entryCount / (double)paging.PageSize),
+                    TotalCount = entryCount,
+                    Data = usersList
+                };
+                return pagedUsers;
             }
-            return usersList;
+            
         }
 
         public async Task<User> GetByUserIdAsync(Guid id)

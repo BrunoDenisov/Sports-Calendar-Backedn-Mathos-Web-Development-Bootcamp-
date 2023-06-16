@@ -21,7 +21,7 @@ namespace SportCalendar.WebApi.Controllers
         // GET: api/User
 
         [Authorize(Roles = "Super_admin")]
-        public async Task<HttpResponseMessage> GetAllAsync(int pageNumber = 1, int pageSize = 10, string orderBy = "Id", string sortOrder = "ASC",
+        public async Task<HttpResponseMessage> GetAllAsync(int pageNumber = 1, int pageSize = 10, string orderBy = "Username", string sortOrder = "ASC",
                                                             string searchQuery = null, DateTime? fromDateCreate = null, DateTime? toDateCreate = null,
                                                             DateTime? fromTime = null, DateTime? toTime = null,
                                                             DateTime? fromDateUpdate = null, DateTime? toDateUpdate = null)
@@ -32,7 +32,7 @@ namespace SportCalendar.WebApi.Controllers
                 Sorting sorting = new Sorting() { OrderBy = orderBy, SortOrder = sortOrder };
                 UserFiltering filtering = new UserFiltering(searchQuery, fromDateCreate, toDateCreate, fromTime, toTime, fromDateUpdate, toDateUpdate);
 
-                List<User> usersList = await UserService.GetAllAsync(paging, sorting, filtering);
+                PagedList<User> usersList = await UserService.GetAllAsync(paging, sorting, filtering);
 
                 if(usersList != null)
                 {

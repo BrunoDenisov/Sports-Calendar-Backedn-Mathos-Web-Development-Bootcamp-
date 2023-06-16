@@ -18,16 +18,16 @@ namespace SportCalendar.Service
             UserRepository = userRepository;
         }
         protected IUserRepository UserRepository { get; set; }
-        public async Task<List<User>> GetAllAsync(Paging paging, Sorting sorting, BaseFiltering filtering)
+        public async Task<PagedList<User>> GetAllAsync(Paging paging, Sorting sorting, UserFiltering filtering)
         {
             string[] orderBy = { "FirstName", "LastName", "DateCreated", "DateUpdated", "Username", "UpdatedByUserId" };
 
-            if (sorting.OrderBy != null && !orderBy.Contains(sorting.OrderBy))
+            if (!orderBy.Contains(sorting.OrderBy))
             {
                 throw new Exception();
             }
 
-            List<User> usersList = await UserRepository.GetAllAsync(paging, sorting, filtering);
+            PagedList<User> usersList = await UserRepository.GetAllAsync(paging, sorting, filtering);
             if (usersList != null)
             {
                 return usersList;
