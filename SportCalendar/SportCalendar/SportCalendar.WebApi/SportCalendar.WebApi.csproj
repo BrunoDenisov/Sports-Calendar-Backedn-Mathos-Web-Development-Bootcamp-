@@ -246,6 +246,7 @@
     <Compile Include="Controllers\CityController.cs" />
     <Compile Include="Controllers\CountyController.cs" />
     <Compile Include="Controllers\EventController.cs" />
+    <Compile Include="Controllers\EventSponsorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PlacementController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
