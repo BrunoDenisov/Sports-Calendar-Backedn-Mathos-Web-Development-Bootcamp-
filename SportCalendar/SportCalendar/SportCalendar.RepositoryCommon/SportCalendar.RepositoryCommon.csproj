@@ -90,6 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="IEventSponsorRepository.cs" />
     <Compile Include="IPlacementRepository.cs" />
     <Compile Include="IEventRepository.cs" />
     <Compile Include="IReviewRepository.cs" />
