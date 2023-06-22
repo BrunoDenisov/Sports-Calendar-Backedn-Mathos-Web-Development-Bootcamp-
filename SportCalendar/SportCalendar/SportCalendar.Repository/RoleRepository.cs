@@ -32,7 +32,7 @@ namespace SportCalendar.Repository
                     // filter by search query
                     if (filtering.SearchQuery != null)
                     {
-                        selectQuery.Append($"WHERE (\"Access\" ILIKE @search ");
+                        selectQuery.Append($"WHERE (\"Access\" ILIKE @search) ");
                         command.Parameters.AddWithValue("@search", "%" + filtering.SearchQuery + "%");
                     };
                 }
