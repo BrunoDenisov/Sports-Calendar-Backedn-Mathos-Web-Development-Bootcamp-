@@ -32,6 +32,10 @@ namespace SportCalendar.WebApi.App_Start
             builder.RegisterType<UserRepository>().As<IUserRepository>();
             builder.RegisterType<UserService>().As<IUserService>();
 
+            //registering interface for table Role
+            builder.RegisterType<RoleRepository>().As<IRoleRepository>();
+            builder.RegisterType<RoleService>().As<IRoleService>();
+
             //County interface
             builder.RegisterType<CountyService>().As<ICountyService>();
             builder.RegisterType<CountyRepository>().As<ICountyRepository>();
