@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="ICityService.cs" />
+    <Compile Include="IEventSponsorService.cs" />
     <Compile Include="IPlacementService.cs" />
     <Compile Include="ICountyService.cs" />
     <Compile Include="IEventService.cs" />
