@@ -77,10 +77,10 @@ namespace SportCalendar.WebApi.Controllers
         {
             try
             {
-                bool postStatus = await _sportService.PostSportAsync(sport);
-                if (postStatus)
+                Sport postedSport = await _sportService.PostSportAsync(sport); 
+                if (postedSport != null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.Created, "Sport created!");
+                    return Request.CreateResponse(HttpStatusCode.Created, MapToRest(postedSport));
                 }
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Sport creation failed!");
             }catch(Exception ex)
@@ -93,10 +93,10 @@ namespace SportCalendar.WebApi.Controllers
         {
             try
             {
-                bool postStatus = await _sportService.UpdateSportAsync(id,sport);
-                if (postStatus)
+                Sport updatedSport = await _sportService.UpdateSportAsync(id, sport);
+                if (updatedSport!=null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.Created, "Sport updated!");
+                    return Request.CreateResponse(HttpStatusCode.Created, MapToRest(updatedSport));
                 }
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Sport update failed!");
             }

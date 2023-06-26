@@ -4,7 +4,6 @@ using SportCalendar.ServiceCommon;
 using SportCalendar.WebApi.Models;
 using System;
 using System.Collections.Generic;
-using System.Drawing.Text;
 using System.Linq;
 using System.Net;
 using System.Net.Http;

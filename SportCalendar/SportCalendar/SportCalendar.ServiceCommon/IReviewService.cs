@@ -13,7 +13,7 @@ namespace SportCalendar.ServiceCommon
         Task<PagedList<Review>> GetReviewsAsync(Sorting sorting, Paging paging, ReviewFilter filtering);
         Task<Review> GetReviewAsync(Guid id);
         Task<bool> DeleteReviewAsync(Guid id);
-        Task<bool> PostReviewAsync(Review review);
-        Task<bool> UpdateReviewAsync(Guid id, Review review);
+        Task<Review> PostReviewAsync(Review review);
+        Task<Review> UpdateReviewAsync(Guid id, Review review);
     }
 }

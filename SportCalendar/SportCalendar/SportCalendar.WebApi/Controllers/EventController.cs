@@ -80,10 +80,10 @@ namespace SportCalendar.WebApi.Controllers
         {
             try
             {
-                bool postStatus = await _eventService.PostEventAsync(eventModel);
-                if (postStatus)
+                EventModel postedEvent = await _eventService.PostEventAsync(eventModel);
+                if (postedEvent!=null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.Created, "Event created!");
+                    return Request.CreateResponse(HttpStatusCode.Created, MapToEventModelRest(postedEvent));
                 }
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Event creation failed!");
             }
@@ -97,10 +97,10 @@ namespace SportCalendar.WebApi.Controllers
         {
             try
             {
-                bool postStatus = await _eventService.UpdateEventAsync(id, eventModel);
-                if (postStatus)
+                EventModel updatedEvent = await _eventService.UpdateEventAsync(id, eventModel);
+                if (updatedEvent!=null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.Created, "Event updated!");
+                    return Request.CreateResponse(HttpStatusCode.Created, MapToEventModelRest(updatedEvent));
                 }
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Event update failed!");
             }
@@ -125,6 +125,11 @@ namespace SportCalendar.WebApi.Controllers
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
+        }
+        private EventModelRest MapToEventModelRest(EventModel eventModel)
+        {
+            EventModelRest eventRest = new EventModelRest(eventModel.Id,eventModel.Name,eventModel.Description,eventModel.StartDate,eventModel.EndDate,eventModel.LocationId,eventModel.SportId);
+            return eventRest;
         }
 
         private EventRest MapToRest(EventView eventView)

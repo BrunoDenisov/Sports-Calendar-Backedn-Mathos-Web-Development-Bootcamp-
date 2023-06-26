@@ -14,8 +14,8 @@ namespace SportCalendar.RepositoryCommon
         Task<PagedList<Sport>> GetSportsAsync(Sorting sorting, Paging paging, SportFilter filtering);
         Task<Sport> GetSportAsync(Guid id);
         Task<bool> DeleteSportAsync(Guid id);
-        Task<bool> PostSportAsync(Sport sport);
-        Task<bool> UpdateSportAsync(Guid id, Sport sport);
+        Task<Sport> PostSportAsync(Sport sport);
+        Task<Sport> UpdateSportAsync(Guid id, Sport sport);
         //Task<bool> SetUpdatedAsync(Guid userId);
         //Task<bool> CreatedAsync(Guid userId);
 

@@ -82,10 +82,10 @@ namespace SportCalendar.WebApi.Controllers
         {
             try
             {
-                bool postStatus = await _reviewService.PostReviewAsync(review);
-                if (postStatus)
+                Review postedReview = await _reviewService.PostReviewAsync(review);
+                if (postedReview!=null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.Created, "Review created!");
+                    return Request.CreateResponse(HttpStatusCode.Created, MapToRest(postedReview));
                 }
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Review creation failed!");
             }
@@ -99,10 +99,10 @@ namespace SportCalendar.WebApi.Controllers
         {
             try
             {
-                bool postStatus = await _reviewService.UpdateReviewAsync(id, review);
-                if (postStatus)
+                Review updatedReview = await _reviewService.UpdateReviewAsync(id, review);
+                if (updatedReview!=null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.Created, "review updated!");
+                    return Request.CreateResponse(HttpStatusCode.Created, MapToRest(updatedReview));
                 }
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "review update failed!");
             }
