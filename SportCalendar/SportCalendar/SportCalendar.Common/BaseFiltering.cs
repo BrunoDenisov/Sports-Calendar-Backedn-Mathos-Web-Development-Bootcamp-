@@ -55,7 +55,6 @@ namespace SportCalendar.Common
         public DateTime? FromDateUpdate { get; set; }
         public DateTime? ToDateUpdate { get; set; }
     }
-
     public class EventFilter : BaseFiltering
     {
         public EventFilter(string venue, string sport, string city, string county, decimal? rating, string searchQuery, DateTime? fromDate, DateTime? toDate, DateTime? fromTime, DateTime? toTime) : base(searchQuery, fromDate, toDate, fromTime, toTime)
