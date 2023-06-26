@@ -175,7 +175,7 @@ namespace SportCalendar.Repository
                     PageSize = paging.PageSize,
                     TotalPages = (int)Math.Ceiling(entryCount / (double)paging.PageSize),
                     TotalCount = entryCount,
-                    Data = usersList
+                    Data = usersList.Data
                 };
                 return pagedUsers;
             }
