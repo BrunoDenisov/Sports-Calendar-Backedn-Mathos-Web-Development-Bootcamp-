@@ -23,6 +23,7 @@ namespace SportCalendar.WebApi.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles ="Super_admin,Organizer,User")]
         public async Task<HttpResponseMessage> Get(string venue = null, string city = null, string county = null, decimal? rating = null,string sport = null, string orderBy = "Name", string sortOrder = "DESC", int pageSize = 10, int pageNumber = 1, string searchQuery = null, DateTime? fromDate = null, DateTime? toDate = null, DateTime? fromTime = null, DateTime? toTime = null)
         {
             try
@@ -58,6 +59,7 @@ namespace SportCalendar.WebApi.Controllers
             }
         }
         [HttpGet]
+        [Authorize(Roles = "Super_admin,Organizer,User")]
         public async Task<HttpResponseMessage> Get(Guid id)
         {
             try
@@ -76,6 +78,7 @@ namespace SportCalendar.WebApi.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Super_admin,Organizer")]
         public async Task<HttpResponseMessage> PostAsync([FromBody] EventModel eventModel)
         {
             try
@@ -93,6 +96,7 @@ namespace SportCalendar.WebApi.Controllers
             }
         }
         [HttpPut]
+        [Authorize(Roles = "Super_admin,Organizer")]
         public async Task<HttpResponseMessage> PutAsync(Guid id, [FromBody] EventModel eventModel)
         {
             try
@@ -110,6 +114,7 @@ namespace SportCalendar.WebApi.Controllers
             }
         }
         [HttpDelete]
+        [Authorize(Roles = "Super_admin,Organizer")]
         public async Task<HttpResponseMessage> DeleteAsync(Guid id)
         {
             try

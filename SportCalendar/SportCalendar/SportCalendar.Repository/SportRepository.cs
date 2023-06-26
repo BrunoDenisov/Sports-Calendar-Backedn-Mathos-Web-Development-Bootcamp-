@@ -78,6 +78,7 @@ namespace SportCalendar.Repository
                     paginatedList.Data = sports;
                     paginatedList.TotalPages = totalSports / paging.PageSize;
                     paginatedList.PageSize = paging.PageSize;
+                    paginatedList.CurrentPage = paging.PageNumber;
                     return paginatedList;
                 }
             }catch (Exception ex)

@@ -88,6 +88,7 @@ namespace SportCalendar.Repository
                     paginatedList.Data = reviews;
                     paginatedList.TotalPages = totalReviews / paging.PageSize;
                     paginatedList.PageSize = paging.PageSize;
+                    paginatedList.CurrentPage = paging.PageNumber;
                     return paginatedList;
                 }
             }
