@@ -262,8 +262,11 @@
     <Compile Include="Models\EventModelRest.cs" />
     <Compile Include="Models\RESTLocation.cs" />
     <Compile Include="Models\PlacementRest.cs" />
+<<<<<<< HEAD
     <Compile Include="Models\EventRest.cs" />
     <Compile Include="Models\PlacementRest.cs" />
+=======
+>>>>>>> 3175175 (implemented RoleRepository, RoleService and RoleController with Interfaces and registerd them for DI)
     <Compile Include="Models\RESTRole.cs" />
     <Compile Include="Models\RESTUser.cs" />
     <Compile Include="Models\ReviewRest.cs" />
