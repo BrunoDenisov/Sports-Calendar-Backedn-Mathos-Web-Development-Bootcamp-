@@ -148,9 +148,6 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Web.Http.Cors, Version=5.2.9.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Cors.5.2.9\lib\net45\System.Web.Http.Cors.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
@@ -249,7 +246,6 @@
     <Compile Include="Controllers\CityController.cs" />
     <Compile Include="Controllers\CountyController.cs" />
     <Compile Include="Controllers\EventController.cs" />
-    <Compile Include="Controllers\EventSponsorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PlacementController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
@@ -266,14 +262,9 @@
     <Compile Include="Models\EventModelRest.cs" />
     <Compile Include="Models\RESTLocation.cs" />
     <Compile Include="Models\PlacementRest.cs" />
-<<<<<<< HEAD
     <Compile Include="Models\EventRest.cs" />
     <Compile Include="Models\PlacementRest.cs" />
-=======
->>>>>>> 3175175 (implemented RoleRepository, RoleService and RoleController with Interfaces and registerd them for DI)
     <Compile Include="Models\RESTRole.cs" />
-    <Compile Include="Models\EventRest.cs" />
-    <Compile Include="Models\PlacementRest.cs" />
     <Compile Include="Models\RESTUser.cs" />
     <Compile Include="Models\ReviewRest.cs" />
     <Compile Include="Models\SponsorRest.cs" />
