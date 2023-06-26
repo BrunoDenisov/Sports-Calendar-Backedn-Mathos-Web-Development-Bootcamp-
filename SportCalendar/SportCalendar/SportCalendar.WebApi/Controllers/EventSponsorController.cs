@@ -12,6 +12,7 @@ using SportCalendar.Common;
 using Microsoft.Owin.Security.Provider;
 using SportCalendar.WebApi.Models;
 
+
 namespace SportCalendar.WebApi.Controllers
 {
     public class EventSponsorController : ApiController
