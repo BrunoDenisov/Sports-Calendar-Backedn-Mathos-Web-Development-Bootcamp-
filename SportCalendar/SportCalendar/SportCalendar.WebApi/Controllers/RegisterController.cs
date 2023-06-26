@@ -16,9 +16,10 @@ namespace SportCalendar.WebApi.Controllers
 
         protected IUserService UserService { get; set; }
 
+        [HttpPost]
         [AllowAnonymous]
         [Route("api/signup")]
-        public async Task<HttpResponseMessage> SignUpAsync([FromBody] User newUser)
+        public async Task<HttpResponseMessage> RegisterAsync([FromBody] User newUser)
         {
             try
             {

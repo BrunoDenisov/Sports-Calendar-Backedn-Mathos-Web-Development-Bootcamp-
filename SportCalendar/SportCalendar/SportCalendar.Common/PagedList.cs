@@ -18,6 +18,5 @@ namespace SportCalendar.Common
         public bool HasNext => CurrentPage < TotalPages;
 
         public List<T> Data { get; set; }
-
     }
 }
