@@ -33,7 +33,7 @@ namespace SportCalendar.Service
             return await _reviewRepository.GetReviewsAsync(sorting, paging, filtering);
         }
 
-        public async Task<bool> PostReviewAsync(Review review)
+        public async Task<Review> PostReviewAsync(Review review)
         {
             Guid userId = Guid.Parse("0d3fa5c2-684c-4d88-82fd-cea2197c6e86");
             review.CreatedByUserId = userId;
@@ -45,7 +45,7 @@ namespace SportCalendar.Service
             return await _reviewRepository.PostReviewAsync(review);
         }
 
-        public async Task<bool> UpdateReviewAsync(Guid id, Review review)
+        public async Task<Review> UpdateReviewAsync(Guid id, Review review)
         {
             Guid userId = Guid.Parse("0d3fa5c2-684c-4d88-82fd-cea2197c6e86");
             review.UpdatedByUserId = userId;

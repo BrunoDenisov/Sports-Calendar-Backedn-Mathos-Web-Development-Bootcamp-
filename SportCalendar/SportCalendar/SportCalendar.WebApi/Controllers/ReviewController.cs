@@ -22,6 +22,7 @@ namespace SportCalendar.WebApi.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Super_admin,Organizer,User")]
         public async Task<HttpResponseMessage> Get(string orderBy = "Rating", string sortOrder = "DESC", int pageSize = 10, int pageNumber = 1, Guid? userId = null, Guid? eventId = null)
         {
             try
@@ -60,6 +61,7 @@ namespace SportCalendar.WebApi.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Super_admin,Organizer,User")]
         public async Task<HttpResponseMessage> GetAsync(Guid id)
         {
             try
@@ -78,14 +80,15 @@ namespace SportCalendar.WebApi.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Super_admin,Organizer,User")]
         public async Task<HttpResponseMessage> PostAsync([FromBody] Review review)
         {
             try
             {
-                bool postStatus = await _reviewService.PostReviewAsync(review);
-                if (postStatus)
+                Review postedReview = await _reviewService.PostReviewAsync(review);
+                if (postedReview!=null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.Created, "Review created!");
+                    return Request.CreateResponse(HttpStatusCode.Created, MapToRest(postedReview));
                 }
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Review creation failed!");
             }
@@ -95,14 +98,15 @@ namespace SportCalendar.WebApi.Controllers
             }
         }
         [HttpPut]
+        [Authorize(Roles = "Super_admin,Organizer,User")]
         public async Task<HttpResponseMessage> PutAsync(Guid id, [FromBody] Review review)
         {
             try
             {
-                bool postStatus = await _reviewService.UpdateReviewAsync(id, review);
-                if (postStatus)
+                Review updatedReview = await _reviewService.UpdateReviewAsync(id, review);
+                if (updatedReview!=null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.Created, "review updated!");
+                    return Request.CreateResponse(HttpStatusCode.Created, MapToRest(updatedReview));
                 }
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "review update failed!");
             }
@@ -112,6 +116,7 @@ namespace SportCalendar.WebApi.Controllers
             }
         }
         [HttpDelete]
+        [Authorize(Roles = "Super_admin,Organizer,User")]
         public async Task<HttpResponseMessage> DeleteAsync(Guid id)
         {
             try

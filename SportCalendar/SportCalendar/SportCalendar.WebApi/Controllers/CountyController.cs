@@ -10,6 +10,8 @@ using System.Web.Http;
 using SportCalendar.Model;
 using SportCalendar.Common;
 using System.Drawing.Printing;
+using SportCalendar.WebApi.Models;
+using SportCalendar.ModelCommon;
 
 namespace SportCalendar.WebApi.Controllers
 {
@@ -30,11 +32,20 @@ namespace SportCalendar.WebApi.Controllers
             paging.PageSize = pageSize;
 
             List<County> result = await CountyService.GetAll(paging);
+            List<CountyRest> cuntyRest = result.Select(county => new CountyRest
+            {
+
+                Id = county.Id,
+                Name = county.Name,
+                IsActive = county.IsActive
+
+            }).ToList();
+
             if (result == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "We could not find County");
             }
-            return Request.CreateResponse(HttpStatusCode.OK, result);
+            return Request.CreateResponse(HttpStatusCode.OK, cuntyRest);
         }
 
 

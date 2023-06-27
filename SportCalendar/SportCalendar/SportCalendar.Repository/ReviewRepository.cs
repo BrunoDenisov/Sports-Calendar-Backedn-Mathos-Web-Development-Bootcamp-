@@ -88,6 +88,7 @@ namespace SportCalendar.Repository
                     paginatedList.Data = reviews;
                     paginatedList.TotalPages = totalReviews / paging.PageSize;
                     paginatedList.PageSize = paging.PageSize;
+                    paginatedList.CurrentPage = paging.PageNumber;
                     return paginatedList;
                 }
             }
@@ -165,7 +166,7 @@ namespace SportCalendar.Repository
             }
         }
 
-        public async Task<bool> PostReviewAsync(Review review)
+        public async Task<Review> PostReviewAsync(Review review)
         {
             try
             {
@@ -176,7 +177,7 @@ namespace SportCalendar.Repository
                     using (NpgsqlCommand command = new NpgsqlCommand())
                     {
                         command.CommandText = "INSERT INTO \"Review\" (\"Id\", \"Content\", \"Rating\", \"Attended\", \"EventId\", \"UserId\", \"IsActive\", \"CreatedByUserId\", \"UpdatedByUserId\", \"DateCreated\", \"DateUpdated\") " +
-                      "VALUES (@Id, @Content, @Rating, @Attended, @EventId, @UserId, @IsActive, @CreatedByUserId, @UpdatedByUserId, @DateCreated, @DateUpdated)";
+                      "VALUES (@Id, @Content, @Rating, @Attended, @EventId, @UserId, @IsActive, @CreatedByUserId, @UpdatedByUserId, @DateCreated, @DateUpdated) RETURNING * ";
                         command.Connection = connection;
 
                         Guid id = Guid.NewGuid();
@@ -194,28 +195,33 @@ namespace SportCalendar.Repository
                         command.Parameters.AddWithValue("@DateCreated", review.DateCreated);
                         command.Parameters.AddWithValue("@DateUpdated", review.DateUpdated);
 
-                        await command.ExecuteNonQueryAsync();
+                        NpgsqlDataReader reader = await command.ExecuteReaderAsync();
+                        if (reader.HasRows)
+                        {
+                            await reader.ReadAsync();
+                            return MapReviewModel(reader);
+                        }
                     }
                 }
 
-                return true;
+                return null;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return false;
+                return null;
             }
         }
 
 
-        public async Task<bool> UpdateReviewAsync(Guid id, Review review)
+        public async Task<Review> UpdateReviewAsync(Guid id, Review review)
         {
             try
             {
                 Review currentReview = await GetReviewByIdAsync(id);
                 if (currentReview == null)
                 {
-                    return false;
+                    return null;
                 }
                 NpgsqlConnection connection = new NpgsqlConnection(connectionString);
                 using (connection)
@@ -264,16 +270,26 @@ namespace SportCalendar.Repository
 
                     queryBuilder.Append(" WHERE \"Id\" = @Id");
                     command.Parameters.AddWithValue("@Id", id);
+                    queryBuilder.Append(" RETURNING *");
                     command.CommandText = queryBuilder.ToString();
                     connection.CreateCommand();
-                    await command.ExecuteNonQueryAsync();
-                    return true;
+                    NpgsqlDataReader reader = await command.ExecuteReaderAsync();
+
+                    if (reader.HasRows)
+                    {
+                        await reader.ReadAsync();
+                        Review updatedReview = MapReviewModel(reader);
+                        updatedReview.UserName = currentReview.UserName;
+                        updatedReview.EventName = currentReview.EventName;
+                        return updatedReview;
+                    }
+                    return null;
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return false;
+                return null;
             }
         }
 
@@ -302,6 +318,7 @@ namespace SportCalendar.Repository
                     {
                         await reader.ReadAsync();
                         Review review = MapReview(reader);
+
                         return review;
                     }
                     return null;
@@ -323,6 +340,23 @@ namespace SportCalendar.Repository
             review.Attended = (bool)reader["Attended"];
             review.EventName = (string)reader["EventName"];
             review.UserName = (string)reader["CreatedByUsername"];
+            review.EventId = (Guid)reader["EventId"];
+            review.IsActive = (bool?)reader["IsActive"];
+            review.CreatedByUserId = (Guid?)reader["CreatedByUserId"];
+            review.UpdatedByUserId = (Guid?)reader["UpdatedByUserId"];
+            review.DateCreated = (DateTime?)reader["DateCreated"];
+            review.DateUpdated = (DateTime?)reader["DateUpdated"];
+
+            return review;
+        }
+        private Review MapReviewModel(NpgsqlDataReader reader)
+        {
+            Review review = new Review();
+
+            review.Id = (Guid)reader["Id"];
+            review.Content = (string)reader["Content"];
+            review.Rating = (int)reader["Rating"];
+            review.Attended = (bool)reader["Attended"];
             review.EventId = (Guid)reader["EventId"];
             review.IsActive = (bool?)reader["IsActive"];
             review.CreatedByUserId = (Guid?)reader["CreatedByUserId"];

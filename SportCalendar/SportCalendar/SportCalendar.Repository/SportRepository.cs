@@ -78,6 +78,7 @@ namespace SportCalendar.Repository
                     paginatedList.Data = sports;
                     paginatedList.TotalPages = totalSports / paging.PageSize;
                     paginatedList.PageSize = paging.PageSize;
+                    paginatedList.CurrentPage = paging.PageNumber;
                     return paginatedList;
                 }
             }catch (Exception ex)
@@ -166,7 +167,7 @@ namespace SportCalendar.Repository
             }
         }
 
-        public async Task<bool> PostSportAsync(Sport sport)
+        public async Task<Sport> PostSportAsync(Sport sport)
         {
             try
             {
@@ -174,7 +175,7 @@ namespace SportCalendar.Repository
                 using (connection)
                 {
                     NpgsqlCommand command = new NpgsqlCommand();
-                    command.CommandText = "INSERT INTO \"Sport\" values(@Id,@Name,@Type,@IsActive,@CreatedByUserId,@UpdatedByUserId,@DateCreated,@DateUpdated)";
+                    command.CommandText = "INSERT INTO \"Sport\" values(@Id,@Name,@Type,@IsActive,@CreatedByUserId,@UpdatedByUserId,@DateCreated,@DateUpdated) RETURNING *";
                     command.Connection = connection;
                     connection.CreateCommand();
                     await connection.OpenAsync();
@@ -190,24 +191,40 @@ namespace SportCalendar.Repository
                     command.Parameters.AddWithValue("@DateCreated", sport.DateCreated);
                     command.Parameters.AddWithValue("@DateUpdated", sport.DateUpdated);
 
-                    await command.ExecuteNonQueryAsync();
-                    return true;
+                    NpgsqlDataReader reader = await command.ExecuteReaderAsync();
+                    if (reader.HasRows)
+                    {
+                        await reader.ReadAsync();
+                        var savedSport = new Sport();
+
+                        sport.Id = (Guid)reader["Id"];
+                        sport.Name = (string)reader["Name"];
+                        sport.Type = (string)reader["Type"];
+                        sport.IsActive = (bool)reader["IsActive"];
+                        sport.CreatedByUserId = (Guid)reader["CreatedByUserId"];
+                        sport.UpdatedByUserId = (Guid)reader["UpdatedByUserId"];
+                        sport.DateCreated = (DateTime)reader["DateCreated"];
+                        sport.DateUpdated = (DateTime)reader["DateUpdated"];
+
+                        return savedSport;
+                    }
+                    return null;
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return false;
+                return null;
             }
         }
-        public async Task<bool> UpdateSportAsync(Guid id,Sport sport)
+        public async Task<Sport> UpdateSportAsync(Guid id,Sport sport)
         {
             try
             {
                 Sport currentSport = await GetSportByIdAsync(id);
                 if (currentSport == null)
                 {
-                    return false;
+                    return null;
                 }
                 NpgsqlConnection connection = new NpgsqlConnection(connectionString);
                 using (connection)
@@ -218,27 +235,27 @@ namespace SportCalendar.Repository
                     command.Connection = connection;
                     await connection.OpenAsync();
 
-                    if(currentSport.Name!=null || currentSport.Name.Length != 0)
+                    if(sport.Name!=null)
                     {
                         queryBuilder.Append(" \"Name\" = @Name,");
                         command.Parameters.AddWithValue("@Name", sport.Name);
                     }
-                    if (currentSport.Type != null || currentSport.Type.Length != 0)
+                    if (sport.Type != null)
                     {
                         queryBuilder.Append(" \"Type\" = @Type,");
                         command.Parameters.AddWithValue("@Type", sport.Type);
                     }
-                    if(currentSport.UpdatedByUserId!= null)
+                    if(sport.UpdatedByUserId!= null)
                     {
                         queryBuilder.Append(" \"UpdatedByUserId\" = @UpdatedByUserId,");
                         command.Parameters.AddWithValue("@UpdatedByUserId",sport.UpdatedByUserId);
                     }
-                    if (currentSport.DateUpdated != null)
+                    if (sport.DateUpdated != null)
                     {
                         queryBuilder.Append(" \"DateUpdated\" = @DateUpdated,");
                         command.Parameters.AddWithValue("@DateUpdated", sport.DateUpdated);
                     }
-                    if (currentSport.IsActive != null)
+                    if (sport.IsActive != null)
                     {
                         queryBuilder.Append(" \"IsActive\" = @IsActive,");
                         command.Parameters.AddWithValue("@IsActive", sport.IsActive);
@@ -252,16 +269,35 @@ namespace SportCalendar.Repository
                     }
                     queryBuilder.Append(" WHERE \"Id\" = @Id");
                     command.Parameters.AddWithValue("@Id", id);
+                    queryBuilder.Append(" RETURNING *");
                     command.CommandText = queryBuilder.ToString();
                     connection.CreateCommand();
-                    await command.ExecuteNonQueryAsync();
-                    return true;
+                    NpgsqlDataReader reader = await command.ExecuteReaderAsync();
+
+                    if (reader.HasRows)
+                    {
+                        await reader.ReadAsync();
+
+                        Sport updatedSport = new Sport();
+
+                        updatedSport.Id = id;
+                        updatedSport.Name = (string)reader["Name"];
+                        updatedSport.Type = (string)reader["Type"];
+                        updatedSport.IsActive = (bool)reader["IsActive"];
+                        updatedSport.CreatedByUserId = (Guid)reader["CreatedByUserId"];
+                        updatedSport.UpdatedByUserId = (Guid)reader["UpdatedByUserId"];
+                        updatedSport.DateCreated = (DateTime)reader["DateCreated"];
+                        updatedSport.DateUpdated = (DateTime)reader["DateUpdated"];
+
+                        return updatedSport;
+                    }
+                    return null;
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return false;
+                return null;
             }
         }
         private async Task<Sport> GetSportByIdAsync(Guid id)

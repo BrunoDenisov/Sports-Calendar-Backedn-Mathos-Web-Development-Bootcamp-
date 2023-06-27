@@ -29,7 +29,7 @@ namespace SportCalendar.Service
             return await _sportRepository.GetSportAsync(id);
         }
 
-        public Task<bool> PostSportAsync(Sport sport)
+        public Task<Sport> PostSportAsync(Sport sport)
         {
             Guid userId = Guid.Parse("0d3fa5c2-684c-4d88-82fd-cea2197c6e86");
             sport.CreatedByUserId = userId;
@@ -40,7 +40,7 @@ namespace SportCalendar.Service
             return _sportRepository.PostSportAsync(sport);
         }
 
-        public async Task<bool> UpdateSportAsync(Guid id, Sport sport)
+        public async Task<Sport> UpdateSportAsync(Guid id, Sport sport)
         {
             Guid userId = Guid.Parse("0d3fa5c2-684c-4d88-82fd-cea2197c6e86");
             sport.UpdatedByUserId = userId;

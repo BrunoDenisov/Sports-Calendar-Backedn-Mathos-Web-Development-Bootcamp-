@@ -31,7 +31,7 @@ namespace SportCalendar.Service
             return await _eventRepository.DeleteEventAsync(id);
         }
 
-        public async Task<bool> PostEventAsync(EventModel eventModel)
+        public async Task<EventModel> PostEventAsync(EventModel eventModel)
         {
             Guid userId = Guid.Parse("0d3fa5c2-684c-4d88-82fd-cea2197c6e86");
             eventModel.CreatedByUserId = userId;
@@ -44,7 +44,7 @@ namespace SportCalendar.Service
             return await _eventRepository.PostEventAsync(eventModel);
         }
 
-        public async Task<bool> UpdateEventAsync(Guid id, EventModel eventModel)
+        public async Task<EventModel> UpdateEventAsync(Guid id, EventModel eventModel)
         {
             Guid userId = Guid.Parse("0d3fa5c2-684c-4d88-82fd-cea2197c6e86");
             eventModel.UpdatedByUserId = userId;

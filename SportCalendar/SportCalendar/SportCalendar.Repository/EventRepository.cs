@@ -73,6 +73,7 @@ namespace SportCalendar.Repository
                     await connection.CloseAsync();
                     foreach(EventView e in events)
                     {
+                        await connection.OpenAsync();
                         await GetAttendanceAsync(e.Id, connection, eventView);
                         await GetRatingAsync(e.Id, connection, eventView);
                         queryBuilder.Clear();
@@ -258,36 +259,28 @@ namespace SportCalendar.Repository
 
         private async Task GetAttendanceAsync(Guid? eventId,NpgsqlConnection connection,EventView eventView)
         {
-            //using (connection)
-            //{
                 NpgsqlCommand commandAttendance = new NpgsqlCommand();
                 StringBuilder queryAttendance = new StringBuilder();
                 queryAttendance.Append("SELECT COUNT(*) FROM \"Review\" WHERE \"EventId\" = @EventId AND \"IsActive\" = true");
                 commandAttendance.CommandText = queryAttendance.ToString();
                 commandAttendance.Parameters.AddWithValue("@EventId", eventId);
                 commandAttendance.Connection = connection;
-                await connection.OpenAsync();
+                //await connection.OpenAsync();
                 eventView.Attendance = Convert.ToInt32(await commandAttendance.ExecuteScalarAsync());
-                //await connection.CloseAsync();
-            //}
         }
         private async Task GetRatingAsync(Guid? eventId, NpgsqlConnection connection, EventView eventView)
         {
-            //using (connection)
-            //{
                 NpgsqlCommand commandRating = new NpgsqlCommand();
                 StringBuilder queryRating = new StringBuilder();
                 queryRating.Append("SELECT AVG(\"Rating\") FROM \"Review\" WHERE \"EventId\" = @EventId AND \"IsActive\" = true AND \"Attended\" = true");
                 commandRating.CommandText = queryRating.ToString();
                 commandRating.Parameters.AddWithValue("@EventId", eventView.Id);
                 commandRating.Connection = connection;
-                //await connection.OpenAsync();
                 eventView.Rating = Convert.ToDecimal(await commandRating.ExecuteScalarAsync());
                 await connection.CloseAsync();
-            //}
         }
 
-        public async Task<bool> PostEventAsync(EventModel eventModel)
+        public async Task<EventModel> PostEventAsync(EventModel eventModel)
         {
             try
             {
@@ -299,7 +292,7 @@ namespace SportCalendar.Repository
                     {
                         StringBuilder queryBuilder = new StringBuilder();
                         queryBuilder.Append("INSERT INTO \"Event\" (\"Id\", \"Name\", \"Description\", \"StartTime\", \"EndTime\", \"LocationId\", \"SportId\", \"IsActive\", \"CreatedByUserId\", \"UpdatedByUserId\", \"DateCreated\", \"DateUpdated\") ");
-                        queryBuilder.Append("VALUES (@Id, @Name, @Description, @StartTime, @EndTime, @LocationId, @SportId, @IsActive, @CreatedByUserId, @UpdatedByUserId, @DateCreated, @DateUpdated)");
+                        queryBuilder.Append("VALUES (@Id, @Name, @Description, @StartTime, @EndTime, @LocationId, @SportId, @IsActive, @CreatedByUserId, @UpdatedByUserId, @DateCreated, @DateUpdated) RETURNING *");
                         command.CommandText = queryBuilder.ToString();
                         command.Connection = connection;
 
@@ -319,27 +312,31 @@ namespace SportCalendar.Repository
                         command.Parameters.AddWithValue("@DateCreated", eventModel.DateCreated);
                         command.Parameters.AddWithValue("@DateUpdated", eventModel.DateUpdated);
 
-                        await command.ExecuteNonQueryAsync();
+                        NpgsqlDataReader reader = await command.ExecuteReaderAsync();
+                        if (reader.HasRows)
+                        {
+                            await reader.ReadAsync();
+                            return MapEventModel(reader);
+                        }
+                        return null;
                     }
                 }
-
-                return true;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return false;
+                return null;
             }
         }
 
-        public async Task<bool> UpdateEventAsync(Guid id, EventModel eventModel)
+        public async Task<EventModel> UpdateEventAsync(Guid id, EventModel eventModel)
         {
             try
             {
                 EventModel currentEvent = await GetEventByIdAsync(id);
-                if (currentEvent != null)
+                if (currentEvent == null)
                 {
-                    return false;
+                    return null;
                 }
                 NpgsqlConnection connection = new NpgsqlConnection(connectionString);
                 using (connection)
@@ -403,15 +400,23 @@ namespace SportCalendar.Repository
                     queryBuilder.Append(" WHERE \"Id\" = @Id");
                     command.Parameters.AddWithValue("@Id", id);
                     command.CommandText = queryBuilder.ToString();
+                    queryBuilder.Append(" RETURNING *");
+                    command.CommandText = queryBuilder.ToString();
                     connection.CreateCommand();
-                    await command.ExecuteNonQueryAsync();
-                    return true;
+                    NpgsqlDataReader reader = await command.ExecuteReaderAsync();
+
+                    if (reader.HasRows)
+                    {
+                        await reader.ReadAsync();
+                        return MapEventModel(reader);
+                    }
+                    return null;
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return false;
+                return null;
             }
         }
 

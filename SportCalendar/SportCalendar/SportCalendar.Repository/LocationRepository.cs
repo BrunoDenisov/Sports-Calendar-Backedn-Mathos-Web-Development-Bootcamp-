@@ -18,37 +18,73 @@ namespace SportCalendar.Repository
 
         //Enviroment varijabla 
         private static string connectionString = Environment.GetEnvironmentVariable("ConnectionString");
-        public async Task<List<Location>> GetAllREST()
+        public async Task<List<Location>> GetAllREST(Paging paging, Sorting sorting)
         {
             List<Location> locations = new List<Location>();
             using (NpgsqlConnection connection = new NpgsqlConnection(connectionString))
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT l.\"Id\", l.\"Venue\", l.\"IsActive\", co.\"Name\" AS CountyName, ci.\"Name\" AS CityName " +
-                               "FROM public.\"Location\" l " +
-                               "JOIN public.\"County\" co ON l.\"CountyId\" = co.\"Id\" " +
-                               "JOIN public.\"City\" ci ON l.\"CityId\" = ci.\"Id\"";
+                string query = @"SELECT l.""Id"", l.""Venue"", l.""IsActive"", co.""Name"" AS CountyName, ci.""Name"" AS CityName 
+                FROM public.""Location"" l 
+                JOIN public.""County"" co ON l.""CountyId"" = co.""Id"" 
+                JOIN public.""City"" ci ON l.""CityId"" = ci.""Id""";
+
+                if (sorting != null)
+                {
+                    var orderByMapped = "";
+                    switch (sorting.OrderBy.ToLower())
+                    {
+                        case "id":
+                            orderByMapped = "l.\"Id\"";
+                            break;
+                        case "venue":
+                            orderByMapped = "l.\"Venue\"";
+                            break;
+                        case "isactive":
+                            orderByMapped = "l.\"IsActive\"";
+                            break;
+                        case "countyname":
+                            orderByMapped = "co.\"Name\"";
+                            break;
+                        case "cityname":
+                            orderByMapped = "ci.\"Name\"";
+                            break;
+                        default:
+                            orderByMapped = "l.\"Venue\""; // Default to Venue if invalid
+                            break;
+                    }
+
+                    string sortOrder = (sorting.SortOrder.ToUpper() == "ASC" || sorting.SortOrder.ToUpper() == "DESC")
+                                ? sorting.SortOrder
+                                : "ASC"; // Default to ascending if invalid
+                    query += $" ORDER BY {orderByMapped} {sortOrder}";
+                }
+
+                if (paging != null)
+                {
+                    int offset = (paging.PageNumber - 1) * paging.PageSize;
+                    int limit = paging.PageSize;
+                    query += " LIMIT " + limit + " OFFSET " + offset;
+                }
 
                 using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
                 {
-                   
                     using (NpgsqlDataReader reader = await command.ExecuteReaderAsync())
                     {
                         while (reader.Read())
                         {
-                            Location location = new Location();
-
-                            location.Id = reader.GetGuid(reader.GetOrdinal("Id"));
-                            location.Venue = reader.GetString(reader.GetOrdinal("Venue"));
-                            location.IsActive = reader.GetBoolean(reader.GetOrdinal("IsActive"));
-                            location.CityName = reader.GetString(reader.GetOrdinal("CityName"));
-                            location.CountyName = reader.GetString(reader.GetOrdinal("CountyName"));
-
+                            Location location = new Location
+                            {
+                                Id = reader.GetGuid(reader.GetOrdinal("Id")),
+                                Venue = reader.GetString(reader.GetOrdinal("Venue")),
+                                IsActive = reader.GetBoolean(reader.GetOrdinal("IsActive")),
+                                CityName = reader.IsDBNull(reader.GetOrdinal("CityName")) ? null : reader.GetString(reader.GetOrdinal("CityName")),
+                                CountyName = reader.IsDBNull(reader.GetOrdinal("CountyName")) ? null : reader.GetString(reader.GetOrdinal("CountyName"))
+                            };
 
                             locations.Add(location);
                         }
-                        reader.Close();
                     }
                 }
             }

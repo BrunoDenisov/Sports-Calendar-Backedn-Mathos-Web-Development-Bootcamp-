@@ -22,6 +22,7 @@ namespace SportCalendar.WebApi.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Super_admin,Organizer,User")]
         public async Task<HttpResponseMessage> Get(string orderBy = "Name", string sortOrder = "DESC", int pageSize = 10, int pageNumber = 1, string searchQuery = null, string type = null,DateTime? fromDate=null,DateTime? toDate = null,DateTime? fromTime=null,DateTime? toTime = null)
         {
             try
@@ -57,6 +58,7 @@ namespace SportCalendar.WebApi.Controllers
             }
         }
         [HttpGet]
+        [Authorize(Roles = "Super_admin,Organizer,User")]
         public async Task<HttpResponseMessage> GetAsync(Guid id)
         {
             try
@@ -73,14 +75,15 @@ namespace SportCalendar.WebApi.Controllers
             }
         }
         [HttpPost]
+        [Authorize(Roles = "Super_admin,Organizer")]
         public async Task<HttpResponseMessage> PostAsync([FromBody]Sport sport)
         {
             try
             {
-                bool postStatus = await _sportService.PostSportAsync(sport);
-                if (postStatus)
+                Sport postedSport = await _sportService.PostSportAsync(sport); 
+                if (postedSport != null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.Created, "Sport created!");
+                    return Request.CreateResponse(HttpStatusCode.Created, MapToRest(postedSport));
                 }
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Sport creation failed!");
             }catch(Exception ex)
@@ -89,14 +92,15 @@ namespace SportCalendar.WebApi.Controllers
             }
         }
         [HttpPut]
+        [Authorize(Roles = "Super_admin,Organizer")]
         public async Task<HttpResponseMessage> PutAsync(Guid id, [FromBody]Sport sport)
         {
             try
             {
-                bool postStatus = await _sportService.UpdateSportAsync(id,sport);
-                if (postStatus)
+                Sport updatedSport = await _sportService.UpdateSportAsync(id, sport);
+                if (updatedSport!=null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.Created, "Sport updated!");
+                    return Request.CreateResponse(HttpStatusCode.Created, MapToRest(updatedSport));
                 }
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Sport update failed!");
             }
@@ -106,6 +110,7 @@ namespace SportCalendar.WebApi.Controllers
             }
         }
         [HttpDelete]
+        [Authorize(Roles = "Super_admin,Organizer")]
         public async Task<HttpResponseMessage> DeleteAsync(Guid id)
         {
             try

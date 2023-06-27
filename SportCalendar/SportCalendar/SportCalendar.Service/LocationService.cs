@@ -1,3 +1,4 @@
+using SportCalendar.Common;
 using SportCalendar.Model;
 using SportCalendar.ModelCommon;
 using SportCalendar.Repository;
@@ -20,11 +21,11 @@ namespace SportCalendar.Service
             LocationRepository = repository;
         }
 
-        public async Task<List<Location>> GetAllREST()
+        public async Task<List<Location>> GetAllREST(Paging paging, Sorting sorting)
         {
             try
             {
-                var result = await LocationRepository.GetAllREST();
+                var result = await LocationRepository.GetAllREST(paging, sorting);
                 return result;
             }
             catch (Exception ex)
