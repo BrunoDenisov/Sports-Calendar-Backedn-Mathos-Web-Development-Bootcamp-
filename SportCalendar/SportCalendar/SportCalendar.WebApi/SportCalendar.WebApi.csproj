@@ -265,6 +265,8 @@
     </Compile>
     <Compile Include="Models\CityRest.cs" />
     <Compile Include="Models\CountyRest.cs" />
+    <Compile Include="Models\EventModelRest.cs" />
+    <Compile Include="Models\EventSponsorRest.cs" />
     <Compile Include="Models\RESTLocation.cs" />
     <Compile Include="Models\PlacementRest.cs" />
     <Compile Include="Models\EventRest.cs" />

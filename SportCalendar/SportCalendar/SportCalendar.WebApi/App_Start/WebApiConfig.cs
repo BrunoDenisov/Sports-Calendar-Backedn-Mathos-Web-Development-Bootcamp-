@@ -13,10 +13,11 @@ namespace SportCalendar.WebApi
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
-            var cors = new EnableCorsAttribute("*", 
-                "*",
-                "*");
-            config.EnableCors(cors);
+            var cors = new EnableCorsAttribute("*",
+             "*",
+             "*");
+          
+
             // change to lowercase
 
             // Web API routes
