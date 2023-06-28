@@ -42,8 +42,15 @@ namespace SportCalendar.WebApi.Controllers
                 PagedList<Placement> pagedList = await placementService.PlacementGetFilteredAsync(paging, sorting, filter);
                 if (pagedList.Data.Any())
                 {
-                    List<PlacementRest> placementRests = MapPlacemensToRest(pagedList);
-                    return Request.CreateResponse(HttpStatusCode.OK, placementRests);
+                    //List<PlacementRest> placementRests = MapPlacemensToRest(pagedList);
+                    List<PlacementRest> placementRests = MapPlacemensToRest(pagedList.Data);
+                    PagedList<PlacementRest> pagedListRest = new PagedList<PlacementRest>();
+                    pagedListRest.Data = placementRests;
+                    pagedListRest.TotalCount = pagedList.TotalCount;
+                    pagedListRest.TotalPages = pagedList.TotalPages;
+                    pagedListRest.PageSize = pagedList.PageSize;
+                    pagedListRest.CurrentPage = pagedList.CurrentPage;
+                    return Request.CreateResponse(HttpStatusCode.OK, pagedListRest);
                 }
                 return Request.CreateResponse(HttpStatusCode.NotFound);
             }
@@ -123,11 +130,11 @@ namespace SportCalendar.WebApi.Controllers
             return placementsRest;
         }
 
-        private List<PlacementRest>MapPlacemensToRest(PagedList<Placement> placements)
+        private List<PlacementRest>MapPlacemensToRest(List<Placement> placements)
         {
             List<PlacementRest> placementsRest = new List<PlacementRest>();
 
-            foreach (Placement placement in placements.Data)
+            foreach (Placement placement in placements)
             {
                 placementsRest.Add(MapToRest(placement));
             }
