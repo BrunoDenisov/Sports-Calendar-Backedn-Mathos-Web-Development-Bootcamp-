@@ -41,7 +41,8 @@ namespace SportCalendar.WebApi.Controllers
                 PagedList<EventView> pagedList = await _eventService.GetEventsAsync(sorting, paging, filter);
                 if (pagedList.Data.Any())
                 {
-                    List<EventRest> eventsRest = MapEventsToRest(pagedList);
+                    //List<EventRest> eventsRest = MapEventsToRest(pagedList);
+                    List<EventRest> eventsRest = MapEventsViewToRest(pagedList.Data);
                     PagedList<EventRest> pagedListRest = new PagedList<EventRest>();
                     pagedListRest.Data = eventsRest;
                     pagedListRest.TotalCount = pagedList.TotalCount;
@@ -49,7 +50,7 @@ namespace SportCalendar.WebApi.Controllers
                     pagedListRest.PageSize = pagedList.PageSize;
                     pagedListRest.CurrentPage = pagedList.CurrentPage;
 
-                    return Request.CreateResponse(HttpStatusCode.OK, pagedList);
+                    return Request.CreateResponse(HttpStatusCode.OK, pagedListRest);
                 }
                 return Request.CreateResponse(HttpStatusCode.NotFound);
             }
@@ -69,7 +70,8 @@ namespace SportCalendar.WebApi.Controllers
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Requested event not found!");
                 }
-                return Request.CreateResponse(HttpStatusCode.OK, MapToRest(eventView));
+                EventRest eventRest = MapToRest(eventView);
+                return Request.CreateResponse(HttpStatusCode.OK, eventRest);
             }
             catch (Exception ex)
             {
@@ -150,6 +152,8 @@ namespace SportCalendar.WebApi.Controllers
             {
                 sponsors.Add(new SponsorRest(sponsor.Id, sponsor.Name, sponsor.Website));
             }
+            eventRest.Sponsors= sponsors;
+            eventRest.Placements= placements;
             return eventRest;
         }
         private List<EventRest> MapEventsToRest(PagedList<EventView> events)
@@ -157,6 +161,16 @@ namespace SportCalendar.WebApi.Controllers
             List<EventRest> eventsRest = new List<EventRest>();
 
             foreach(EventView eventView in events.Data)
+            {
+                eventsRest.Add(MapToRest(eventView));
+            }
+            return eventsRest;
+        }
+        private List<EventRest> MapEventsViewToRest(List<EventView> events)
+        {
+            List<EventRest> eventsRest = new List<EventRest>();
+
+            foreach (EventView eventView in events)
             {
                 eventsRest.Add(MapToRest(eventView));
             }

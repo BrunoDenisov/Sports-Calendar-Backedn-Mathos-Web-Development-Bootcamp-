@@ -48,7 +48,7 @@ namespace SportCalendar.WebApi.Controllers
                     pagedListRest.PageSize = pagedList.PageSize;
                     pagedListRest.CurrentPage = pagedList.CurrentPage;
 
-                    return Request.CreateResponse(HttpStatusCode.OK, pagedList);
+                    return Request.CreateResponse(HttpStatusCode.OK, pagedListRest);
                 }
                 return Request.CreateResponse(HttpStatusCode.NotFound);
             }

@@ -39,8 +39,8 @@ namespace SportCalendar.Service
             eventModel.DateUpdated = DateTime.UtcNow;
             eventModel.DateCreated = DateTime.UtcNow;
             eventModel.IsActive = true;
-            eventModel.LocationId = Guid.Parse("58c9e9bb-1c9d-4994-bed8-8395c8d56712");
-            eventModel.SportId = Guid.Parse("8cff62ec-0572-482d-bb66-7ffbfde4f271");
+            //eventModel.LocationId = Guid.Parse("58c9e9bb-1c9d-4994-bed8-8395c8d56712");//frontend
+            //eventModel.SportId = Guid.Parse("8cff62ec-0572-482d-bb66-7ffbfde4f271");//frontend
             return await _eventRepository.PostEventAsync(eventModel);
         }
 
