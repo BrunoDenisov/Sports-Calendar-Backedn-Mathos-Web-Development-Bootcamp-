@@ -378,12 +378,12 @@ namespace SportCalendar.Repository
                     }
                     if (eventModel.StartDate.HasValue)
                     {
-                        queryBuilder.Append("\"StartTime\" = @StartTime,");
+                        queryBuilder.Append("\"Start\" = @StartTime,");
                         command.Parameters.AddWithValue("@StartTime", eventModel.StartDate);
                     }
                     if (eventModel.EndDate.HasValue)
                     {
-                        queryBuilder.Append("\"EndTime\" = @EndTime,");
+                        queryBuilder.Append("\"End\" = @EndTime,");
                         command.Parameters.AddWithValue("@EndTime", eventModel.EndDate);
                     }
                     if (eventModel.LocationId.HasValue)
