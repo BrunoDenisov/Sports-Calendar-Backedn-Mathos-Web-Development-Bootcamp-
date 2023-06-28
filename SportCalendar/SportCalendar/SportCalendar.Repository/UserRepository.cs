@@ -18,7 +18,9 @@ namespace SportCalendar.Repository
         public async Task<PagedList<User>> GetAllAsync(Paging paging, Sorting sorting, UserFiltering filtering)
         {
             NpgsqlConnection connection = new NpgsqlConnection(connectionString);
-            List<User> usersList = new List<User>();
+
+            PagedList<User> usersList = new PagedList<User>();
+
             using (connection)
             {
                 connection.Open();
@@ -150,7 +152,7 @@ namespace SportCalendar.Repository
 
                 while (await reader.ReadAsync())
                 {
-                    usersList.Add(
+                    usersList.Data.Add(
                         new User()
                         {
                             Id = (Guid)reader["Id"],
@@ -173,7 +175,7 @@ namespace SportCalendar.Repository
                     PageSize = paging.PageSize,
                     TotalPages = (int)Math.Ceiling(entryCount / (double)paging.PageSize),
                     TotalCount = entryCount,
-                    Data = usersList
+                    Data = usersList.Data
                 };
                 return pagedUsers;
             }

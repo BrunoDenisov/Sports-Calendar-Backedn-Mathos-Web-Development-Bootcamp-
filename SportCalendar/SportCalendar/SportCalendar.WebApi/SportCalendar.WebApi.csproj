@@ -279,6 +279,7 @@
     <Compile Include="Controllers\CityController.cs" />
     <Compile Include="Controllers\CountyController.cs" />
     <Compile Include="Controllers\EventController.cs" />
+    <Compile Include="Controllers\EventSponsorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PlacementController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
@@ -292,7 +293,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CityRest.cs" />
+    <Compile Include="Models\CountyRest.cs" />
     <Compile Include="Models\EventModelRest.cs" />
+    <Compile Include="Models\EventSponsorRest.cs" />
     <Compile Include="Models\RESTLocation.cs" />
     <Compile Include="Models\PlacementRest.cs" />
     <Compile Include="Models\EventRest.cs" />

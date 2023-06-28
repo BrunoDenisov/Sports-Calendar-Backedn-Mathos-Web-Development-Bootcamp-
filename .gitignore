@@ -144,3 +144,4 @@ $RECYCLE.BIN/
 SportCalendar/SportCalendar/SportCalendar.Model/Event.cs
 SportCalendar/SportCalendar/SportCalendar.WebApi/Models/PlacementRest.cs.orig
 SportCalendar/SportCalendar/SportCalendar.WebApi/Models/SponsorRest.cs.orig
+SportCalendar/SportCalendar/SportCalendar.WebApi/App_Start/WebApiConfig.cs.orig

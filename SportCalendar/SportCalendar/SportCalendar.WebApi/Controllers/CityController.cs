@@ -11,6 +11,8 @@ using System.Web;
 using System.Web.Http;
 using SportCalendar.Common;
 using System.Drawing.Printing;
+using SportCalendar.ModelCommon;
+using SportCalendar.WebApi.Models;
 
 namespace SportCalendar.WebApi.Controllers
 {
@@ -30,12 +32,21 @@ namespace SportCalendar.WebApi.Controllers
             paging.PageSize = pageSize;
 
             List<City> result = await CityService.GetAll(paging);
+            List<CityRest> restCity = result.Select(city => new CityRest
+            {
+                Id = city.Id,
+                Name = city.Name,
+                IsActive = city.IsActive
+
+            }).ToList();
+
             if (result == null)
             {
-                return Request.CreateResponse(HttpStatusCode.NotFound, "We could not find you'r Cities");
+                return Request.CreateResponse(HttpStatusCode.NotFound, "We could not find your cities.");
             }
-            return Request.CreateResponse(HttpStatusCode.OK, result);
+            return Request.CreateResponse(HttpStatusCode.OK, restCity);
         }
+
 
         public async Task<HttpResponseMessage> GetById(Guid id)
         {

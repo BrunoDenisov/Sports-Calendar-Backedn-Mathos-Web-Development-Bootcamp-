@@ -1,3 +1,4 @@
+using SportCalendar.Common;
 using SportCalendar.Model;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ namespace SportCalendar.ServiceCommon
 {
     public interface ILocationService
     {
-        Task<List<Location>> GetAllREST();
+        Task<List<Location>> GetAllREST(Paging paging, Sorting sorting);
         Task<Location> GetById(Guid id);
         Task<Location> Create(Location location);
         Task<Location> Put(Location location, Guid id);

@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Web.Http;
 using SportCalendar.Service;
+using SportCalendar.Common;
+using System.Data.SqlClient;
+using System.Web.UI.WebControls;
 
 namespace SportCalendar.WebApi.Controllers
 {
@@ -21,18 +24,30 @@ namespace SportCalendar.WebApi.Controllers
 
         }
         //Rest Works
-        public async Task<HttpResponseMessage> GetAllREST()
+        public async Task<HttpResponseMessage> GetAllREST(int pageNumber = 2, int pageSize = 10, string sortOrder = "ASC", string orderBy = "Venue")
         {
+            Paging paging = new Paging
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            };
+
+            Sorting sorting = new Sorting
+            {
+                SortOrder = sortOrder,
+                OrderBy = orderBy
+            };
+
             try
             {
-                List<Location> locations = await LocationService.GetAllREST();
+                List<Location> locations = await LocationService.GetAllREST(paging, sorting);
                 List<RESTLocation> restLocations = locations.Select(location => new RESTLocation
                 {
                     Id = location.Id,
                     IsActive = location.IsActive,
                     Venue = location.Venue,
                     CountyName = location.CountyName,
-                    CityName = location.CountyName
+                    CityName = location.CityName
                 }).ToList();
 
                 if (restLocations.Count > 0)
@@ -49,6 +64,7 @@ namespace SportCalendar.WebApi.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+
 
         public async Task<HttpResponseMessage> GetById(Guid id)
         {

@@ -55,6 +55,10 @@ namespace SportCalendar.WebApi.App_Start
             builder.RegisterType<PlacementService>().As<IPlacementService>();
             builder.RegisterType<PlacementRepository>().As<IPlacementRepository>();
 
+            //EventSponsor interface
+            builder.RegisterType<EventSponsorService>().As<IEventSponsorService>();
+            builder.RegisterType<EventSponsorRepository>().As<IEventSponsorRepository>();
+
             // register interfaces
 
             Autofac.IContainer container = builder.Build();
