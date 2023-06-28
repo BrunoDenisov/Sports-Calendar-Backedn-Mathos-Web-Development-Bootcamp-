@@ -24,7 +24,7 @@ namespace SportCalendar.WebApi.Controllers
 
         }
         //Rest Works
-        public async Task<HttpResponseMessage> GetAllREST(int pageNumber = 2, int pageSize = 10, string sortOrder = "ASC", string orderBy = "Venue")
+        public async Task<HttpResponseMessage> GetAllREST(int pageNumber = 1, int pageSize = 10, string sortOrder = "ASC", string orderBy = "Venue")
         {
             Paging paging = new Paging
             {
