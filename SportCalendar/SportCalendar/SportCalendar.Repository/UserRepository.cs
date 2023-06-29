@@ -19,7 +19,7 @@ namespace SportCalendar.Repository
         {
             NpgsqlConnection connection = new NpgsqlConnection(connectionString);
 
-            PagedList<User> usersList = new PagedList<User>();
+            List<User> usersList = new List<User>();
 
             using (connection)
             {
@@ -152,7 +152,8 @@ namespace SportCalendar.Repository
 
                 while (await reader.ReadAsync())
                 {
-                    usersList.Data.Add(
+                    usersList.Add(
+
                         new User()
                         {
                             Id = (Guid)reader["Id"],
@@ -175,7 +176,7 @@ namespace SportCalendar.Repository
                     PageSize = paging.PageSize,
                     TotalPages = (int)Math.Ceiling(entryCount / (double)paging.PageSize),
                     TotalCount = entryCount,
-                    Data = usersList.Data
+                    Data = usersList
                 };
                 return pagedUsers;
             }

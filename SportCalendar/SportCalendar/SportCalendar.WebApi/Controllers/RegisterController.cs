@@ -1,9 +1,11 @@
-﻿using SportCalendar.Model;
+﻿using Microsoft.Owin.Security.OAuth;
+using SportCalendar.Model;
 using SportCalendar.ServiceCommon;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web;
 
 namespace SportCalendar.WebApi.Controllers
 {
@@ -34,6 +36,14 @@ namespace SportCalendar.WebApi.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Ooops, something went wrong!!");
             }
+        }
+
+        [HttpGet]
+        [Route("api/logout")]
+        public HttpResponseMessage Logout()
+        {
+            HttpContext.Current.GetOwinContext().Authentication.SignOut();
+            return Request.CreateResponse(HttpStatusCode.OK, "Logged out successfully.");
         }
     }
 }

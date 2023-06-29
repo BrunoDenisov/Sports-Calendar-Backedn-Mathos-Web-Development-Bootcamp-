@@ -19,7 +19,7 @@ namespace SportCalendar.WebApi.App_Start
             {
                 AllowInsecureHttp = true,
                 //The Path For generating the Toekn
-                TokenEndpointPath = new PathString("/login"),
+                TokenEndpointPath = new PathString("/api/login"),
                 //Setting the Token Expired Time (24 hours)
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
                 //MyAuthorizationServerProvider class will validate the user credentials
