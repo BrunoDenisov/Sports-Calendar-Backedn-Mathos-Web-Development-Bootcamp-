@@ -22,6 +22,7 @@ namespace SportCalendar.WebApi.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [Authorize(Roles = "Super_admin,Organizer,User")]
         public async Task<HttpResponseMessage> Get(string orderBy = "Rating", string sortOrder = "DESC", int pageSize = 10, int pageNumber = 1, Guid? userId = null, Guid? eventId = null)
         {

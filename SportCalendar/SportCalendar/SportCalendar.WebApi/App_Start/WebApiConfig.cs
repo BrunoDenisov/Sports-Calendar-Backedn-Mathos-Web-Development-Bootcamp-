@@ -12,6 +12,12 @@ namespace SportCalendar.WebApi
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
+            var cors = new EnableCorsAttribute("*",
+             "*",
+             "*");
+
+
+            // change to lowercase
 
             // Web API routes
             config.MapHttpAttributeRoutes();
@@ -23,8 +29,6 @@ namespace SportCalendar.WebApi
             );
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-            EnableCorsAttribute cors = new EnableCorsAttribute("*", "*", "*");
-            config.EnableCors(cors);
         }
     }
 }

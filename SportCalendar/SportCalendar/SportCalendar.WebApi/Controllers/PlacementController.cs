@@ -22,7 +22,8 @@ namespace SportCalendar.WebApi.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Super_admin")]
+        [AllowAnonymous]
+        [Authorize(Roles = "Super_admin,Organizer,User")]
         public async Task<HttpResponseMessage> PlacementGetFilteredAsync(string orderBy = "FinishOrder", string sortOrder = "DESC", int pageSize = 10, int pageNumber = 1, Guid? eventId = null)
         {
             try
@@ -53,7 +54,7 @@ namespace SportCalendar.WebApi.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Super_admin")]
+        [Authorize(Roles = "Super_admin, Organizer")]
         public async Task<HttpResponseMessage> PlacementPostAsync([FromBody]Placement placement)
         {
             try
@@ -74,7 +75,7 @@ namespace SportCalendar.WebApi.Controllers
         }
 
         [HttpDelete]
-        [Authorize(Roles = "Super_admin")]
+        [Authorize(Roles = "Super_admin, Organizer")]
         public async Task<HttpResponseMessage> PlacementDelteAsync(Guid id)
         {
             try
@@ -93,7 +94,7 @@ namespace SportCalendar.WebApi.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = "Super_admin")]
+        [Authorize(Roles = "Super_admin,Organizer")]
         public async Task<HttpResponseMessage> PlacementPutAsync(Guid id, [FromBody]Placement placement)
         {
             try

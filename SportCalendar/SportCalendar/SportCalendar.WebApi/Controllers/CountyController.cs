@@ -25,7 +25,7 @@ namespace SportCalendar.WebApi.Controllers
         }
         [HttpGet]
         [Route("")]
-        public async Task<HttpResponseMessage> GetAll(int pageNumber = 2, int pageSize = 10)
+        public async Task<HttpResponseMessage> GetAll(int pageNumber = 1, int pageSize = 21)
         {
             Paging paging = new Paging();
             paging.PageNumber = pageNumber;

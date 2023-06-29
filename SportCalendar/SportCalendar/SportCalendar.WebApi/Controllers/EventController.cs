@@ -23,6 +23,7 @@ namespace SportCalendar.WebApi.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [Authorize(Roles ="Super_admin,Organizer,User")]
         public async Task<HttpResponseMessage> Get(string venue = null, string city = null, string county = null, decimal? rating = null,string sport = null, string orderBy = "Name", string sortOrder = "DESC", int pageSize = 200, int pageNumber = 1, string searchQuery = null, DateTime? fromDate = null, DateTime? toDate = null, DateTime? fromTime = null, DateTime? toTime = null)
         {
@@ -60,6 +61,7 @@ namespace SportCalendar.WebApi.Controllers
             }
         }
         [HttpGet]
+        [AllowAnonymous]
         [Authorize(Roles = "Super_admin,Organizer,User")]
         public async Task<HttpResponseMessage> Get(Guid id)
         {
