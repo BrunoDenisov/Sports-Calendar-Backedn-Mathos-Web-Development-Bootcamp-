@@ -41,7 +41,7 @@ namespace SportCalendar.Service
             review.DateUpdated = DateTime.UtcNow;
             review.DateCreated = DateTime.UtcNow;
             review.IsActive = true;
-            review.EventId = Guid.Parse("5b452225-8a90-4345-8868-65e794ff0577");
+            //review.EventId = Guid.Parse("5b452225-8a90-4345-8868-65e794ff0577");
             return await _reviewRepository.PostReviewAsync(review);
         }
 

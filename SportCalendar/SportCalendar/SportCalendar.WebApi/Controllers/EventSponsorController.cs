@@ -25,7 +25,8 @@ namespace SportCalendar.WebApi.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles ="Super_admin")]
+        [AllowAnonymous]
+        [Authorize(Roles ="Super_admin,Organizer,User")]
         public async Task<HttpResponseMessage> EventSponsorGetAsync()
         {
             try
@@ -47,7 +48,7 @@ namespace SportCalendar.WebApi.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles ="Super_admin")]
+        [Authorize(Roles ="Super_admin,Organizer")]
         public async Task<HttpResponseMessage> EventSponsorPostAsync(EventSponsor eventSponsor)
         {
             try
@@ -66,7 +67,7 @@ namespace SportCalendar.WebApi.Controllers
         }
 
         [HttpDelete]
-        [Authorize(Roles ="Super_admin")]
+        [Authorize(Roles ="Super_admin,Organizer")]
         public async Task<HttpResponseMessage> EventSponsorDeleteAsync(Guid id)
         {
             try
@@ -85,7 +86,7 @@ namespace SportCalendar.WebApi.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles ="Super_admin")]
+        [Authorize(Roles ="Super_admin,Organizer")]
         public async Task<HttpResponseMessage> EventSponsorPutAsync(Guid id, EventSponsor eventSponsor)
         {
             try

@@ -42,7 +42,6 @@ namespace SportCalendar.WebApi.Controllers
                 PagedList<Placement> pagedList = await placementService.PlacementGetFilteredAsync(paging, sorting, filter);
                 if (pagedList.Data.Any())
                 {
-                    //List<PlacementRest> placementRests = MapPlacemensToRest(pagedList);
                     List<PlacementRest> placementRests = MapPlacemensToRest(pagedList.Data);
                     PagedList<PlacementRest> pagedListRest = new PagedList<PlacementRest>();
                     pagedListRest.Data = placementRests;

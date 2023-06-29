@@ -304,6 +304,7 @@
     <Compile Include="Models\RESTRole.cs" />
     <Compile Include="Models\RESTUser.cs" />
     <Compile Include="Models\ReviewRest.cs" />
+    <Compile Include="Models\ReviewRestPost.cs" />
     <Compile Include="Models\SponsorRest.cs" />
     <Compile Include="Models\SportRest.cs" />
     <Compile Include="MyAuthorizationServerProvider.cs" />
