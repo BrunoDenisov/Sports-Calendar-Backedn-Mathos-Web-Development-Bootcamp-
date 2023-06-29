@@ -17,8 +17,6 @@ namespace SportCalendar.WebApi
              "*");
 
 
-            // change to lowercase
-
             // Web API routes
             config.MapHttpAttributeRoutes();
 

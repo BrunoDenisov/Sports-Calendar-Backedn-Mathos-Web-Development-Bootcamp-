@@ -27,7 +27,7 @@ namespace SportCalendar.Repository
                 {
                     NpgsqlCommand cmd = new NpgsqlCommand();
                     cmd.Connection = connection;
-                    cmd.CommandText = $"select * from \"Sponsor\"";
+                    cmd.CommandText = $"select * from \"Sponsor\" where \"IsActive\" = true";
                     await connection.OpenAsync();
                     NpgsqlDataReader reader = await cmd.ExecuteReaderAsync();
                     List<Sponsor> sponsors = new List<Sponsor>();

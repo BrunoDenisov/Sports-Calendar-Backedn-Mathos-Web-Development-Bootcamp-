@@ -74,9 +74,13 @@ namespace SportCalendar.Repository
                     }
                     await reader.CloseAsync();
 
-                    totalPlacements = Convert.ToInt32(await cmd.ExecuteNonQueryAsync());
+                    NpgsqlCommand countCmd = new NpgsqlCommand();
+                    countCmd.Connection = connection;
+                    countCmd.CommandText = "SELECT COUNT(*) FROM \"Placement\" WHERE \"IsActive\" = true";
+                    totalPlacements = Convert.ToInt32(await countCmd.ExecuteScalarAsync());
+
                     PagedList<Placement> pagedList = new PagedList<Placement>();
-                    pagedList.TotalPages=totalPlacements;
+                    pagedList.TotalPages=totalPlacements / paging.PageSize;
                     pagedList.PageSize = paging.PageSize;
                     pagedList.TotalCount = totalPlacements;
                     pagedList.Data = placments;
