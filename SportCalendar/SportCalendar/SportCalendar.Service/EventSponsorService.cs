@@ -18,9 +18,9 @@ namespace SportCalendar.Service
             eventSponsorRepository = repository;
         }
 
-        public async Task<List<EventSponsor>> EventSponsorGetAsync()
+        public async Task<List<EventSponsor>> EventSponsorGetAsync(Guid eventId)
         {
-            return (await eventSponsorRepository.EventSponsorGetAsync());
+            return (await eventSponsorRepository.EventSponsorGetAsync(eventId));
         }
 
         public async Task<bool> EventSponsorPostAsync(EventSponsor eventSponsor)

@@ -7,7 +7,7 @@ namespace SportCalendar.WebApi.Models
 {
     public class EventRest
     {
-        public EventRest(Guid? id, string name, string description, DateTime? startDate, DateTime? endDate, Guid? locationId, Guid? sportId, string venueName, string cityName, string countyName, string sportName, string sportType, int? attendance, decimal? rating)
+        public EventRest(Guid? id, string name, string description, DateTime? startDate, DateTime? endDate, Guid? locationId, Guid? sportId, string venueName, string cityName, string countyName, string sportName, string sportType, int? attendance, decimal? rating,Guid? createdByUserId)
         {
             Id = id;
             Name = name;
@@ -23,6 +23,7 @@ namespace SportCalendar.WebApi.Models
             SportType = sportType;
             Attendance = attendance;
             Rating = rating;
+            CreatedByUserId = createdByUserId;
         }
         public EventRest()
         {
@@ -45,5 +46,6 @@ namespace SportCalendar.WebApi.Models
         public decimal? Rating { get; set; }
         public List<SponsorRest> Sponsors { get; set; }
         public List<PlacementRest> Placements { get; set; }
+        public Guid? CreatedByUserId    { get; set; }
     }
 }

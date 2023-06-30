@@ -143,7 +143,7 @@ namespace SportCalendar.WebApi.Controllers
 
         private EventRest MapToRest(EventView eventView)
         {
-            EventRest eventRest = new EventRest(eventView.Id, eventView.Name, eventView.Description, eventView.StartDate, eventView.EndDate, eventView.LocationId, eventView.SportId, eventView.VenueName, eventView.CityName, eventView.CountyName, eventView.SportName, eventView.SportType, eventView.Attendance, eventView.Rating);
+            EventRest eventRest = new EventRest(eventView.Id, eventView.Name, eventView.Description, eventView.StartDate, eventView.EndDate, eventView.LocationId, eventView.SportId, eventView.VenueName, eventView.CityName, eventView.CountyName, eventView.SportName, eventView.SportType, eventView.Attendance, eventView.Rating,eventView.CreatedByUserId);
             List <SponsorRest> sponsors = new List<SponsorRest>();
             List<PlacementRest> placements = new List<PlacementRest>();
             foreach(IPlacement placement in eventView.Placements)

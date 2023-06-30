@@ -100,7 +100,7 @@ namespace SportCalendar.WebApi.Controllers
                 Review postedReview = await _reviewService.PostReviewAsync(review);
                 if (postedReview!=null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.Created, MapToRest(postedReview));
+                    return Request.CreateResponse(HttpStatusCode.Created, MapToRestPosted(postedReview));
                 }
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Review creation failed!");
             }
@@ -118,7 +118,7 @@ namespace SportCalendar.WebApi.Controllers
                 Review updatedReview = await _reviewService.UpdateReviewAsync(id, review);
                 if (updatedReview!=null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.Created, MapToRest(updatedReview));
+                    return Request.CreateResponse(HttpStatusCode.Created, MapToRestPosted(updatedReview));
                 }
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "review update failed!");
             }
@@ -154,6 +154,19 @@ namespace SportCalendar.WebApi.Controllers
             reviewRest.Content = review.Content;
             reviewRest.Attended = review.Attended;
             reviewRest.EventName = review.EventName;
+            reviewRest.EventId = review.EventId;
+            reviewRest.UserName = review.UserName;
+
+            return reviewRest;
+        }
+        private ReviewRestPost MapToRestPosted(Review review)
+        {
+            ReviewRestPost reviewRest = new ReviewRestPost();
+
+            reviewRest.Id = review.Id;
+            reviewRest.Rating = review.Rating;
+            reviewRest.Content = review.Content;
+            reviewRest.Attended = review.Attended;
             reviewRest.EventId = review.EventId;
             reviewRest.UserName = review.UserName;
 
