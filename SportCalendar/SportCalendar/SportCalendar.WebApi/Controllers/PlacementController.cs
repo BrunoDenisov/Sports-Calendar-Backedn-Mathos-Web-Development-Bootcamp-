@@ -40,19 +40,24 @@ namespace SportCalendar.WebApi.Controllers
                 filter.EventId = eventId;
 
                 PagedList<Placement> pagedList = await placementService.PlacementGetFilteredAsync(paging, sorting, filter);
-                if (pagedList.Data.Any())
+                if (pagedList != null)
                 {
-                    //List<PlacementRest> placementRests = MapPlacemensToRest(pagedList);
-                    List<PlacementRest> placementRests = MapPlacemensToRest(pagedList.Data);
-                    PagedList<PlacementRest> pagedListRest = new PagedList<PlacementRest>();
-                    pagedListRest.Data = placementRests;
-                    pagedListRest.TotalCount = pagedList.TotalCount;
-                    pagedListRest.TotalPages = pagedList.TotalPages;
-                    pagedListRest.PageSize = pagedList.PageSize;
-                    pagedListRest.CurrentPage = pagedList.CurrentPage;
-                    return Request.CreateResponse(HttpStatusCode.OK, pagedListRest);
+                    if (pagedList.Data.Any())
+                    {
+                        //List<PlacementRest> placementRests = MapPlacemensToRest(pagedList);
+                        List<PlacementRest> placementRests = MapPlacemensToRest(pagedList.Data);
+                        PagedList<PlacementRest> pagedListRest = new PagedList<PlacementRest>();
+                        pagedListRest.Data = placementRests;
+                        pagedListRest.TotalCount = pagedList.TotalCount;
+                        pagedListRest.TotalPages = pagedList.TotalPages;
+                        pagedListRest.PageSize = pagedList.PageSize;
+                        pagedListRest.CurrentPage = pagedList.CurrentPage;
+                        return Request.CreateResponse(HttpStatusCode.OK, pagedListRest);
+                    }
+                    return Request.CreateResponse(HttpStatusCode.NotFound);
                 }
-                return Request.CreateResponse(HttpStatusCode.NotFound);
+                return Request.CreateResponse(HttpStatusCode.OK);
+
             }
             catch (Exception ex)
             {
@@ -62,7 +67,7 @@ namespace SportCalendar.WebApi.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Super_admin, Organizer")]
-        public async Task<HttpResponseMessage> PlacementPostAsync([FromBody]Placement placement)
+        public async Task<HttpResponseMessage> PlacementPostAsync([FromBody] Placement placement)
         {
             try
             {
@@ -78,7 +83,7 @@ namespace SportCalendar.WebApi.Controllers
 
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
             }
-      
+
         }
 
         [HttpDelete]
@@ -88,7 +93,7 @@ namespace SportCalendar.WebApi.Controllers
             try
             {
                 var resault = await placementService.PlacementDeleteAsync(id);
-                if(resault == true)
+                if (resault == true)
                 {
                     return Request.CreateResponse(HttpStatusCode.OK, "Placement row deleted.");
                 }
@@ -102,12 +107,12 @@ namespace SportCalendar.WebApi.Controllers
 
         [HttpPut]
         [Authorize(Roles = "Super_admin,Organizer")]
-        public async Task<HttpResponseMessage> PlacementPutAsync(Guid id, [FromBody]Placement placement)
+        public async Task<HttpResponseMessage> PlacementPutAsync(Guid id, [FromBody] Placement placement)
         {
             try
             {
                 var resault = await placementService.PlacementPutAsync(id, placement);
-                if(resault == true)
+                if (resault == true)
                 {
                     return Request.CreateResponse(HttpStatusCode.OK, "Placement row updated");
                 }
@@ -130,7 +135,7 @@ namespace SportCalendar.WebApi.Controllers
             return placementsRest;
         }
 
-        private List<PlacementRest>MapPlacemensToRest(List<Placement> placements)
+        private List<PlacementRest> MapPlacemensToRest(List<Placement> placements)
         {
             List<PlacementRest> placementsRest = new List<PlacementRest>();
 

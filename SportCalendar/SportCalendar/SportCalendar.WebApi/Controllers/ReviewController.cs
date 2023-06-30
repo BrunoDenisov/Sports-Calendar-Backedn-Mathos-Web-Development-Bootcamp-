@@ -41,23 +41,34 @@ namespace SportCalendar.WebApi.Controllers
                 filter.UserId = userId;
 
                 PagedList<Review> pagedList = await _reviewService.GetReviewsAsync(sorting, paging, filter);
-                if (pagedList.Data.Any())
-                {
-                    List<ReviewRest> reviewsRest = MapReviewsToRest(pagedList);
-                    PagedList<ReviewRest> pagedListRest = new PagedList<ReviewRest>();
-                    pagedListRest.Data= reviewsRest;
-                    pagedListRest.TotalCount = pagedList.TotalCount;
-                    pagedListRest.TotalPages = pagedList.TotalPages;
-                    pagedListRest.PageSize = pagedList.PageSize;
-                    pagedListRest.CurrentPage = pagedList.CurrentPage;
 
-                    return Request.CreateResponse(HttpStatusCode.OK, pagedList);
+                if (pagedList != null)
+                {
+                    if (pagedList.Data.Any())
+                    {
+                        List<ReviewRest> reviewsRest = MapReviewsToRest(pagedList);
+                        PagedList<ReviewRest> pagedListRest = new PagedList<ReviewRest>();
+                        pagedListRest.Data = reviewsRest;
+                        pagedListRest.TotalCount = pagedList.TotalCount;
+                        pagedListRest.TotalPages = pagedList.TotalPages;
+                        pagedListRest.PageSize = pagedList.PageSize;
+                        pagedListRest.CurrentPage = pagedList.CurrentPage;
+
+                        return Request.CreateResponse(HttpStatusCode.OK, pagedListRest);
+                    }
+                    else
+                    {
+                        return Request.CreateResponse(HttpStatusCode.NoContent);
+                    }
                 }
-                return Request.CreateResponse(HttpStatusCode.NotFound);
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK);
+                }
             }
             catch (Exception ex)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }
 
