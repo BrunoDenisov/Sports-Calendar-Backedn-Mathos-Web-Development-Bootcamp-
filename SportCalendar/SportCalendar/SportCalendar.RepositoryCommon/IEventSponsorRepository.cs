@@ -9,7 +9,7 @@ namespace SportCalendar.RepositoryCommon
 {
     public interface IEventSponsorRepository
     {
-        Task<List<EventSponsor>> EventSponsorGetAsync();
+        Task<List<EventSponsor>> EventSponsorGetAsync(Guid evetId);
 
         Task<bool> EventSponsorPostAsync(EventSponsor eventSponsor);
 

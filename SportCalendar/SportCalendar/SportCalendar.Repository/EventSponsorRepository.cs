@@ -17,7 +17,7 @@ namespace SportCalendar.Repository
     {
         static private string connectionString = Environment.GetEnvironmentVariable("ConnectionString");
 
-        public async Task<List<EventSponsor>> EventSponsorGetAsync()
+        public async Task<List<EventSponsor>> EventSponsorGetAsync(Guid eventId)
         {
             NpgsqlConnection connection = new NpgsqlConnection(connectionString);
 
@@ -28,7 +28,8 @@ namespace SportCalendar.Repository
                 {
                     NpgsqlCommand cmd = new NpgsqlCommand();
                     cmd.Connection= connection;
-                    cmd.CommandText = $"select * from \"EventSponsor\"";
+                    cmd.CommandText = $"select * from \"EventSponsor\" where \"IsActive\" = true and \"EventId\" = @eventId";
+                    cmd.Parameters.AddWithValue("@eventId", eventId);
 
                     await connection.OpenAsync();
 

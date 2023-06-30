@@ -9,7 +9,7 @@ namespace SportCalendar.ServiceCommon
 {
     public interface IEventSponsorService
     {
-        Task<List<EventSponsor>> EventSponsorGetAsync();
+        Task<List<EventSponsor>> EventSponsorGetAsync(Guid eventId);
 
         Task<bool> EventSponsorPostAsync(EventSponsor eventSponsor);
 

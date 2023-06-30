@@ -27,11 +27,11 @@ namespace SportCalendar.WebApi.Controllers
         [HttpGet]
         [AllowAnonymous]
         [Authorize(Roles ="Super_admin,Organizer,User")]
-        public async Task<HttpResponseMessage> EventSponsorGetAsync()
+        public async Task<HttpResponseMessage> EventSponsorGetAsync(Guid eventId)
         {
             try
             {
-                List<EventSponsor> eventSponsors = await eventSponsorService.EventSponsorGetAsync();
+                List<EventSponsor> eventSponsors = await eventSponsorService.EventSponsorGetAsync(eventId);
 
                 if(eventSponsors.Any())
                 {
